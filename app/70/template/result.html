@@ -4,13 +4,26 @@
   The algorithm result is displayed  hereafter.
   The result was obtained with the following parameters:
 <ul>
-<li>  image  threshold  max <i>t</i>: ${app.cfg['param']['tmax']}  </li>
-<li>  image  threshold  min <i>t</i>: ${app.cfg['param']['tmin']}  </li>
+%if not app.cfg['param']['autothreshold']:
+  <li>  image  threshold  max <i>tmax</i>: ${app.cfg['param']['tmax']}  </li>
+  <li>  image  threshold  min <i>tmin</i>: ${app.cfg['param']['tmin']}  </li>
+%endif
 <li>  contour min size <i>m</i>: ${app.cfg['param']['m']}  </li>
 <li>  maximal error <i>e</i>: ${app.cfg['param']['e']}  </li>
 <li>  use only width: ${app.cfg['param']['w']}  </li>
 </ul>
 </p>
+
+%if app.cfg['param']['autothreshold']:
+<p> The pgm2freman command uses automatically the following threshold parameters from the otsu algorithm:
+<ul>
+  <li>  image  threshold  min <i>t</i>: 0 </li>
+  <li>  image  threshold  from otsu max <i>tmax</i>: ${app.cfg['param']['tmax']}  </li>
+</ul>
+</p>
+%endif
+
+
 The algorithm can be run with the following commands:
 <pre>
 ${app.list_commands}
@@ -64,7 +77,7 @@ ${app.list_commands}
       </a>
     </li>
     <li>
-      <a href="${app.work_url+'inputContour.txt'}">contour (input) </a>
+      <a href="${app.work_url+'inputContour.dat'}">contour (input) </a>
       </a>
     </li>
     <li>

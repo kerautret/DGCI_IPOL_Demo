@@ -172,10 +172,9 @@ class app(base_app):
             ar = self.make_archive()
             ar.add_file("input_0.png", "original.png", info="uploaded")
             ar.add_file("output.png", info="output")
-            ar.add_file("output.txt", info="polygon result")
             ar.add_file("commands.txt", info="commands")
-
             ar.add_file("inputContour.dat", info="polygon input")
+            ar.add_file("output.txt", info="polygon result")
             ar.add_file("info.txt", info="computation info ")
             ar.add_info({"tmin": tmin, "tmax": tmax, "m": m, "e": e, \
                         "width only": w})
@@ -215,11 +214,19 @@ class app(base_app):
         p = self.run_proc(command_args, stdout=f, \
                             stderr=fInfo, \
                             env={'LD_LIBRARY_PATH' : self.bin_dir} )
-
         self.wait_proc(p, timeout=self.timeout)
-
         if os.path.getsize(self.work_dir+"inputContour.dat") == 0: 
             raise ValueError
+        f.close()
+        fInfo.close()
+        fInfo = open(self.work_dir+"info.txt", "r") 
+
+        #Recover otsu max value from output
+        if autothreshold:
+            lines = fInfo.readlines()
+            line_cases = lines[0].replace(")", " ").split()
+            self.cfg['param']['tmax']= int(line_cases[17])
+
         command_args += ['>', 'inputContour.dat']
         self.saveCommand(command_args)
 
