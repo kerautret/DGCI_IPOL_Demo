@@ -1,7 +1,7 @@
 """"
 Demonstration of paper:  A near-linear time guaranteed algorithm for digital \
                          curve simplification under the Frechet distance
-Bertrand Kerautret
+demo editor: Bertrand Kerautret
 """
 
 from lib import base_app, build, http, image
@@ -208,7 +208,7 @@ class app(base_app):
             command_args += ['-maxThreshold', str(self.cfg['param']['tmax'])]+ \
            					['-minThreshold', str(self.cfg['param']['tmin'])]
 
-        cmd = self.runCommand(command_args, f, fInfo)
+        cmd = self.runCommand(command_args, f, fInfo, comp = ' > inputContour.txt')
 
         if os.path.getsize(self.work_dir+"inputContour.txt") == 0: 
             raise ValueError
@@ -221,7 +221,6 @@ class app(base_app):
             line_cases = lines[0].replace(")", " ").split()
             self.cfg['param']['tmax'] = int(line_cases[17])
 
-        cmd += '> '+'inputContour.txt'
         contoursList = open (self.work_dir+"tmp.dat", "w")
         contoursList.write("# Polygon contour obtained from the pgm2freeman"+\
         					" program with the following options: \n"+\
@@ -274,7 +273,7 @@ class app(base_app):
         shutil.copy(self.work_dir+'tmp.dat', self.work_dir+'output.txt')
         
         
-        ##  -------
+        ## ---------
         ## process 4: converting to output result
         ## ---------
         command_args = ['convert.sh', '-background', '#FFFFFF', '-flatten', \
@@ -283,7 +282,7 @@ class app(base_app):
 
         ## ----
         ## Final step: save command line
-        #----
+        ## ----
         f = open(self.work_dir+"commands.txt", "w")
         f.write(self.list_commands)
         f.close()
@@ -302,7 +301,7 @@ class app(base_app):
         					 heightImageDisplay=imageHeightResized)
 
 
-    def runCommand(self, command, stdOut=None, stdErr=None):
+    def runCommand(self, command, stdOut=None, stdErr=None, comp=None):
         """
         Run command and update the attribute list_commands
         """
@@ -317,6 +316,8 @@ class app(base_app):
             index = index + 1
         command_to_save = ' '.join(['"' + arg + '"' if ' ' in arg else arg
                  for arg in command ])
+        if comp is not None:
+            command_to_save += comp
         self.list_commands +=  command_to_save + '\n'
         return command_to_save
 
