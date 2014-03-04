@@ -1,5 +1,6 @@
 """
-Interactive segmentation based on component-trees
+Demonstration of paper: Interactive Segmentation Based on Component-trees
+demo editor: Bertrand Kerautret
 """
 
 from lib import base_app, build, http, image
@@ -11,29 +12,30 @@ import cherrypy
 from cherrypy import TimeoutError
 import os.path
 import time
-from math import floor
 from PIL import Image
 import ImageDraw
 
 
 class app(base_app):
-    """ Interactive segmentation based on component-trees """
+    """ Interactive Segmentation Based on Component-trees """
 
-    title = 'Interactive segmentation based on component-trees'
+    title = 'Interactive Segmentation Based on Component-trees'
     xlink_article = 'http://www.ipol.im/'    
     xlink_src =  'http://www.ipol.im/pub/pre/71/ctseg.tgz'
     demo_src_filename  = 'ctseg.tgz'
 
     input_nb = 1
-    input_max_pixels = 500 * 500        # max size (in pixels) of input image
-    input_max_weight = 10 * 1024 * 1024 # max size (in bytes) of input file
+    input_max_pixels = 2048 * 2048        # max size (in pixels) of input image
+    input_max_weight = 10 * 2048 * 2048 # max size (in bytes) of input file
     input_dtype = '3x8i'                # input image expected data type
     input_ext = '.png'                  # expected extension
-    is_test = False    
+    is_test = True       # switch to False for deployment
     default_param = {'lambda': 0.1,  # default parameters
                      'pensize': 5,
                      'pencolor':'yellow'}
     pencolors = {'yellow'   : [255, 255, 0]}
+    list_commands = ""
+
 
     def __init__(self):
         """
@@ -190,24 +192,6 @@ class app(base_app):
             mask.save(self.work_dir + 'mask.gif', transparency=0)
             
             return self.tmpl_out('params.html')
-        elif 'pencolor_blue' in kwargs:
-            self.cfg['param']['pencolor'] = 'blue'
-            
-            mask = Image.open(self.work_dir + 'mask.gif')
-            mask.putpalette([128, 128, 128] + [0, 0, 0]*254 
-                + self.pencolors[self.cfg['param']['pencolor']])
-            mask.save(self.work_dir + 'mask.gif', transparency=0)
-            
-            return self.tmpl_out('params.html')
-        elif 'pencolor_black' in kwargs:
-            self.cfg['param']['pencolor'] = 'black'
-            
-            mask = Image.open(self.work_dir + 'mask.gif')
-            mask.putpalette([128, 128, 128] + [0, 0, 0]*254 
-                + self.pencolors[self.cfg['param']['pencolor']])
-            mask.save(self.work_dir + 'mask.gif', transparency=0)
-            
-            return self.tmpl_out('params.html')
         else:
             commandlist.append((int(kwargs['pensize']), \
                 int(kwargs['x']), int(kwargs['y'])))
@@ -310,6 +294,8 @@ class app(base_app):
         """
         # Run the algorithm
         stdout = open(self.work_dir + 'stdout.txt', 'w')
+        self.list_commands = ""
+
         try:
             run_time = time.time()
             self.run_algo(stdout=stdout)
@@ -334,6 +320,7 @@ class app(base_app):
                 info="input")
             ar.add_file("result.png", 
                 info="result result")
+            ar.add_file("commands.txt", info="commands")
             ar.add_info({"alpha":  float(self.cfg['param']['lambda'])})
             ar.add_info({"negate image": self.cfg['param']['negate']})
             ar.save()
@@ -347,45 +334,72 @@ class app(base_app):
         could also be called by a batch processor
         this one needs no parameter
         """
-        
-        timeout = False
-        
+                
         # Get image size
         size = image(self.work_dir + 'input_0.png').size
 
-        p = self.run_proc(['convert.sh', 'input_0.png', 'input_0.pgm'])
-        self.wait_proc(p, timeout=self.timeout)
+        ##  -------
+        ## process 1: transform input file 
+        ## ---------
+        command_args = ['convert.sh', 'input_0.png', 'input_0.pgm' ]
+        self.runCommand(command_args)
 
-        p = self.run_proc(['convert.sh', 'mask.png', 'mask.pgm'])
-        self.wait_proc(p, timeout=self.timeout)
-      
-        # Run ct tree
+        command_args = ['convert.sh', 'mask.png', 'mask.pgm' ]
+        self.runCommand(command_args)
+
+
+        ##  -------
+        ## process 2: run CT algorithm
+        ## ---------
+        command_args = ['ctseg']  + ['input_0.pgm'] + ['mask.pgm']
+        command_args += [str(self.cfg['param']['lambda'])]
+
         if self.cfg['param']['negate']:
-            self.wait_proc(self.run_proc(['ctseg', 'input_0.pgm',  'mask.pgm',
-                                          str(self.cfg['param']['lambda']),\
-                                          'negate'],
-                                         stdout=stdout, stderr=stdout), timeout)
-        else:
-            self.wait_proc(self.run_proc(['ctseg', 'input_0.pgm',  'mask.pgm',
-                                          str(self.cfg['param']['lambda'])],
-                                         stdout=stdout, stderr=stdout), timeout)
+            command_args += ['negate']
 
-        p = self.run_proc(['convert.sh', 'result.pgm', 'result.png'])
+        self.runCommand(command_args, stdOut=stdout, stdErr=stdout)
+
+        ## ---------
+        ## process 3: converting to output result
+        ## ---------
+        command_args = ['convert.sh', 'result.pgm', 'result.png']
+        self.runCommand(command_args)
+
+        
+        resultHeight =  min (600, size[1])
+        self.cfg['param']['imageheightresized'] = resultHeight
+        self.cfg['param']['resultheight'] = max (200, resultHeight)
+     
+
+        ## ----
+        ## Final step: save command line
+        ## ----
+        f = open(self.work_dir+"commands.txt", "w")
+        f.write(self.list_commands)
+        f.close()
+
+
+
+    def runCommand(self, command, stdOut=None, stdErr=None, comp=None):
+        """
+        Run command and update the attribute list_commands
+        """
+        p = self.run_proc(command, stderr=stdErr, stdout=stdOut, \
+                          env={'LD_LIBRARY_PATH' : self.bin_dir})
         self.wait_proc(p, timeout=self.timeout)
+        index = 0
+        # transform convert.sh in it classic prog command (equivalent) 
+        for arg in command:
+            if arg == "convert.sh" :
+                command[index] = "convert"
+            index = index + 1
+        command_to_save = ' '.join(['"' + arg + '"' if ' ' in arg else arg
+                 for arg in command ])
+        if comp is not None:
+            command_to_save += comp
+        self.list_commands +=  command_to_save + '\n'
+        return command_to_save
 
-        
-        zoomfactor = int(max(1, floor(550.0/max(size[0], size[1]))))
-        size = (zoomfactor*size[0], zoomfactor*size[1])
-        
-        for filename in ['input_0',  'result', 'mask']:
-            img = image(self.work_dir + filename + '.png')
-            img.resize(size, method='nearest')
-            img.save(self.work_dir + filename + '_zoom.png')
-        
 
-        self.cfg['param']['displayheight'] = max(200, size[1])
-        self.cfg['param']['zoomfactor'] = zoomfactor
-        self.cfg['param']['zoomwidth'] = size[0]
-        self.cfg['param']['zoomheight'] = size[1]
 
     
