@@ -2,8 +2,8 @@
 Interactive segmentation based on component-trees
 """
 
-from lib import base_app, build, http, image, config
-from lib.misc import  app_expose, ctime
+from lib import base_app, build, http, image
+from lib.misc import   ctime
 from lib.base_app import init_app
 from lib.config import cfg_open
 import shutil
@@ -61,9 +61,9 @@ class app(base_app):
         """
         # store common file path in variables
         tgz_file = self.dl_dir + self.demo_src_filename
-        prog_names = ["ctseg"];
-        script_names = ["convert.sh", "applyCT.sh"];
-        prog_bin_files=[];
+        prog_names = ["ctseg"]
+        script_names = ["convert.sh", "applyCT.sh"]
+        prog_bin_files = []
         
         for f in prog_names:
             prog_bin_files.append(self.bin_dir+ f)            
@@ -81,7 +81,7 @@ class app(base_app):
             build.extract(tgz_file, self.src_dir)            
                                     
             # build the program
-            build.run("cd %s; make " %(self.src_dir+"ctseg") ,stdout=log_file) 
+            build.run("cd %s; make " %(self.src_dir+"ctseg"), stdout=log_file) 
             
             # save into bin dir
             if os.path.isdir(self.bin_dir):
@@ -89,10 +89,12 @@ class app(base_app):
             os.mkdir(self.bin_dir)
 
             for i in range(0, len(prog_bin_files)) :
-                shutil.copy(self.src_dir + os.path.join("ctseg", prog_names[i]), prog_bin_files[i])
+                shutil.copy(self.src_dir + os.path.join("ctseg", \
+                            prog_names[i]), prog_bin_files[i])
 
             for f in script_names :
-                shutil.copy(self.src_dir + os.path.join("ctseg",f), self.bin_dir)
+                shutil.copy(self.src_dir + os.path.join("ctseg", f), \
+                            self.bin_dir)
 
             # cleanup the source dir
             shutil.rmtree(self.src_dir)
@@ -136,7 +138,7 @@ class app(base_app):
         for (t, x, y) in commandlist:
             draw.ellipse((x - t, y - t, x + t + 1, y + t + 1), fill=255)
         
-        mask.putpalette([128,128,128] + [0,0,0]*254
+        mask.putpalette([128, 128, 128] + [0, 0, 0]*254
             + self.pencolors[self.cfg['param']['pencolor']])
         mask.save(self.work_dir + 'mask.gif', transparency=0)
         
@@ -174,7 +176,7 @@ class app(base_app):
                 mask = Image.open(self.work_dir + 'mask.png')
                 mask = mask.convert('L')
                 mask = mask.convert('P')
-                mask.putpalette([128,128,128] + [0,0,0]*254 
+                mask.putpalette([128, 128, 128] + [0, 0, 0]*254 
                     + self.pencolors[self.cfg['param']['pencolor']])
                 mask.save(self.work_dir + 'mask.gif', transparency=0)
                                 
@@ -183,7 +185,7 @@ class app(base_app):
             self.cfg['param']['pencolor'] = 'yellow'
             
             mask = Image.open(self.work_dir + 'mask.gif')
-            mask.putpalette([128,128,128] + [0,0,0]*254 
+            mask.putpalette([128, 128, 128] + [0, 0, 0]*254 
                 + self.pencolors[self.cfg['param']['pencolor']])
             mask.save(self.work_dir + 'mask.gif', transparency=0)
             
@@ -192,7 +194,7 @@ class app(base_app):
             self.cfg['param']['pencolor'] = 'blue'
             
             mask = Image.open(self.work_dir + 'mask.gif')
-            mask.putpalette([128,128,128] + [0,0,0]*254 
+            mask.putpalette([128, 128, 128] + [0, 0, 0]*254 
                 + self.pencolors[self.cfg['param']['pencolor']])
             mask.save(self.work_dir + 'mask.gif', transparency=0)
             
@@ -201,7 +203,7 @@ class app(base_app):
             self.cfg['param']['pencolor'] = 'black'
             
             mask = Image.open(self.work_dir + 'mask.gif')
-            mask.putpalette([128,128,128] + [0,0,0]*254 
+            mask.putpalette([128, 128, 128] + [0, 0, 0]*254 
                 + self.pencolors[self.cfg['param']['pencolor']])
             mask.save(self.work_dir + 'mask.gif', transparency=0)
             
@@ -221,7 +223,7 @@ class app(base_app):
                 
         self.cfg['param']['pensize'] = int(kwargs['pensize'])
         # Set undefined parameters to default values
-        self.cfg['param'] = dict(self.default_param, **self.cfg['param'])
+        self.cfg['param'].update(self.default_param)
         
         self.rendermask()
         return self.tmpl_out('params.html')
@@ -265,7 +267,7 @@ class app(base_app):
         self.cfg['param'] = dict(self.default_param.items() + 
             [(p,kwargs[p]) for p in self.default_param.keys() if p in kwargs])
 
-        self.cfg['param']['negate']= 'negate' in kwargs; 
+        self.cfg['param']['negate'] = 'negate' in kwargs
             
         # Open image and inpainting domain mask
         img = Image.open(self.work_dir + 'input_0.png').convert('RGB')
@@ -359,7 +361,8 @@ class app(base_app):
         # Run ct tree
         if self.cfg['param']['negate']:
             self.wait_proc(self.run_proc(['ctseg', 'input_0.pgm',  'mask.pgm',
-                                          str(self.cfg['param']['lambda']),'negate'],
+                                          str(self.cfg['param']['lambda']),\
+                                          'negate'],
                                          stdout=stdout, stderr=stdout), timeout)
         else:
             self.wait_proc(self.run_proc(['ctseg', 'input_0.pgm',  'mask.pgm',
