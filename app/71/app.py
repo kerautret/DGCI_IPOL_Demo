@@ -207,7 +207,9 @@ class app(base_app):
                 
         self.cfg['param']['pensize'] = int(kwargs['pensize'])
         # Set undefined parameters to default values
-        self.cfg['param'] = dict(self.default_param, **self.cfg['param'])
+        dict_tmp = self.default_param
+        dict_tmp.update(self.cfg['param'])
+        self.cfg['param'] = dict_tmp
         self.rendermask()
         return self.tmpl_out('params.html')
 
