@@ -208,7 +208,8 @@ class app(base_app):
             command_args += ['-maxThreshold', str(self.cfg['param']['tmax'])]+ \
            					['-minThreshold', str(self.cfg['param']['tmin'])]
 
-        cmd = self.runCommand(command_args, f, fInfo, comp = ' > inputContour.txt')
+        cmd = self.runCommand(command_args, f, fInfo, \
+                              comp = ' > inputContour.txt')
 
         if os.path.getsize(self.work_dir+"inputContour.txt") == 0: 
             raise ValueError
