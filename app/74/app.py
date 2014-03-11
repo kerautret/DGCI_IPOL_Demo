@@ -355,6 +355,17 @@ class app(base_app):
             fcontoursFC.close()
             if os.path.getsize(self.work_dir+"freemanChainContours.fc") == 0:
                 raise ValueError
+         
+            fInfo.close()
+            fInfo = open(self.work_dir+"info.txt", "r") 
+
+            #Recover otsu max value from output 
+            if self.cfg['param']['thresholdauto']:
+                lines = fInfo.readlines()
+                line_cases = lines[0].replace(")", " ").split()
+                self.cfg['param']['maxthreshold'] = float(line_cases[17])
+                self.cfg['param']['minthreshold'] = 0.0
+            
 
             command = ' '.join(['"' + arg + '"' if ' ' in arg else arg
                  for arg in command_args + ['>', 'freemanChainContours.fc']])

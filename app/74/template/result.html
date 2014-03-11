@@ -4,11 +4,42 @@
 
 
 <p>
-  The algorithm result is displayed  hereafter.
-  The result was obtained by the following parameters:
+  The algorithm was applied with by the following parameters:
 <ul>
+<li>  Adjacency: 
+%if app.cfg['param']['interioradjacency']:
+interior
+%else:
+exterior
+%endif
+adjacency </li>
 
 
+
+<li> Contours extraction thresholds
+%if app.cfg['param']['thresholdauto'] or app.cfg['param']['thresholdsingle']:
+	(single threshold mode) 
+%else:
+	(multiple thresholds mode)
+%endif 
+:
+<ul>
+<li> minimal threshold value: ${app.cfg['param']['minthreshold']} </li>
+<li> maximal threshold value: ${app.cfg['param']['maxthreshold']} 
+%if app.cfg['param']['thresholdauto']:
+(determined automatically by the Otsu algorithm)   
+%endif 
+</li>
+%if not (app.cfg['param']['thresholdsingle'] or app.cfg['param']['thresholdauto']) :
+	<li>
+		threshold step: ${app.cfg['param']['thresholdstep']}
+	</li>
+%endif
+
+</ul>
+
+
+</li>
 
 </ul>
 </p>
