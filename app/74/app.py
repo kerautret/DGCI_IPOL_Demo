@@ -241,7 +241,7 @@ class app(base_app):
         algo execution
         """
         # read the parameters
-
+        self.commands = ""
         # run the algorithm
         try:
             self.run_algo({'minthreshold': self.cfg['param']['minthreshold'],
@@ -404,15 +404,14 @@ class app(base_app):
         
 
         else:
-            p = self.run_proc(['extract3D', '-image', self.work_dir +\
-                               'inputVol_0.vol', '-badj', str(adjacency), \
-                               '-threshold', str(params['minthreshold']), \
-                                str(params['maxthreshold']), \
-                               '-output',\
-                               'result.obj', '-exportSRC', 'src.obj'], \
-                              env={'LD_LIBRARY_PATH' : self.bin_dir})
-            self.wait_proc(p, timeout=self.timeout)
+            command_args = ['extract3D','-image', 'inputVol_0.vol',  \
+                            '-badj', str(adjacency) ]
+            command_args += ['-threshold', str(params['minthreshold'])]
+            command_args += [str(params['maxthreshold']), '-output']
+            command_args += ['result.obj', '-exportSRC', 'src.obj']
+            self.runCommand(command_args)
         return
+
 
     @cherrypy.expose
     @init_app
@@ -425,3 +424,25 @@ class app(base_app):
                                           + 'input_0_selection.png').size[1],\
                              width=image(self.work_dir\
                                           +'input_0_selection.png').size[0])
+
+
+    def runCommand(self, command, stdOut=None, stdErr=None, comp=None):
+        """
+        Run command and update the attribute list_commands
+        """
+        p = self.run_proc(command, stderr=stdErr, stdout=stdOut, \
+                          env={'LD_LIBRARY_PATH' : self.bin_dir})
+        self.wait_proc(p, timeout=self.timeout)
+        index = 0
+        # transform convert.sh in it classic prog command (equivalent) 
+        for arg in command:
+            if arg == "convert.sh" :
+                command[index] = "convert"
+            index = index + 1
+        command_to_save = ' '.join(['"' + arg + '"' if ' ' in arg else arg
+                 for arg in command ])
+        if comp is not None:
+            command_to_save += comp
+        self.commands +=  command_to_save + '\n'
+        return command_to_save
+
