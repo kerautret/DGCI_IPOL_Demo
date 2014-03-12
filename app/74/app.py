@@ -302,6 +302,10 @@ class app(base_app):
         if not self.cfg['param']['interioradjacency']:
             adjacency = 1
 
+        #----------
+        # 2D case
+        #----------
+
         if  not self.cfg['meta']['is3d']:
             # preparing input and conversion
             thStep = self.cfg['param']['thresholdstep']
@@ -311,10 +315,17 @@ class app(base_app):
                                                'input_0_selection.png').size[0]
             self.cfg['param']['sizey'] = image(self.work_dir + \
                                          'input_0_selection.png').size[1]
-            p = self.run_proc(['/usr/bin/convert', self.work_dir +\
-                               'input_0_selection.png', \
-                               self.work_dir +'input_0_selection.pgm'])
-            self.wait_proc(p, timeout=self.timeout)
+            ##  -------
+            ## process 1: transform input file 
+            ## ---------
+            command_args = ['/usr/bin/convert', 'input_0_selection.png', \
+                            'input_0_selection.pgm' ]
+            self.runCommand(command_args)
+            
+            ##  -------
+            ## process 2: generate background image 
+            ## ---------
+  
             transbg_cmd = ['/usr/bin/convert']+ ['+contrast', '+contrast', \
                                                  '+contrast', '+contrast', \
                                                  '+contrast'] +\
@@ -323,19 +334,16 @@ class app(base_app):
                           ['input_0_selection.pgm']+\
                           ['input_0BG.png']
 
-            fcommands = open(self.work_dir+"commands.txt", "w")
-            self.commands = ' '.join(['"' + arg + '"' if ' ' in arg else arg
-                 for arg in transbg_cmd ])
-            p = self.run_proc(transbg_cmd)
-            self.wait_proc(p, timeout=self.timeout)
-          
-            # Extracting all 2D contours with pgm2freeman
-            #main command of the algorithm (used to exploit it in run and save)
-            command_args = ['pgm2freeman']
+            self.runCommand(transbg_cmd) 
+        
+            ##  -------
+            ## process 3: Extracting all 2D contours with pgm2freeman
+            ## main command of the algorithm
+            ## ---------
    
             fcontoursFC = open(self.work_dir+"freemanChainContours.fc", "w")
             fInfo = open(self.work_dir+"info.txt", "w")
-            command_args += ['-image', 'input_0_selection.pgm']
+            command_args = ['pgm2freeman', '-image', 'input_0_selection.pgm']
             command_args += ['-badj', str(adjacency)]
           
             if not self.cfg['param']['thresholdauto']:               
@@ -348,15 +356,11 @@ class app(base_app):
                     command_args += ['-thresholdRange']+[str(startTh)]+\
                                     [str(thStep)]+[str(endTh)]
               
-        
-            p = self.run_proc(command_args, stdout=fcontoursFC, \
-                             stderr=fInfo, \
-                              env={'LD_LIBRARY_PATH': self.bin_dir})
-            self.wait_proc(p, timeout=self.timeout)
+            self.runCommand(command_args, stdErr=fInfo, stdOut=fcontoursFC)
             fcontoursFC.close()
             if os.path.getsize(self.work_dir+"freemanChainContours.fc") == 0:
                 raise ValueError
-         
+        
             fInfo.close()
             fInfo = open(self.work_dir+"info.txt", "r") 
 
@@ -368,48 +372,43 @@ class app(base_app):
                 self.cfg['param']['minthreshold'] = 0.0
             
 
-            command = ' '.join(['"' + arg + '"' if ' ' in arg else arg
-                 for arg in command_args + ['>', 'freemanChainContours.fc']])
-            self.commands += '\n'+ command
-
+            ##  -------
+            ## process 4: Display resulting contours
+            ## ---------        
 
             #Display all contours with initial image as background:
-            p = self.run_proc(['displayContours', '-fc', \
-                               'freemanChainContours.fc'\
-                               , '-outputFIG',\
-                                self.work_dir +'imageContours.fig',\
-                               '-backgroundImageXFIG', \
-                               'input_0BG.png',\
-                               str(self.cfg['param']['sizex']),\
-                               str(self.cfg['param']['sizey'])], \
-                              env={'LD_LIBRARY_PATH' : self.bin_dir})
-            self.wait_proc(p, timeout=self.timeout)
-            
+            command_args = ['displayContours', '-fc', 'freemanChainContours.fc'\
+                            , '-outputFIG', 'imageContours.fig',\
+                            '-backgroundImageXFIG', 'input_0BG.png', \
+                            str(self.cfg['param']['sizex']),\
+                            str(self.cfg['param']['sizey'])]
+            self.runCommand(command_args)
+
             p = self.run_proc(['convertFig.sh', 'imageContours.fig', \
                                'resu.png'], stderr=fInfo, \
                               env={'LD_LIBRARY_PATH' : self.bin_dir})
             self.wait_proc(p, timeout=self.timeout)
-            self.commands += '\ndisplayContours -fc reemanChainContours.fc '+\
-                              '-outputFIG imageContours.fig '+ \
-                              '-backgroundImageXFIG input_0BG.png '+\
-                               str(self.cfg['param']['sizex'])+' '+\
-                               str(self.cfg['param']['sizey'])+\
-                              '\nfig2dev -L eps imageContours.fig resu.eps '+\
+            self.commands +=  'fig2dev -L eps imageContours.fig resu.eps '+\
                               '\nconvert -density 50 resu.eps resu.png'
 
-            fcommands.write(self.commands)
-            fcommands.close()
+          
             fInfo.close()
 
-        
+        #----------
+        # 3D case
+        #----------
 
         else:
-            command_args = ['extract3D','-image', 'inputVol_0.vol',  \
+            command_args = ['extract3D', '-image', 'inputVol_0.vol',  \
                             '-badj', str(adjacency) ]
             command_args += ['-threshold', str(params['minthreshold'])]
             command_args += [str(params['maxthreshold']), '-output']
             command_args += ['result.obj', '-exportSRC', 'src.obj']
             self.runCommand(command_args)
+
+        fcommands = open(self.work_dir+"commands.txt", "w")
+        fcommands.write(self.commands)
+        fcommands.close()
         return
 
 
