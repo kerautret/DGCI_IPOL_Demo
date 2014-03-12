@@ -60,6 +60,7 @@ adjacency </li>
 
 <h2>Result</h2>
 
+<p>You can download the result in <a href="${app.work_url+'resu.eps'}"> eps </a> format or download the <a href="${app.work_url+'freemanChainContours.fc'}"> ASCII</a> file.</p>
 
 
 
@@ -81,21 +82,7 @@ adjacency </li>
 	</span>
       </a>
     </li>
-    <li>
-      <a href="${app.work_url+'resu.eps'}">resu.eps </a>
-      </a>
-    </li>
-    <li>
-      <a href="${app.work_url+'freemanChainContours.fc'}">fcContours.fc </a>
-    </li>
-    <li>
-      <a href="${app.work_url+'info.txt'}"> info.txt </a>
-    </li>
-     <li>
-      <a href="${app.work_url+'commands.txt'}">commands.txt
-	  <span><pre>${app.commands}</pre></span>
-      </a>
-    </li>
+    
 %else:
   <li>
       <a href="${app.work_url + 'input_0.png'}">input
@@ -193,10 +180,19 @@ The visualisation used jsc3d, it looks that your navigator does not supported it
     </li>
 %endif
   </ul>
-
 </div>
 
 
+<h2>
+  <a class="toggle" href="#commands" onclick="toggle('commands');">
+    Additional Info
+  </a>
+</h2>
+<div id="commands" style="display:none"> 
+The algorithm can be run with the following commands:
+<pre class="stdio"> ${app.commands} </pre>
+
+</div>
 
 
 <hr />
