@@ -142,6 +142,7 @@ class app(base_app):
     #---------------------------------------------------------------------------
     # Parameter handling (an optional crop).
     #---------------------------------------------------------------------------
+    @cherrypy.expose
     @init_app
     def params(self, newrun=False, msg=None):
         """Parameter handling (optional crop)."""
@@ -289,7 +290,7 @@ class app(base_app):
             an_archive.save()
         return self.tmpl_out("run.html")
 
-    def run_algo(self, para):
+    def run_algo(self, params):
         """
         the core algo runner
         could also be called by a batch processor
@@ -340,9 +341,9 @@ class app(base_app):
             if not self.cfg['param']['thresholdauto']:               
                 if  self.cfg['param']['thresholdsingle']:
                     command_args += ['-minThreshold'] + \
-                                    [str(para['minthreshold'])]
+                                    [str(params['minthreshold'])]
                     command_args += ['-maxThreshold'] + \
-                                    [str(para['maxthreshold'])]
+                                    [str(params['maxthreshold'])]
                 else:
                     command_args += ['-thresholdRange']+[str(startTh)]+\
                                     [str(thStep)]+[str(endTh)]
@@ -405,8 +406,8 @@ class app(base_app):
         else:
             p = self.run_proc(['extract3D', '-image', self.work_dir +\
                                'inputVol_0.vol', '-badj', str(adjacency), \
-                               '-threshold', str(para['minthreshold']), \
-                                str(para['maxthreshold']), \
+                               '-threshold', str(params['minthreshold']), \
+                                str(params['maxthreshold']), \
                                '-output',\
                                'result.obj', '-exportSRC', 'src.obj'], \
                               env={'LD_LIBRARY_PATH' : self.bin_dir})
