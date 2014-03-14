@@ -74,7 +74,12 @@ adjacency </li>
 
 
 %if not app.cfg['meta']['is3d']:
-<p>You can download the result in <a href="${app.work_url+'resu.eps'}"> eps </a> format or download the <a href="${app.work_url+'freemanChainContours.fc'}"> ASCII</a> file.</p>
+<p>You can download the result in <a href="${app.work_url+'resu.eps'}"> eps </a> format or download the  output contours  as <a href="${app.work_url+'outputContoursFreemanCode.txt'}"> Freeman code list (ASCII) </a> 
+%if app.cfg['param']['outputformat'] == 'sdp':
+	or as <a href="${app.work_url+'outputContoursListPoints.txt'}"> sequence of points (ASCII) </a>
+%endif
+
+.</p>
 %else:
 <p>You can download the result in obj format: <a href="${app.work_url+'result.obj'}"> result.obj </a>,  <a href="${app.work_url+'result.obj.mtl'}"> result.obj.mtl </a> and also <a href="${app.work_url+'inputVol_0.vol'}"> the volumetric vol file </a> and the thresholded object:  <a href="${app.work_url+'src.obj'}"> src.obj </a>,  <a href="${app.work_url+'src.obj.mtl'}"> src.obj.mtl </a></p>
 %endif

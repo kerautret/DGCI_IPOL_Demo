@@ -226,6 +226,7 @@ class app(base_app):
                 self.cfg['param']['thresholdauto'] = kwargs['thresholdtype'] \
                                                       == 'Auto (Otsu)'
                 self.cfg['param']['thresholdtype'] = kwargs['thresholdtype']
+                self.cfg['param']['outputformat'] = kwargs['outputformat']
 
         except ValueError:
             return self.error(errcode='badparams',
@@ -266,8 +267,8 @@ class app(base_app):
             an_archive.add_file("input_0_selection.png","selection.png")
 
             an_archive.add_file("resu.png", info="output")
-            an_archive.add_file("freemanChainContours.fc", 
-                                info="resulting contours")
+            an_archive.add_file("outputContoursFreemanCode.txt", 
+                                info="resulting contours (Freeman code format)")
             an_archive.add_file("info.txt", info="computation info ")
             an_archive.add_file("commands.txt", info="commands")
             an_archive.add_info({"threshold type": 
@@ -308,9 +309,7 @@ class app(base_app):
 
         if  not self.cfg['meta']['is3d']:
             # preparing input and conversion
-            thStep = self.cfg['param']['thresholdstep']
-            startTh = self.cfg['param']['startthreshold']
-            endTh = self.cfg['param']['endthreshold']
+            
             self.cfg['param']['sizex'] = image(self.work_dir + \
                                                'input_0_selection.png').size[0]
             self.cfg['param']['sizey'] = image(self.work_dir + \
@@ -326,7 +325,7 @@ class app(base_app):
             ## process 2: generate background image 
             ## ---------
   
-            transbg_cmd = ['/usr/bin/convert']+ ['+contrast', '+contrast', \
+            cmd = ['/usr/bin/convert']+ ['+contrast', '+contrast', \
                                                  '+contrast', '+contrast', \
                                                  '+contrast'] +\
                           ['-modulate', '160,100,100']+ ['-type', 'grayscale', \
@@ -334,31 +333,36 @@ class app(base_app):
                           ['input_0_selection.pgm']+\
                           ['input_0BG.png']
 
-            self.runCommand(transbg_cmd) 
+            self.runCommand(cmd) 
         
             ##  -------
             ## process 3: Extracting all 2D contours with pgm2freeman
             ## main command of the algorithm
             ## ---------
    
-            fcontoursFC = open(self.work_dir+"freemanChainContours.fc", "w")
+            fcontoursFC = open(self.work_dir + \
+                               'outputContoursFreemanCodeTMP.txt', "w")
             fInfo = open(self.work_dir+"info.txt", "w")
-            command_args = ['pgm2freeman', '-image', 'input_0_selection.pgm']
-            command_args += ['-badj', str(adjacency)]
-          
+            command_args = ['pgm2freeman', '-image', 'input_0_selection.pgm'] +\
+                           ['-badj', str(adjacency)]
+         
             if not self.cfg['param']['thresholdauto']:               
                 if  self.cfg['param']['thresholdsingle']:
                     command_args += ['-minThreshold'] + \
-                                    [str(params['minthreshold'])]
-                    command_args += ['-maxThreshold'] + \
+                                    [str(params['minthreshold'])] +\
+                                    ['-maxThreshold'] + \
                                     [str(params['maxthreshold'])]
                 else:
-                    command_args += ['-thresholdRange']+[str(startTh)]+\
-                                    [str(thStep)]+[str(endTh)]
+                    command_args += ['-thresholdRange']+\
+                                    [str(self.cfg['param']['startthreshold'])]+\
+                                    [str(self.cfg['param']['thresholdstep'])]+ \
+                                    [str(self.cfg['param']['endthreshold'])]
               
-            self.runCommand(command_args, stdErr=fInfo, stdOut=fcontoursFC)
+            cmd = self.runCommand(command_args,\
+                                           stdErr=fInfo, stdOut=fcontoursFC)
             fcontoursFC.close()
-            if os.path.getsize(self.work_dir+"freemanChainContours.fc") == 0:
+            if os.path.getsize(self.work_dir+\
+                               "outputContoursFreemanCodeTMP.txt") == 0:
                 raise ValueError
         
             fInfo.close()
@@ -371,14 +375,36 @@ class app(base_app):
                 self.cfg['param']['maxthreshold'] = float(line_cases[17])
                 self.cfg['param']['minthreshold'] = 0.0
             
+            self.commentsResultContourFile(cmd, self.work_dir+ \
+                                           'outputContoursFreemanCodeTMP.txt', \
+                                           self.work_dir+ \
+                                           'outputContoursFreemanCode.txt', \
+                                            False )
+
+            ##  -------
+            ## process 3 bis: Extract contours in sdp format
+            ## ---------
+            if self.cfg['param']['outputformat'] == 'sdp':
+                fcontoursSDP = open(self.work_dir+'outputCntTMP.sdp', "w")
+                command_args += ['-outputSDPAll']
+                command_args = self.runCommand(command_args, stdErr=fInfo, \
+                                                stdOut=fcontoursSDP)
+                fcontoursSDP.close()
+                self.commentsResultContourFile(command_args, self.work_dir+ \
+                                               'outputCntTMP.sdp', \
+                                               self.work_dir+ \
+                                               'outputContoursListPoints.txt', \
+                                                True)
+
 
             ##  -------
             ## process 4: Display resulting contours
             ## ---------        
 
             #Display all contours with initial image as background:
-            command_args = ['displayContours', '-fc', 'freemanChainContours.fc'\
-                            , '-outputFIG', 'imageContours.fig',\
+            command_args = ['displayContours'] +  \
+                           ['-fc', 'outputContoursFreemanCode.txt'] \
+                          +[ '-outputFIG', 'imageContours.fig',\
                             '-backgroundImageXFIG', 'input_0BG.png', \
                             str(self.cfg['param']['sizex']),\
                             str(self.cfg['param']['sizey'])]
@@ -400,10 +426,10 @@ class app(base_app):
 
         else:
             command_args = ['extract3D', '-image', 'inputVol_0.vol',  \
-                            '-badj', str(adjacency) ]
-            command_args += ['-threshold', str(params['minthreshold'])]
-            command_args += [str(params['maxthreshold']), '-output']
-            command_args += ['result.obj', '-exportSRC', 'src.obj']
+                            '-badj', str(adjacency) ] + \
+                            ['-threshold', str(params['minthreshold'])] + \
+                            [str(params['maxthreshold']), '-output']  + \
+                            ['result.obj', '-exportSRC', 'src.obj']
             self.runCommand(command_args)
 
         fcommands = open(self.work_dir+"commands.txt", "w")
@@ -444,4 +470,44 @@ class app(base_app):
             command_to_save += comp
         self.commands +=  command_to_save + '\n'
         return command_to_save
+
+
+    def commentsResultContourFile(self, command, fileStrContours, fileStrRes,
+                                 sdp):
+        """
+        Add comments in the resulting contours (command line producing the file,
+        or file format info)
+        """
+  
+        contoursList = open (self.work_dir+"tmp.dat", "w")
+        contoursList.write("# Set of resulting contours obtained from the " +\
+                            "pgm2freeman algorithm. \n")
+        if not sdp:
+            contoursList.write( "# Each line corresponds to a digital "  + \
+                                "contour " +  \
+                                " given with the first point of the digital "+ \
+                                "contour followed  by its freeman code "+ \
+                                "associated to each move from a point to "+ \
+                                "another (4 connected: code 0, 1, 2, and 3).\n")
+        else:
+            contoursList.write("# Each line represents a resulting polygon.\n"+\
+                            "# All vertices (xi yi) are given in the same "+
+                            " line: x0 y0 x1 y1 ... xn yn \n")
+        contoursList.write( "# Command to reproduce the result of the "+\
+                            "algorithm:\n")
+        
+        contoursList.write("# "+ command+'\n \n')
+        f = open (fileStrContours, "r")
+        index = 0
+        for line in f:
+            contoursList.write("# contour number: "+ str(index) + "\n")
+            contoursList.write(line+"\n")
+            index = index +1
+        contoursList.close()
+        f.close()
+        shutil.copy(self.work_dir+'tmp.dat', fileStrRes)
+     
+
+
+
 
