@@ -285,11 +285,11 @@ class app(base_app):
                 an_archive.add_info({"max threshold": \
                                          self.cfg['param']['maxthreshold']})
             else:
-                an_archive.add_info({"threshold end ":self.cfg['param']\
+                an_archive.add_info({"threshold start":self.cfg['param']\
                              ['startthreshold']})
                 an_archive.add_info({"threshold step":self.cfg['param']\
                              ['thresholdstep']})
-                an_archive.add_info({"threshold max":self.cfg['param']\
+                an_archive.add_info({"threshold end":self.cfg['param']\
                              ['endthreshold']})
 
             an_archive.save()
