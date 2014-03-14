@@ -59,9 +59,9 @@
   <li><input type="radio" name="outputformat" value="sdp" checked> Sequence of points and Freeman codes format </li>
   <li><input type="radio" name="outputformat" value="freemanchain" > Freeman code format only </li>
 </ul>
+</p>
 %endif
 
-</p>
 
     <BR>
     Run the algorithm <input type="submit"  name="action" value="run" />
@@ -86,7 +86,7 @@
 </form>
 
 <hr/>
-%if not (('is3d' not in app.cfg['meta']) or (not app.cfg['meta']['is3d'])):
+%if ('is3d' in app.cfg['meta']) and ( app.cfg['meta']['is3d']) :
 <div>
   <img src="${app.work_url + 'input_0.png'}" alt="" /> 
 </div>

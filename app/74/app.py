@@ -151,12 +151,19 @@ class app(base_app):
 
         # if a new experiment on the same image, clone data
         if newrun:
-            self.clone_input()
+            # Specific manual clone  for vol file (3d case only):
+            if self.cfg['meta']['is3d'] :
+                oldPath = self.work_dir + 'inputVol_0.vol'
+                self.clone_input()
+                shutil.copy(oldPath,self.work_dir + 'inputVol_0.vol') 
+            else:
+                self.clone_input()
 
         # save the input image as 'input_0_selection.png', the one to be used
         img = image(self.work_dir + 'input_0.png')
         img.save(self.work_dir + 'input_0_selection.png')
         img.save(self.work_dir + 'input_0_selection.pgm')
+
 
         # initialize subimage parameters
         self.cfg['param'] = {'x1':-1, 'y1':-1, 'x2':-1, 'y2':-1}
@@ -451,12 +458,14 @@ class app(base_app):
         """
         display the algo results
         """
-        return self.tmpl_out("result.html",
-                             height=image(self.work_dir \
-                                          + 'input_0_selection.png').size[1],\
+        resultHeight = image(self.work_dir + 'input_0_selection.png').size[1]
+        imageHeightResized = min (600, resultHeight) 
+        resultHeight = max(200, resultHeight)
+        return self.tmpl_out("result.html", height=resultHeight, \
+                             heightImageDisplay=imageHeightResized, \
                              width=image(self.work_dir\
-                                          +'input_0_selection.png').size[0])
-
+                                           +'input_0_selection.png').size[0])
+       
 
     def runCommand(self, command, stdOut=None, stdErr=None, comp=None, 
                    outFileName=None):
