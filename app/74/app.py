@@ -359,7 +359,8 @@ class app(base_app):
                                     [str(self.cfg['param']['endthreshold'])]
               
             cmd = self.runCommand(command_args,\
-                                           stdErr=fInfo, stdOut=fcontoursFC)
+                                  stdErr=fInfo, stdOut=fcontoursFC, \
+                                  outFileName='outputContoursFreemanCode.txt')
             fcontoursFC.close()
             if os.path.getsize(self.work_dir+\
                                "outputContoursFreemanCodeTMP.txt") == 0:
@@ -388,7 +389,9 @@ class app(base_app):
                 fcontoursSDP = open(self.work_dir+'outputCntTMP.sdp', "w")
                 command_args += ['-outputSDPAll']
                 command_args = self.runCommand(command_args, stdErr=fInfo, \
-                                                stdOut=fcontoursSDP)
+                                               stdOut=fcontoursSDP, \
+                                               outFileName = \
+                                               'outputContoursListPoints.txt')
                 fcontoursSDP.close()
                 self.commentsResultContourFile(command_args, self.work_dir+ \
                                                'outputCntTMP.sdp', \
@@ -451,7 +454,8 @@ class app(base_app):
                                           +'input_0_selection.png').size[0])
 
 
-    def runCommand(self, command, stdOut=None, stdErr=None, comp=None):
+    def runCommand(self, command, stdOut=None, stdErr=None, comp=None, 
+                   outFileName=None):
         """
         Run command and update the attribute list_commands
         """
@@ -468,6 +472,9 @@ class app(base_app):
                  for arg in command ])
         if comp is not None:
             command_to_save += comp
+        if outFileName is not None:
+            command_to_save += ' > ' + outFileName
+
         self.commands +=  command_to_save + '\n'
         return command_to_save
 
