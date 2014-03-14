@@ -1,5 +1,6 @@
 """"
-Demonstration of paper:  Extraction of Connected Region Boundary in Multidimensional Images
+Demonstration of paper:  Extraction of Connected Region Boundary in
+                         Multidimensional Images
 demo editor: Bertrand Kerautret
 """
 
