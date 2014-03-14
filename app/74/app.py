@@ -155,7 +155,7 @@ class app(base_app):
             if self.cfg['meta']['is3d'] :
                 oldPath = self.work_dir + 'inputVol_0.vol'
                 self.clone_input()
-                shutil.copy(oldPath,self.work_dir + 'inputVol_0.vol') 
+                shutil.copy(oldPath, self.work_dir + 'inputVol_0.vol') 
             else:
                 self.clone_input()
 
@@ -224,11 +224,13 @@ class app(base_app):
                                  'interioradjacency':
                                  kwargs['adjacency'] == 'interior'}
             if not self.cfg['meta']['is3d']:
-                self.cfg['param']['startthreshold'] = float(kwargs[
+                self.cfg['param']['minimalsize'] = float(kwargs[\
+                    'minimalsize'])
+                self.cfg['param']['startthreshold'] = float(kwargs[\
                     'startthreshold'])
-                self.cfg['param']['endthreshold'] = float(kwargs[
+                self.cfg['param']['endthreshold'] = float(kwargs[\
                     'endthreshold'])
-                self.cfg['param']['thresholdstep'] = float(kwargs[
+                self.cfg['param']['thresholdstep'] = float(kwargs[\
                     'thresholdstep'])
                 self.cfg['param']['thresholdsingle'] = kwargs['thresholdtype'] \
                                                        == 'Single interval'
@@ -283,6 +285,8 @@ class app(base_app):
             an_archive.add_file("commands.txt", info="commands")
             an_archive.add_info({"interior adjacency": self.cfg['param']\
                          ['interioradjacency']})
+            an_archive.add_info({"minimal contour size:": \
+                                self.cfg['param']['minimalsize']})
             an_archive.add_info({"threshold type": \
                                  self.cfg['param']['thresholdtype']})
             if  (self.cfg['param']['thresholdtype'] == 'Single interval') or \
@@ -355,7 +359,8 @@ class app(base_app):
                                'outputContoursFreemanCodeTMP.txt', "w")
             fInfo = open(self.work_dir+"info.txt", "w")
             command_args = ['pgm2freeman', '-image', 'input_0_selection.pgm'] +\
-                           ['-badj', str(adjacency)]
+                           ['-badj', str(adjacency)] + \
+                           ['-min_size', str(self.cfg['param']['minimalsize'])]
          
             if not self.cfg['param']['thresholdauto']:               
                 if  self.cfg['param']['thresholdsingle']:
