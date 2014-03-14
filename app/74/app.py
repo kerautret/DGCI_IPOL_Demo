@@ -1,5 +1,6 @@
 """"
-Extraction of Connected Region Boundary in Multidimensional Images
+Demonstration of paper:  Extraction of Connected Region Boundary in Multidimensional Images
+demo editor: Bertrand Kerautret
 """
 
 from lib import base_app, build, http, image, config
@@ -265,29 +266,31 @@ class app(base_app):
             an_archive = self.make_archive()
             an_archive.add_file("input_0.png", "original.png", info="uploaded")
             an_archive.add_file("input_0_selection.png","selection.png")
-
             an_archive.add_file("resu.png", info="output")
             an_archive.add_file("outputContoursFreemanCode.txt", 
                                 info="resulting contours (Freeman code format)")
-            an_archive.add_file("info.txt", info="computation info ")
+            if self.cfg['param']['outputformat'] == 'sdp':
+                an_archive.add_file("outputContoursListPoints.txt", 
+                                info="resulting contours (sequence of points)")
             an_archive.add_file("commands.txt", info="commands")
-            an_archive.add_info({"threshold type": 
-                                 self.cfg['param']['thresholdtype']})
-            if not self.cfg['param']['thresholdtype'] == 'Auto (Otsu)':
-                if  self.cfg['param']['thresholdtype'] == 'Single interval':
-                    an_archive.add_info({"min threshold":
-                                         self.cfg['param']['minthreshold']})
-                    an_archive.add_info({"max threshold":
-                                         self.cfg['param']['maxthreshold']})
-                else:
-                    an_archive.add_info({"threshold end ":self.cfg['param']\
-                                 ['startthreshold']})
-                    an_archive.add_info({"threshold step":self.cfg['param']\
-                                 ['thresholdstep']})
-                    an_archive.add_info({"threshold max":self.cfg['param']\
-                                 ['endthreshold']})
             an_archive.add_info({"interior adjacency": self.cfg['param']\
                          ['interioradjacency']})
+            an_archive.add_info({"threshold type": \
+                                 self.cfg['param']['thresholdtype']})
+            if  (self.cfg['param']['thresholdtype'] == 'Single interval') or \
+                self.cfg['param']['thresholdtype'] == 'Auto (Otsu)':
+                an_archive.add_info({"min threshold": \
+                                     self.cfg['param']['minthreshold']})
+                an_archive.add_info({"max threshold": \
+                                         self.cfg['param']['maxthreshold']})
+            else:
+                an_archive.add_info({"threshold end ":self.cfg['param']\
+                             ['startthreshold']})
+                an_archive.add_info({"threshold step":self.cfg['param']\
+                             ['thresholdstep']})
+                an_archive.add_info({"threshold max":self.cfg['param']\
+                             ['endthreshold']})
+
             an_archive.save()
         return self.tmpl_out("run.html")
 
@@ -358,7 +361,7 @@ class app(base_app):
                                     [str(self.cfg['param']['thresholdstep'])]+ \
                                     [str(self.cfg['param']['endthreshold'])]
               
-            cmd = self.runCommand(command_args,\
+            cmd = self.runCommand(command_args, \
                                   stdErr=fInfo, stdOut=fcontoursFC, \
                                   outFileName='outputContoursFreemanCode.txt')
             fcontoursFC.close()
@@ -513,7 +516,7 @@ class app(base_app):
         contoursList.close()
         f.close()
         shutil.copy(self.work_dir+'tmp.dat', fileStrRes)
-     
+        os.remove(self.work_dir+'tmp.dat')
 
 
 
