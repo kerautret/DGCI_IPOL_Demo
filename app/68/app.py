@@ -1,5 +1,7 @@
 """"
-Demo of paper: A Streaming Distance Transform Algorithm for Neighborhood-Sequence Distances
+Demo of paper: A Streaming Distance Transform Algorithm for \
+                Neighborhood-Sequence Distances
+Demo editors: N. Normand and B. Kerautret
 """
 
 from lib import base_app, build, http, image
@@ -14,10 +16,12 @@ import subprocess
 class app(base_app):
     """ template demo app """
     
-    title = "A Streaming Distance Transform Algorithm for Neighborhood-Sequence Distances "
+    title = "A Streaming Distance Transform Algorithm for \
+              Neighborhood-Sequence Distances"
     xlink_article = 'http://www.ipol.im/'
-#    xlink_src =  'http://www.ipol.im/pub/pre/68/LUTBasedNSDistanceTransform.tgz'
-    xlink_src =  'http://dev.ipol.im/~kerautre/CodeExecutableDemos/LUTBasedNSDistanceTransform.tgz'
+# xlink_src =  'http://www.ipol.im/pub/pre/68/LUTBasedNSDistanceTransform.tgz'
+    xlink_src =  'http://dev.ipol.im/~kerautre/CodeExecutableDemos/' + \
+                 'LUTBasedNSDistanceTransform.tgz'
 
     input_nb = 1 # number of input images
     input_max_pixels = 500000 # max size (in pixels) of an input image
@@ -71,17 +75,24 @@ class app(base_app):
             # extract the archive
             build.extract(tgz_file, self.src_dir)
             # build the program
-            build.run("mkdir %s;  " %(self.src_dir+"LUTBasedNSDistanceTransform/build")   , stdout=log_file)
-            build.run("cd %s; cmake .. -DWITH_PNG=true -DWITH_NETPBM=false ; make -j 4" %(self.src_dir+"LUTBasedNSDistanceTransform/build"),stdout=log_file) 
+            build.run("mkdir %s;  " %(self.src_dir+\
+                     "LUTBasedNSDistanceTransform/build")   , stdout=log_file)
+            build.run("cd %s; cmake .. -DWITH_PNG=true -DWITH_NETPBM=false ;\
+             make -j 4" %(self.src_dir+"LUTBasedNSDistanceTransform/build"), \
+                            stdout=log_file) 
             
             # save into bin dir
             if os.path.isdir(self.bin_dir):
                 shutil.rmtree(self.bin_dir)
             os.mkdir(self.bin_dir)
             for i in range(0, len(prog_bin_files)) :
-                shutil.copy(self.src_dir + os.path.join("LUTBasedNSDistanceTransform/build", prog_names[i]), prog_bin_files[i])
+                shutil.copy(self.src_dir + \
+                        os.path.join("LUTBasedNSDistanceTransform/build", \
+                                      prog_names[i]), prog_bin_files[i])
             for f in script_names :
-                shutil.copy(self.src_dir + os.path.join("LUTBasedNSDistanceTransform/ScriptDemoIPOL", f), self.bin_dir)
+                shutil.copy(self.src_dir + \
+                    os.path.join("LUTBasedNSDistanceTransform/ScriptDemoIPOL", \
+                                f), self.bin_dir)
     
             # cleanup the source dir
             shutil.rmtree(self.src_dir)
@@ -103,8 +114,10 @@ class app(base_app):
             self.cfg['param'] = {
                 'distance_def' : kwargs['distancedef'],
                 'centered'     : 'centered' in kwargs,
-                'sequence'     : ''.join([c for c in kwargs['sequence'] if c in "12 ,"]),
-                'ratio'        : ''.join([c for c in kwargs['ratio'] if c in "/0123456789"]),
+                'sequence'     : ''.join([c for c in kwargs['sequence'] if c \
+                                                                    in "12 ,"]),
+                'ratio'        : ''.join([c for c in kwargs['ratio'] if c \
+                                                            in "/0123456789"]),
             }
         except RuntimeError:
             return self.error(errcode='badparams',
@@ -147,15 +160,18 @@ class app(base_app):
             elif distance_def == 'd8':
                 ar.add_info({"distance": " chessboard"}) 
             elif distance_def == 'ratio':
-                ar.add_info({"distance": " neighborhood sequence distance with %s ratio" % ratio}) 
+                ar.add_info({"distance": " neighborhood sequence distance with\
+                             %s ratio" % ratio}) 
             elif distance_def == 'sequence':
-                ar.add_info({"distance": ' neighborhood sequence distance with "%s" sequence' % sequence}) 
+                ar.add_info({"distance": ' neighborhood sequence distance with \
+                            "%s" sequence' % sequence}) 
             ar.add_file("commands.txt", info="commands")
             ar.save()
 
         return self.tmpl_out("run.html")
 
-    def run_algo(self, distance_def, centered = False, sequence = '1 2', ratio = '1/2'):
+    def run_algo(self, distance_def, centered = False, sequence = '1 2', \
+                ratio = '1/2'):
         """
         the core algo runner
         could also be called by a batch processor
@@ -198,7 +214,8 @@ class app(base_app):
         fcommands.close()
         f.close()
         self.wait_proc(p, timeout=self.timeout)        
-        p = self.run_proc(['convert.sh', '-normalize', 'resu_r.png', 'resu_n.png'])
+        p = self.run_proc(['convert.sh', '-normalize', 'resu_r.png', \
+                           'resu_n.png'])
         self.wait_proc(p, timeout=self.timeout)
         p = self.run_proc(['convert.sh', 'resu_r.png', 'resu_r.png'])
         self.wait_proc(p, timeout=self.timeout)
