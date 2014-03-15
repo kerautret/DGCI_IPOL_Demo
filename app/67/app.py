@@ -17,8 +17,7 @@ class app(base_app):
     title = "Digital Level Layers for Digital Curve Decomposition and\
     		 Vectorization"
     xlink_article = 'http://www.ipol.im/'
-    xlink_src = 'http://dev.ipol.im/~kerautre/'+\
-    			'CodeExecutableDemos/gjknd_1.1.tar.gz'
+    xlink_src = 'http://www.ipol.im/pub/pre/67/gjknd_1.1.tgz'
     demo_src_filename  = 'gjknd_1.1.tar.gz'
 
 
@@ -28,6 +27,7 @@ class app(base_app):
     input_dtype = '3x8i' # input image expected data type
     input_ext = '.png'   # input image expected extension (ie file format)
     is_test = True       # switch to False for deployment
+    list_commands = ""
 
 
     def __init__(self):
@@ -122,11 +122,14 @@ class app(base_app):
         """
         algo execution
         """
+
         # read the parameters
         print self.cfg['param']
         typeprimitive = self.cfg['param']['typeprimitive']
         b = self.cfg['param']['b']
         # run the algorithm
+        self.list_commands = ""
+
         try:
             self.run_algo(typeprimitive)
         except TimeoutError:
@@ -144,7 +147,7 @@ class app(base_app):
         if self.cfg['meta']['original']:
             ar = self.make_archive()
             ar.add_file("input_0.png", "original.png", info="uploaded")
-            ar.add_file("info.txt", info="info.txt")
+            ar.add_file("output.txt", info="output.txt")
             ar.add_file(typeprimitive+"_out_input_0.png", info="output")
             ar.add_info({"type primitive": typeprimitive})
             ar.add_info({"use black background": b})
@@ -159,16 +162,14 @@ class app(base_app):
         could also be called by a batch processor
         this one needs no parameter
         """
+        f = open(self.work_dir+"output.txt", "w") 
+        command_args = ['dll_decomposition', '-v', '-d', typeprimitive ]
+
         if self.cfg['param']['b']:
-            with open(self.work_dir+"info.txt", "w") as f:
-                p = self.run_proc(['dll_decomposition', '-b', '-v',  '-d', \
-                					typeprimitive, 'input_0.png' ], stdout=f)
-                self.wait_proc(p, timeout=self.timeout)
-        else:
-            with open(self.work_dir+"info.txt", "w") as f:
-                p = self.run_proc(['dll_decomposition', '-v', '-d', \
-                					typeprimitive, 'input_0.png' ], stdout=f)
-                self.wait_proc(p, timeout=self.timeout)
+            command_args += ['-b']
+        command_args += ['input_0.png']
+        self.runCommand(command_args, f, comp = " > output.txt" )
+
         return
 
     @cherrypy.expose
@@ -180,3 +181,22 @@ class app(base_app):
         return self.tmpl_out("result.html", 
                              height=image(self.work_dir
                                           + 'input_0.png').size[1])
+
+
+
+    def runCommand(self, command, stdOut=None, stdErr=None, comp=None):
+        """
+        Run command and update the attribute list_commands
+        """
+        p = self.run_proc(command, stderr=stdErr, stdout=stdOut, \
+        				  env={'LD_LIBRARY_PATH' : self.bin_dir})
+        self.wait_proc(p, timeout=self.timeout)
+        # transform convert.sh in it classic prog command (equivalent) 
+        command_to_save = ' '.join(['"' + arg + '"' if ' ' in arg else arg
+                 for arg in command ])
+        if comp is not None:
+            command_to_save += comp
+        self.list_commands +=  command_to_save + '\n'
+        return command_to_save
+
+
