@@ -148,6 +148,7 @@ class app(base_app):
             ar = self.make_archive()
             ar.add_file("input_0.png", "original.png", info="uploaded")
             ar.add_file("output.txt", info="output.txt")
+            ar.add_file("commands.txt", info="commands.txt")
             ar.add_file(typeprimitive+"_out_input_0.png", info="output")
             ar.add_info({"type primitive": typeprimitive})
             ar.add_info({"use black background": b})
@@ -169,7 +170,10 @@ class app(base_app):
             command_args += ['-b']
         command_args += ['input_0.png']
         self.runCommand(command_args, f, comp = " > output.txt" )
-
+        f.close()
+        f = open(self.work_dir+"commands.txt", "w")
+        f.write(self.list_commands)
+        f.close()
         return
 
     @cherrypy.expose
