@@ -1,0 +1,37 @@
+<%include file="header.html" />
+
+
+<form action="${app.base_url + 'wait'}" method="get">
+  <div class="action">
+    Set the contour extraction parameters and run the algorithm. <BR>
+    <input type="hidden" name="key" value="${app.key}">
+    
+    <ul>
+      <li><label for="m"><i>Choose the distance definition:</i>:</label> 
+        <ul>
+          <input type="checkbox" name="centered" value="centered" checked> Recenter distance transform </input>
+          <li><input type="radio" name="distancedef" value="d4" checked> city block distance </li>
+          <li><input type="radio" name="distancedef" value="d8" > chessboard distance </li>
+          <li>
+            <input type="radio" name="distancedef" value="ratio"> custom ratio
+            <input type="text" name="ratio" value="1/2">
+          </li>
+          <li>
+            <input type="radio" name="distancedef" value="sequence"> custom sequence
+            <input type="text" name="sequence" value="1 2">
+          </li>
+        </ul>
+        <li>
+    </ul>
+    <BR>
+    <input type="submit" value="run" />
+  </div>
+</form>
+
+<hr />
+
+<div>
+  <img src="${app.work_url + 'input_0.png'}" alt="" /> 
+</div>
+
+<%include file="footer.html" />

@@ -1,0 +1,67 @@
+<%include file="header.html" />
+
+<p>
+  The algorithm result is displayed  hereafter.
+  The result was obtained by the following parameters:
+
+
+</p>
+
+<BR>
+<BR>
+<form action="${app.base_url}" method="get">
+  <div class="action">
+    Restart this algorithm with new data.
+    <input type="submit" value="new input" />
+  </div>
+</form>
+
+<form action="${app.base_url + 'params'}" method="get">
+  <div class="action">
+    Restart this algorithm with new parameters.
+    <input type="hidden" name="key" value="${app.key}">
+    <input type="hidden" name="newrun" value="1">
+    <input type="submit" value="new parameters" />
+  </div>
+</form>
+
+<hr />
+
+<h2>Result</h2>
+
+<div class="gallery" style="height:${height}px">
+  <ul class="index">
+    <li>
+      <a href="${app.work_url + 'input_0.png'}">input
+        <span>
+          <img height="${height}px" src="${app.work_url + 'input_0.png'}" alt="input" />
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="${app.work_url+'resu_r.png'}">result
+	<span>
+	  <img height="${height}px" src="${app.work_url + 'resu_r.png'}" alt="output" />
+	</span>
+      </a>
+    <li>
+      <a href="${app.work_url+'resu_n.png'}">result (normalized)
+	<span>
+	  <img height="${height}px" src="${app.work_url + 'resu_n.png'}" alt="output" />
+	</span>
+      </a>
+    <li>
+      <a href="${app.work_url+'commands.txt'}">commands.txt
+	  <span><pre>${commands}</pre></span>
+      </a>
+    </li>
+  </ul>
+
+</div>
+
+
+<hr />
+
+
+<%include file="footer.html" />
+<%include file="archive_info.html" />
