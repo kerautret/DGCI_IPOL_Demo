@@ -1,0 +1,38 @@
+<%include file="header.html" />
+
+<p>
+  
+  You can set the parameters to extract the image contour: the minimal contour size <i>m</i>.
+  By default the image threshold is defined from the Otsu algorithm but you can set manually.
+  
+  The contour extracted will be used as input of the meaningful scale algorithm.
+  
+</p>
+
+<form action="${app.base_url + 'wait'}" method="get">
+  <div class="action">
+    Set the contour extraction parameters and run the algorithm. <BR>
+    <input type="hidden" name="key" value="${app.key}">
+    <ul>
+      <li><label for="m"><i>minimal contour size m</i>:</label> 
+        <input type="text" name="m" value="10" size="4" /></li>
+    <li><label for="t"><i>contour threshold slection:</label> 
+    <ul>
+    <li><input type="radio" name="thresholdtype" value="True" checked> auto (Otsu) </li>
+    <li><input type="radio" name="thresholdtype" value="False" > manual 
+    <input type="text" name="t" value="128" size="4" /> </li>
+</ul>
+    </li>
+    </ul>
+    <BR>
+    <input type="submit" value="run" />
+  </div>
+</form>
+
+<hr />
+
+<div>
+  <img src="${app.work_url + 'input_0.png'}" alt="" /> 
+</div>
+
+<%include file="footer.html" />
