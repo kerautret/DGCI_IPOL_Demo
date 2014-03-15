@@ -28,6 +28,9 @@
 <hr />
 
 <h2>Result</h2>
+<p>
+  You can download the resulting <a href="${app.work_url+'resu_r.png'}"> image without normalization </a>.
+</p>
 
 <div class="gallery" style="height:${height}px">
   <ul class="index">
@@ -39,29 +42,32 @@
       </a>
     </li>
     <li>
-      <a href="${app.work_url+'resu_r.png'}">result
-	<span>
-	  <img height="${height}px" src="${app.work_url + 'resu_r.png'}" alt="output" />
-	</span>
-      </a>
-    <li>
       <a href="${app.work_url+'resu_n.png'}">result (normalized)
-	<span>
+  	<span>
 	  <img height="${height}px" src="${app.work_url + 'resu_n.png'}" alt="output" />
-	</span>
+	  </span>
       </a>
-    <li>
-      <a href="${app.work_url+'commands.txt'}">commands.txt
-	  <span><pre>${commands}</pre></span>
-      </a>
-    </li>
+   </li
   </ul>
 
 </div>
 
 
-<hr />
+<h2>
+  <a class="toggle" href="#commands" onclick="toggle('commands');">
+    Additional Info
+  </a>
+</h2>
+<div id="commands" style="display:none"> 
+<p> The algorithm can be run with the following commands:
+<pre class="stdio"> ${app.commands} </pre>
+</p>
+</div>
 
+
+
+
+<hr/>
 
 <%include file="footer.html" />
 <%include file="archive_info.html" />
