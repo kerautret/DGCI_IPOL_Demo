@@ -1,5 +1,7 @@
 """"
-Meaningful Scales Detection: an Unsupervised Noise Detection Algorithm for Digital Contours
+Meaningful Scales Detection: an Unsupervised Noise Detection Algorithm for \
+Digital Contours
+Demo Editor: B. Kerautret
 """
 
 from lib import base_app, build, http, image
@@ -11,7 +13,9 @@ import os.path
 import shutil
 
 class app(base_app):
-    title = "Meaningful Scales Detection: an Unsupervised Noise Detection Algorithm for Digital Contours"
+    """ template demo app """
+    title = "Meaningful Scales Detection: an Unsupervised Noise "+\
+            "Detection Algorithm for Digital Contours"
     xlink_article = 'http://www.ipol.im/'
     xlink_src =  'http://www.ipol.im/pub/pre/75/meaningfulscaleDemo.tgz'
     demo_src_filename  = 'meaningfulscaleDemo.tar.gz'
@@ -49,9 +53,10 @@ class app(base_app):
         """
         # store common file path in variables
         tgz_file = self.dl_dir + self.demo_src_filename
-        prog_names = ["meaningfulScaleEstim"];
-        script_names = ["applyMS.sh","convert.sh", "convertFig.sh", "transformBG.sh"];
-        prog_bin_files=[];
+        prog_names = ["meaningfulScaleEstim"]
+        script_names = ["applyMS.sh", "convert.sh", "convertFig.sh", \
+                        "transformBG.sh"]
+        prog_bin_files = []
         
         for f in prog_names:
             prog_bin_files.append(self.bin_dir+ f)            
@@ -69,22 +74,31 @@ class app(base_app):
             # extract the archive
             build.extract(tgz_file, self.src_dir)
             # build the program
-            build.run("mkdir %s;  " %(self.src_dir+ self.demo_src_dir+"/build")   , stdout=log_file)
-            build.run("cd %s; cmake ..  -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=false  ; make -j 4" %(self.src_dir+self.demo_src_dir+"/build"),stdout=log_file) 
+            build.run("mkdir %s;" %(self.src_dir+ self.demo_src_dir+"/build"), \
+                      stdout=log_file)
+            build.run("cd %s; cmake ..  -DCMAKE_BUILD_TYPE=Release \
+                     -DBUILD_TESTING=false  ; make -j 4" %(self.src_dir+ \
+                                                          self.demo_src_dir+\
+                                                          "/build"), 
+                                                          stdout=log_file) 
             
             # save into bin dir
             if os.path.isdir(self.bin_dir):
                 shutil.rmtree(self.bin_dir)
             os.mkdir(self.bin_dir)
-            shutil.copy(self.src_dir + self.demo_src_dir+ "/build/demoIPOL/meaningfulScaleEstim",  self.bin_dir)
+            shutil.copy(self.src_dir + self.demo_src_dir + \
+                        "/build/demoIPOL/meaningfulScaleEstim",  self.bin_dir)
             for f in script_names :
-                shutil.copy(self.src_dir + os.path.join(self.demo_src_dir, "demoIPOL", f), self.bin_dir)
+                shutil.copy(self.src_dir + os.path.join(self.demo_src_dir, \
+                            "demoIPOL", f), self.bin_dir)
             
             # copy annex file : pgm2freeman (extraction of contours)
-            shutil.copy(self.src_dir + self.demo_src_dir+ "/build/bin/pgm2freeman",  self.bin_dir)            
+            shutil.copy(self.src_dir + self.demo_src_dir+ \
+                        "/build/bin/pgm2freeman",  self.bin_dir)            
 
             # copy Dynamic lib
-            shutil.copy(self.src_dir + self.demo_src_dir+ "/build/src/libImaGene.so", self.bin_dir)
+            shutil.copy(self.src_dir + self.demo_src_dir+ \
+                        "/build/src/libImaGene.so", self.bin_dir)
 
             # cleanup the source dir
             shutil.rmtree(self.src_dir)
@@ -107,7 +121,7 @@ class app(base_app):
             return self.error(errcode='badparams',
                               errmsg="The parameters must be numeric.")
             
-        self.cfg['param']['autothreshold']=  kwargs['thresholdtype']== 'True'; 
+        self.cfg['param']['autothreshold'] =  kwargs['thresholdtype'] == 'True' 
         http.refresh(self.base_url + 'run?key=%s' % self.key)
         return self.tmpl_out("wait.html")
 
@@ -130,7 +144,8 @@ class app(base_app):
             return self.error(errcode='runtime')    
         except ValueError:
             return self.error(errcode='badparams',
-                              errmsg="The parameters given produce no contours, please change them.")
+                              errmsg="The parameters given produce no contours,\
+                                     please change them.")
 
         http.redir_303(self.base_url + 'result?key=%s' % self.key)
 
@@ -156,40 +171,70 @@ class app(base_app):
         could also be called by a batch processor
         this one needs no parameter
         """
-        self.cfg['param']['sizex']=image(self.work_dir + 'input_0.png').size[0]
-        self.cfg['param']['sizey']=image(self.work_dir + 'input_0.png').size[1]
+        self.cfg['param']['sizex'] = image(self.work_dir + \
+                                           'input_0.png').size[0]
+        self.cfg['param']['sizey'] = image(self.work_dir + \
+                                            'input_0.png').size[1]
         p = self.run_proc(['convert.sh', 'input_0.png', 'tmp.pgm'])
         self.wait_proc(p, timeout=self.timeout)
         fInput = open(self.work_dir+'tmp.pgm')
-        fcommands=open(self.work_dir+"commands.txt", "w")
+        fcommands = open(self.work_dir+"commands.txt", "w")
         f =  open(self.work_dir+"inputContour.txt", "w")
         fInfo =  open(self.work_dir+"info.txt", "w")
         if autothreshold:
-            p = self.run_proc(['pgm2freeman', '-min_size', str(m)],stdout=f, stdin=fInput, stderr=fInfo, env={'LD_LIBRARY_PATH' : self.bin_dir} )
-            self.cfg['param']['commandpgmfreeman'] = 'pgm2freeman  '+  '-min_size' +str(m) +" < input_0.pgm > inputContourFC.dat \n"
+            p = self.run_proc(['pgm2freeman', '-min_size', str(m)], stdout=f, \
+                              stdin=fInput, stderr=fInfo, \
+                              env={'LD_LIBRARY_PATH' : self.bin_dir} )
+            self.cfg['param']['commandpgmfreeman'] = 'pgm2freeman  ' +  \
+                '-min_size' +str(m) + " < input_0.pgm > inputContourFC.dat \n"
         else :
-            p = self.run_proc(['pgm2freeman', '-threshold', str(t), '-min_size', str(m)],stdout=f, stdin=fInput, env={'LD_LIBRARY_PATH' : self.bin_dir} )
-            self.cfg['param']['commandpgmfreeman'] = 'pgm2freeman  '+'-threshold' + str(t) +  '-min_size' +str(m) +" < tmp.pgm > inputContourFC.dat \n" 
+            p = self.run_proc(['pgm2freeman', '-threshold', str(t), \
+                            '-min_size', str(m)],stdout=f, stdin=fInput, \
+                             env={'LD_LIBRARY_PATH' : self.bin_dir} )
+            self.cfg['param']['commandpgmfreeman'] = 'pgm2freeman ' + \
+                    '-threshold' + str(t) +  '-min_size' +str(m) + \
+                    " < tmp.pgm > inputContourFC.dat \n" 
         fcommands.write(self.cfg['param']['commandpgmfreeman'])
-        fcommands.write("convert  -brightness-contrast 40x-40 input_0.png input_0BG.png \n")
+        fcommands.write("convert  -brightness-contrast \
+                         40x-40 input_0.png input_0BG.png \n")
         fInfo.close()
         self.wait_proc(p, timeout=self.timeout)
         sizeContour = os.path.getsize(self.work_dir+"inputContour.txt")
-        if sizeContour==0 : 
+        if sizeContour == 0 : 
             raise ValueError
         f.close()
-        p=self.run_proc(['transformBG.sh'])
+        p = self.run_proc(['transformBG.sh'])
         self.wait_proc(p, timeout=self.timeout)                
    
-        f= open(self.work_dir+"info.txt", "a")
+        f = open(self.work_dir+"info.txt", "a")
     
 
-        self.cfg['param']['commandms'] = 'meaningfulScaleEstim ' + '-enteteXFIG '+ '-drawXFIGNoiseLevel '+ '-setFileNameFigure '+ 'noiseLevel.fig '+ '-drawContourSRC '+'4 ' +'1 ' + '-afficheImage '+ 'input_0BG.png '+ str(image(self.work_dir + 'input_0BG.png').size[0]) +  " "+ str(image(self.work_dir + 'input_0BG.png').size[1]) + " -setPosImage " +"1 "+ "1 " + "-printNoiseLevel -processAllContours  > resultNoiseLevel.txt < inputContourFC.dat \n";
+        self.cfg['param']['commandms'] = 'meaningfulScaleEstim ' + \
+                                        '-enteteXFIG '+ '-drawXFIGNoiseLevel '+\
+                                        '-setFileNameFigure '+ \
+                                        'noiseLevel.fig '+ '-drawContourSRC '+ \
+                                        '4 ' +'1 ' + '-afficheImage '+  \
+                                        'input_0BG.png ' + \
+                                         str(image(self.work_dir + \
+                                        'input_0BG.png').size[0]) +  \
+                                         " "+ str(image(self.work_dir + \
+                                        'input_0BG.png').size[1]) + \
+                                        " -setPosImage " +"1 "+ "1 " + \
+                                        "-printNoiseLevel -processAllContours"+\
+                                        " > resultNoiseLevel.txt < " +\
+                                        "inputContourFC.dat \n"
 
         fcommands.write(self.cfg['param']['commandms'])
         fInput = open(self.work_dir+'inputContour.txt')
-        fOutputNoise = open(self.work_dir+'noiseLevels.txt', "w")
-        p = self.run_proc(['applyMS.sh', '-enteteXFIG', '-drawXFIGNoiseLevel', '-setFileNameFigure', 'noiseLevel.fig', '-drawContourSRC','4', '1', "-afficheImage", str(self.work_dir) + 'input_0BG.png', str(image(self.work_dir + 'input_0BG.png').size[0]), str(image(self.work_dir + 'input_0BG.png').size[1]) ,"-setPosImage", "1", "1", "-printNoiseLevel", "-processAllContours"] ,  stdin=fInput,stderr=f, env={'LD_LIBRARY_PATH' : self.bin_dir})
+        p = self.run_proc(['applyMS.sh', '-enteteXFIG', '-drawXFIGNoiseLevel', \
+                        '-setFileNameFigure', 'noiseLevel.fig', \
+                        '-drawContourSRC','4', '1', "-afficheImage", \
+                        str(self.work_dir) + 'input_0BG.png', \
+                        str(image(self.work_dir + 'input_0BG.png').size[0]), \
+                        str(image(self.work_dir + 'input_0BG.png').size[1]), \
+                        "-setPosImage", "1", "1", "-printNoiseLevel", \
+                        "-processAllContours"] ,  stdin=fInput,stderr=f, \
+                        env={'LD_LIBRARY_PATH' : self.bin_dir})
         self.wait_proc(p, timeout=self.timeout)        
         fcommands.write("convert -density 300 resu.eps resu.png \n")
         p = self.run_proc(['convertFig.sh','noiseLevel.fig'], stderr=f)
@@ -200,7 +245,7 @@ class app(base_app):
 
     @cherrypy.expose
     @init_app
-    def result(self):
+    def result(self, public=None):
         """
         display the algo results
         """
