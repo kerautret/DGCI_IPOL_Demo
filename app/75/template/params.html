@@ -25,9 +25,24 @@
     </li>
     </ul>
     <BR>
-    <input type="submit" value="run" />
-  </div>
+ Run the algorithm <input type="submit"  name="action" value="run" />
+
+    %if int(app.cfg['param']['x1']) < 0 or int(app.cfg['param']['y1']) < 0 :
+      <p>Or you can run it after selecting a subimage by clicking two
+         opposite corners of the subimage.</p>
+      <p><input type="image" style="cursor:crosshair;" name="click"
+                src="${app.work_url + 'input_0_selection.png'}" /></p>
+    %elif int(app.cfg['param']['x2']) < 0 or int(app.cfg['param']['y2']) < 0 :
+      <p>Please select the second corner of the subimage:</p>
+      <p><input type="image" style="cursor:crosshair;" name="click"
+          src="${app.work_url + 'input_0_selection.png'}" /></p>
+    %else:
+      <p>The algorithm will run on this selected subimage:</p>
+      <img src="${app.work_url + 'input_0_selection.png'}" />
+    %endif
+
 </form>
+
 
 <hr />
 

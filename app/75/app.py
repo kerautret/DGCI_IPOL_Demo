@@ -4,7 +4,7 @@ Digital Contours
 Demo Editor: B. Kerautret
 """
 
-from lib import base_app, build, http, image
+from lib import base_app, build, http, image, config
 from lib.misc import app_expose, ctime
 from lib.base_app import init_app
 import cherrypy
@@ -107,6 +107,51 @@ class app(base_app):
         
         return
 
+    @cherrypy.expose
+    @init_app
+    def input_select(self, **kwargs):
+        """
+        use the selected available input images
+        """
+        self.init_cfg()
+        #kwargs contains input_id.x and input_id.y
+        input_id = kwargs.keys()[0].split('.')[0]
+        assert input_id == kwargs.keys()[1].split('.')[0]
+        # get the images
+        input_dict = config.file_dict(self.input_dir)
+        fnames = input_dict[input_id]['files'].split()
+        for i in range(len(fnames)):
+            shutil.copy(self.input_dir + fnames[i],
+                        self.work_dir + 'input_%i' % i)
+        msg = self.process_input()
+        self.log("input selected : %s" % input_id)
+        self.cfg['meta']['original'] = False
+        self.cfg.save()
+        # jump to the params page
+        return self.params(msg=msg, key=self.key)
+
+    #---------------------------------------------------------------------------
+    # Parameter handling (an optional crop).
+    #---------------------------------------------------------------------------
+    @cherrypy.expose
+    @init_app
+    def params(self, newrun=False, msg=None):
+        """Parameter handling (optional crop)."""
+
+        # if a new experiment on the same image, clone data
+        if newrun:
+            self.clone_input()
+
+        # save the input image as 'input_0_selection.png', the one to be used
+        img = image(self.work_dir + 'input_0.png')
+        img.save(self.work_dir + 'input_0_selection.png')
+        img.save(self.work_dir + 'input_0_selection.pgm')
+
+        # initialize subimage parameters
+        self.cfg['param'] = {'x1':-1, 'y1':-1, 'x2':-1, 'y2':-1}
+        self.cfg.save()
+        return self.tmpl_out('params.html')
+
 
 
     @cherrypy.expose
@@ -116,6 +161,45 @@ class app(base_app):
         params handling and run redirection
         """
         # save and validate the parameters
+        # handle image crop if used
+        if not 'action' in kwargs:
+            # read click coordinates
+            x = kwargs['click.x']
+            y = kwargs['click.y']
+            x1 = self.cfg['param']['x1']
+            y1 = self.cfg['param']['y1']
+            img = image(self.work_dir + 'input_0.png')
+            # check if the click is inside the image
+            if int(x) >= 0 and int(y) >= 0 and \
+                 int(x) < img.size[0] and int(y) < img.size[1]:
+                if int(x1) < 0 or int(y1) < 0 :  # first click
+                    # update (x1,y1)
+                    self.cfg['param']['x1'] = int(x)
+                    self.cfg['param']['y1'] = int(y)
+                    self.cfg.save()
+
+                    # draw cross
+                    img.convert('3x8i')
+                    img.draw_cross((int(x), int(y)), size=9, color="red")
+                    img.save(self.work_dir + 'input_0_selection.png')
+                elif int(x1) != int(x) and int(y1) != int(y) :  # second click
+                    # update (x2,y2)
+                    self.cfg['param']['x2'] = int(x)
+                    self.cfg['param']['y2'] = int(y)
+                    self.cfg.save()
+
+                    # order points such that (x1,y1) is the lower left corner
+                    (x1, x2) = sorted((int(x1), int(x)))
+                    (y1, y2) = sorted((int(y1), int(y)))
+                    assert (x2 - x1) > 0 and (y2 - y1) > 0
+
+                    # crop the image
+                    img.crop((x1, y1, x2+1, y2+1))
+                    img.save(self.work_dir + 'input_0_selection.png')
+                    img.save(self.work_dir + 'input_0_selection.pgm')
+            return self.tmpl_out('params.html')
+
+ 
         try:
             self.cfg['param'] = {'t' : float(kwargs['t']),
                                  'm' : float(kwargs['m'])}
@@ -157,6 +241,7 @@ class app(base_app):
         if self.cfg['meta']['original']:
             ar = self.make_archive()
             ar.add_file("input_0.png", "original.png", info="uploaded")
+            ar.add_file("input_0_selection.png","selection.png")
             ar.add_file("resu.png", info="output")
             ar.add_file("noiseLevels.txt", info="noise levels")
             ar.add_file("inputContour.txt", info="polygon input")
@@ -183,7 +268,8 @@ class app(base_app):
         ##  -------
         ## process 1: transform input file 
         ## ---------
-        command_args = ['/usr/bin/convert', 'input_0.png', 'input_0.pgm' ]
+        command_args = ['/usr/bin/convert', 'input_0_selection.png',  \
+                        'input_0_selection.pgm' ]
         self.runCommand(command_args)
      
 
@@ -195,7 +281,7 @@ class app(base_app):
             command_args += ['-threshold', str(t) ]
         command_args += ['-min_size', str(m) ]
         
-        fInput = open(self.work_dir+'input_0.pgm', "r")
+        fInput = open(self.work_dir+'input_0_selection.pgm', "r")
         f =  open(self.work_dir+'inputContour.txt', "w")
         fInfo =  open(self.work_dir+'info.txt', "w")
         self.runCommand(command_args, stdIn=fInput, stdOut=f, stdErr=fInfo, \
@@ -212,7 +298,7 @@ class app(base_app):
         ## process 3: Convert background image
         ## ---------
         command_args = ['/usr/bin/convert', '-brightness-contrast', '40x-40' ]
-        command_args += ['input_0.png', 'input_0BG.png']
+        command_args += ['input_0_selection.png', 'input_0BG.png']
         self.runCommand(command_args)
 
 
@@ -255,7 +341,7 @@ class app(base_app):
         """
         return self.tmpl_out("result.html", 
                              height=image(self.work_dir
-                                          + 'input_0.png').size[1])
+                                          + 'input_0_selection.png').size[1])
 
 
 
