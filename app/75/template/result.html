@@ -4,14 +4,14 @@
   The algorithm result is displayed  hereafter.
   The result was obtained by the following parameters:
 <ul>
-
+<li>  minimal image threshold  <i>t</i>: 0 (fix) </li>
+<li>  maximal image threshold  <i><font color="blue" >tmax</font></i>: ${app.cfg['param']['tmax']} 
 %if  app.cfg['param']['autothreshold'] :
-<li>  image  threshold: auto (Otsu algorithm) </li>
-%else:
-<li>  image  threshold <i>t</i>: ${app.cfg['param']['t']}  </li>
-%endif    
+  (determined by the Otsu algorithm )
+%endif
+ </li>
 
-<li>  contour min size <i>m</i>: ${app.cfg['param']['m']}  </li>
+<li>  minimal contour size <i><font color="blue" > m </font> </i>: ${app.cfg['param']['m']}  </li>
 </ul>
 </p>
 
@@ -62,7 +62,6 @@
 </div>
 
 
-
 <h2>
   <a class="toggle" href="#commands" onclick="toggle('commands');">
     Additional Info
@@ -75,7 +74,6 @@
 </p>
 
 </div>
-
 
 <hr/>
 

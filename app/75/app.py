@@ -201,7 +201,7 @@ class app(base_app):
 
  
         try:
-            self.cfg['param'] = {'t' : float(kwargs['t']),
+            self.cfg['param'] = {'tmax' : float(kwargs['tmax']),
                                  'm' : float(kwargs['m'])}
         except ValueError:
             return self.error(errcode='badparams',
@@ -220,7 +220,7 @@ class app(base_app):
         self.list_commands = ""
 
         # read the parameters
-        t = self.cfg['param']['t']
+        t = self.cfg['param']['tmax']
         m = self.cfg['param']['m']
         autothreshold = self.cfg['param']['autothreshold'] 
         # run the algorithm
@@ -245,10 +245,9 @@ class app(base_app):
             ar.add_file("resu.png", info="output")
             ar.add_file("noiseLevels.txt", info="noise levels")
             ar.add_file("inputContour.txt", info="polygon input")
-            ar.add_file("info.txt", info="computation info ")
             ar.add_file("commands.txt", info="commands")
             ar.add_info({"threshold auto": autothreshold}) 
-            ar.add_info({"threshold val": t})
+            ar.add_info({"threshold tmax": self.cfg['param']['tmax']})
             ar.add_info({"contour min size m": m})
             ar.save()
 
@@ -286,13 +285,21 @@ class app(base_app):
         fInfo =  open(self.work_dir+'info.txt', "w")
         self.runCommand(command_args, stdIn=fInput, stdOut=f, stdErr=fInfo, \
                         comp = ' < input_0.pgm > inputContour.txt')
-        fInfo.close()
         fInput.close()
         f.close()
+        fInfo.close()
         sizeContour = os.path.getsize(self.work_dir+"inputContour.txt")
         if sizeContour == 0 : 
             raise ValueError
 
+        #Recover otsu max value from log 
+        fInfo =  open(self.work_dir+'info.txt', "r")
+        if self.cfg['param']['autothreshold']:
+            lines = fInfo.readlines()
+            line_cases = lines[0].split('=')
+            self.cfg['param']['tmax'] = float(line_cases[1])
+        fInfo.close()
+     
 
         ##  -------
         ## process 3: Convert background image
