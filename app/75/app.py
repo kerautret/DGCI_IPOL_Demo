@@ -24,8 +24,8 @@ class app(base_app):
     demo_src_dir  = 'meaningfulscaleDemo'
     
     input_nb = 1 # number of input images
-    input_max_pixels = 500000 # max size (in pixels) of an input image
-    input_max_weight = 1 * 1024 * 1024 # max size (in bytes) of an input file
+    input_max_pixels = 4096 * 4096 # max size (in pixels) of an input image
+    input_max_weight = 1 * 4096 * 4096  # max size (in bytes) of an input file
     input_dtype = '3x8i' # input image expected data type
     input_ext = '.png'   # input image expected extension (ie file format)
     is_test = True       # switch to False for deployment
@@ -225,7 +225,7 @@ class app(base_app):
         autothreshold = self.cfg['param']['autothreshold'] 
         # run the algorithm
         try:
-            self.run_algo(t, m, autothreshold)
+            self.run_algo({'t':t, 'm':m, 'autothreshold':autothreshold})
         except TimeoutError:
             return self.error(errcode='timeout') 
         except RuntimeError:
@@ -244,7 +244,7 @@ class app(base_app):
             ar.add_file("input_0_selection.png","selection.png")
             ar.add_file("resu.png", info="output")
             ar.add_file("noiseLevels.txt", info="noise levels")
-            ar.add_file("inputContour.txt", info="polygon input")
+            ar.add_file("inputContourFC.txt", info="polygon input")
             ar.add_file("commands.txt", info="commands")
             ar.add_info({"threshold auto": autothreshold}) 
             ar.add_info({"threshold tmax": self.cfg['param']['tmax']})
@@ -253,13 +253,13 @@ class app(base_app):
 
         return self.tmpl_out("run.html")
 
-    def run_algo(self, t, m, autothreshold):
+    def run_algo(self, params):
         """
         the core algo runner
         could also be called by a batch processor
         this one needs no parameter
         """
-     
+        # t, m, autothreshold
         self.cfg['param']['sizex'] = image(self.work_dir + \
                                            'input_0.png').size[0]
         self.cfg['param']['sizey'] = image(self.work_dir + \
@@ -276,14 +276,14 @@ class app(base_app):
         ## process 2: Extract 2D contours 
         ## ---------
         command_args = ['pgm2freeman']
-        if not autothreshold:
-            command_args += ['-threshold', str(t) ]
-        command_args += ['-min_size', str(m) ]
+        if not params['autothreshold']:
+            command_args += ['-threshold', str(params['t']) ]
+        command_args += ['-min_size', str(params['m']) ]
         
         fInput = open(self.work_dir+'input_0_selection.pgm', "r")
         f =  open(self.work_dir+'inputContour.txt', "w")
         fInfo =  open(self.work_dir+'info.txt', "w")
-        self.runCommand(command_args, stdIn=fInput, stdOut=f, stdErr=fInfo, \
+        cntExtractionCmd = self.runCommand(command_args, stdIn=fInput, stdOut=f, stdErr=fInfo, \
                         comp = ' < input_0.pgm > inputContour.txt')
         fInput.close()
         f.close()
@@ -300,7 +300,7 @@ class app(base_app):
             self.cfg['param']['tmax'] = float(line_cases[1])
         fInfo.close()
      
-
+        self.commentsResultContourFile(cntExtractionCmd, self.work_dir+'inputContourFC.txt')
         ##  -------
         ## process 3: Convert background image
         ## ---------
@@ -313,6 +313,7 @@ class app(base_app):
         ## process 4: 
         ## ---------
         foutput = open(self.work_dir+'noiseLevels.txt', "w")
+        fLog = open(self.work_dir+'logMS.txt', "w")
         fInput = open(self.work_dir+'inputContour.txt', "r")
         command_args = ['meaningfulScaleEstim', '-enteteXFIG']+\
                        ['-drawXFIGNoiseLevel', '-setFileNameFigure']+\
@@ -322,11 +323,15 @@ class app(base_app):
                        [str(image(self.work_dir + 'input_0BG.png').size[1])] +\
                        ['-setPosImage', '1', '1', '-printNoiseLevel'] + \
                        ['-processAllContours']
-        self.runCommand(command_args, stdIn=fInput, stdOut=foutput, \
-                        comp="< inputContour.txt > noiseLevels.txt")
-
+        try:
+            self.runCommand(command_args, stdIn=fInput, stdOut=foutput, \
+                            stdErr=fLog,\
+                            comp="< inputContour.txt > noiseLevels.txt")
+        except (OSError, RuntimeError):
+            fLog.write("Some contours were not processed.")
+            pass
         fInput.close()
-
+        fLog.close()
         p = self.run_proc(['convertFig.sh','noiseLevel.fig'])
         self.wait_proc(p, timeout=self.timeout)
 
@@ -346,10 +351,13 @@ class app(base_app):
         """
         display the algo results
         """
-        return self.tmpl_out("result.html", 
-                             height=image(self.work_dir
-                                          + 'input_0_selection.png').size[1])
-
+        resultHeight = image(self.work_dir + 'input_0_selection.png').size[1]
+        imageHeightResized = min (600, resultHeight) 
+        resultHeight = max(200, resultHeight)
+        return self.tmpl_out("result.html", height=resultHeight, \
+                             heightImageDisplay=imageHeightResized, \
+                             width=image(self.work_dir\
+                                           +'input_0_selection.png').size[0])
 
 
     def runCommand(self, command, stdIn=None, stdOut=None, stdErr=None, \
@@ -375,4 +383,36 @@ class app(base_app):
 
         self.list_commands +=  command_to_save + '\n'
         return command_to_save
+
+    def commentsResultContourFile(self, command, fileStrContours):
+        """
+        Add comments in the resulting contours (command line producing the file,
+        or file format info)
+        """
+  
+        contoursList = open (self.work_dir+"tmp.dat", "w")
+        contoursList.write("# Set of resulting contours obtained from the " +\
+                            "pgm2freeman algorithm. \n")
+        contoursList.write( "# Each line corresponds to a digital "  + \
+                                "contour " +  \
+                                " given with the first point of the digital "+ \
+                                "contour followed  by its freeman code "+ \
+                                "associated to each move from a point to "+ \
+                                "another (4 connected: code 0, 1, 2, and 3).\n")
+        contoursList.write( "# Command to reproduce the result of the "+\
+                            "algorithm:\n")
+        
+        contoursList.write("# "+ command+'\n \n')
+        f = open (self.work_dir+'inputContour.txt', "r")
+        index = 0
+        for line in f:
+            contoursList.write("# contour number: "+ str(index) + "\n")
+            contoursList.write(line+"\n")
+            index = index +1
+        contoursList.close()
+        f.close()
+        shutil.copy(self.work_dir+'tmp.dat', fileStrContours)
+        os.remove(self.work_dir+'tmp.dat')
+
+
 
