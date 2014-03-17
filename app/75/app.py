@@ -219,6 +219,7 @@ class app(base_app):
         ##  -------
         ## process 4: 
         ## ---------
+        foutput = open(self.work_dir+'noiseLevels.txt', "w")
         fInput = open(self.work_dir+'inputContour.txt', "r")
         command_args = ['meaningfulScaleEstim', '-enteteXFIG']+\
                        ['-drawXFIGNoiseLevel', '-setFileNameFigure']+\
@@ -228,15 +229,23 @@ class app(base_app):
                        [str(image(self.work_dir + 'input_0BG.png').size[1])] +\
                        ['-setPosImage', '1', '1', '-printNoiseLevel'] + \
                        ['-processAllContours']
-        self.runCommand(command_args, stdIn=fInput, \
-                        comp="< inputContour.txt > resultNoiseLevel.txt")
+        self.runCommand(command_args, stdIn=fInput, stdOut=foutput, \
+                        comp="< inputContour.txt > noiseLevels.txt")
 
         fInput.close()
 
         p = self.run_proc(['convertFig.sh','noiseLevel.fig'])
         self.wait_proc(p, timeout=self.timeout)
-        #fcommands.close()
+
+
+        ## ----
+        ## Final step: save command line
+        ## ----
+        fcommands = open(self.work_dir+"commands.txt", "w")
+        fcommands.write(self.list_commands)
+        fcommands.close()
         return
+
 
     @cherrypy.expose
     @init_app
