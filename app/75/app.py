@@ -17,8 +17,10 @@ class app(base_app):
     title = "Meaningful Scales Detection: an Unsupervised Noise "+\
             "Detection Algorithm for Digital Contours"
     xlink_article = 'http://www.ipol.im/'
-    xlink_src =  'http://www.ipol.im/pub/pre/75/meaningfulscaleDemo.tgz'
-    demo_src_filename  = 'meaningfulscaleDemo.tar.gz'
+    #xlink_src =  'http://www.ipol.im/pub/pre/75/meaningfulscaleDemo.tgz'
+    xlink_src =  'http://dev.ipol.im/~kerautre/CodeExecutableDemos/'+\
+                 'meaningfulscaleDemo.tgz'
+    demo_src_filename  = 'meaningfulscaleDemo.tgz'
     demo_src_dir  = 'meaningfulscaleDemo'
     
     input_nb = 1 # number of input images
@@ -27,7 +29,7 @@ class app(base_app):
     input_dtype = '3x8i' # input image expected data type
     input_ext = '.png'   # input image expected extension (ie file format)
     is_test = True       # switch to False for deployment
-
+    list_commands = []
 
     def __init__(self):
         """
@@ -131,6 +133,8 @@ class app(base_app):
         """
         algo execution
         """
+        self.list_commands = ""
+
         # read the parameters
         t = self.cfg['param']['t']
         m = self.cfg['param']['m']
@@ -171,76 +175,67 @@ class app(base_app):
         could also be called by a batch processor
         this one needs no parameter
         """
+     
         self.cfg['param']['sizex'] = image(self.work_dir + \
                                            'input_0.png').size[0]
         self.cfg['param']['sizey'] = image(self.work_dir + \
                                             'input_0.png').size[1]
-        p = self.run_proc(['convert.sh', 'input_0.png', 'tmp.pgm'])
-        self.wait_proc(p, timeout=self.timeout)
-        fInput = open(self.work_dir+'tmp.pgm')
-        fcommands = open(self.work_dir+"commands.txt", "w")
-        f =  open(self.work_dir+"inputContour.txt", "w")
-        fInfo =  open(self.work_dir+"info.txt", "w")
-        if autothreshold:
-            p = self.run_proc(['pgm2freeman', '-min_size', str(m)], stdout=f, \
-                              stdin=fInput, stderr=fInfo, \
-                              env={'LD_LIBRARY_PATH' : self.bin_dir} )
-            self.cfg['param']['commandpgmfreeman'] = 'pgm2freeman  ' +  \
-                '-min_size' +str(m) + " < input_0.pgm > inputContourFC.dat \n"
-        else :
-            p = self.run_proc(['pgm2freeman', '-threshold', str(t), \
-                            '-min_size', str(m)],stdout=f, stdin=fInput, \
-                             env={'LD_LIBRARY_PATH' : self.bin_dir} )
-            self.cfg['param']['commandpgmfreeman'] = 'pgm2freeman ' + \
-                    '-threshold' + str(t) +  '-min_size' +str(m) + \
-                    " < tmp.pgm > inputContourFC.dat \n" 
-        fcommands.write(self.cfg['param']['commandpgmfreeman'])
-        fcommands.write("convert  -brightness-contrast \
-                         40x-40 input_0.png input_0BG.png \n")
+        ##  -------
+        ## process 1: transform input file 
+        ## ---------
+        command_args = ['/usr/bin/convert', 'input_0.png', 'input_0.pgm' ]
+        self.runCommand(command_args)
+     
+
+        ##  -------
+        ## process 2: Extract 2D contours 
+        ## ---------
+        command_args = ['pgm2freeman']
+        if not autothreshold:
+            command_args += ['-threshold', str(t) ]
+        command_args += ['-min_size', str(m) ]
+        
+        fInput = open(self.work_dir+'input_0.pgm', "r")
+        f =  open(self.work_dir+'inputContour.txt', "w")
+        fInfo =  open(self.work_dir+'info.txt', "w")
+        self.runCommand(command_args, stdIn=fInput, stdOut=f, stdErr=fInfo, \
+                        comp = ' < input_0.pgm > inputContour.txt')
         fInfo.close()
-        self.wait_proc(p, timeout=self.timeout)
+        fInput.close()
+        f.close()
         sizeContour = os.path.getsize(self.work_dir+"inputContour.txt")
         if sizeContour == 0 : 
             raise ValueError
-        f.close()
-        p = self.run_proc(['transformBG.sh'])
-        self.wait_proc(p, timeout=self.timeout)                
-   
-        f = open(self.work_dir+"info.txt", "a")
-    
 
-        self.cfg['param']['commandms'] = 'meaningfulScaleEstim ' + \
-                                        '-enteteXFIG '+ '-drawXFIGNoiseLevel '+\
-                                        '-setFileNameFigure '+ \
-                                        'noiseLevel.fig '+ '-drawContourSRC '+ \
-                                        '4 ' +'1 ' + '-afficheImage '+  \
-                                        'input_0BG.png ' + \
-                                         str(image(self.work_dir + \
-                                        'input_0BG.png').size[0]) +  \
-                                         " "+ str(image(self.work_dir + \
-                                        'input_0BG.png').size[1]) + \
-                                        " -setPosImage " +"1 "+ "1 " + \
-                                        "-printNoiseLevel -processAllContours"+\
-                                        " > resultNoiseLevel.txt < " +\
-                                        "inputContourFC.dat \n"
 
-        fcommands.write(self.cfg['param']['commandms'])
-        fInput = open(self.work_dir+'inputContour.txt')
-        p = self.run_proc(['applyMS.sh', '-enteteXFIG', '-drawXFIGNoiseLevel', \
-                        '-setFileNameFigure', 'noiseLevel.fig', \
-                        '-drawContourSRC','4', '1', "-afficheImage", \
-                        str(self.work_dir) + 'input_0BG.png', \
-                        str(image(self.work_dir + 'input_0BG.png').size[0]), \
-                        str(image(self.work_dir + 'input_0BG.png').size[1]), \
-                        "-setPosImage", "1", "1", "-printNoiseLevel", \
-                        "-processAllContours"] ,  stdin=fInput,stderr=f, \
-                        env={'LD_LIBRARY_PATH' : self.bin_dir})
-        self.wait_proc(p, timeout=self.timeout)        
-        fcommands.write("convert -density 300 resu.eps resu.png \n")
-        p = self.run_proc(['convertFig.sh','noiseLevel.fig'], stderr=f)
+        ##  -------
+        ## process 3: Convert background image
+        ## ---------
+        command_args = ['/usr/bin/convert', '-brightness-contrast', '40x-40' ]
+        command_args += ['input_0.png', 'input_0BG.png']
+        self.runCommand(command_args)
+
+
+        ##  -------
+        ## process 4: 
+        ## ---------
+        fInput = open(self.work_dir+'inputContour.txt', "r")
+        command_args = ['meaningfulScaleEstim', '-enteteXFIG']+\
+                       ['-drawXFIGNoiseLevel', '-setFileNameFigure']+\
+                       ['noiseLevel.fig', '-drawContourSRC', '4', '1']+\
+                       ['-afficheImage', 'input_0BG.png']+\
+                       [str(image(self.work_dir + 'input_0BG.png').size[0])] +\
+                       [str(image(self.work_dir + 'input_0BG.png').size[1])] +\
+                       ['-setPosImage', '1', '1', '-printNoiseLevel'] + \
+                       ['-processAllContours']
+        self.runCommand(command_args, stdIn=fInput, \
+                        comp="< inputContour.txt > resultNoiseLevel.txt")
+
+        fInput.close()
+
+        p = self.run_proc(['convertFig.sh','noiseLevel.fig'])
         self.wait_proc(p, timeout=self.timeout)
-        f.close()
-        fcommands.close()
+        #fcommands.close()
         return
 
     @cherrypy.expose
@@ -252,3 +247,30 @@ class app(base_app):
         return self.tmpl_out("result.html", 
                              height=image(self.work_dir
                                           + 'input_0.png').size[1])
+
+
+
+    def runCommand(self, command, stdIn=None, stdOut=None, stdErr=None, \
+                   comp=None, outFileName=None):
+        """
+        Run command and update the attribute list_commands
+        """
+        p = self.run_proc(command, stdin=stdIn, stderr=stdErr, stdout=stdOut, \
+                          env={'LD_LIBRARY_PATH' : self.bin_dir})
+        self.wait_proc(p, timeout=self.timeout)
+        index = 0
+        # transform convert.sh in it classic prog command (equivalent) 
+        for arg in command:
+            if arg == "convert.sh" :
+                command[index] = "convert"
+            index = index + 1
+        command_to_save = ' '.join(['"' + arg + '"' if ' ' in arg else arg
+                 for arg in command ])
+        if comp is not None:
+            command_to_save += comp
+        if outFileName is not None:
+            command_to_save += ' > ' + outFileName
+
+        self.list_commands +=  command_to_save + '\n'
+        return command_to_save
+

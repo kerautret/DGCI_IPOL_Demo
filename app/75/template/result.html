@@ -37,41 +37,47 @@
 
 <h2>Result</h2>
 
+<p> You can download the result in  <a href="${app.work_url+'resu.eps'}"> eps </a> format or download the output as noise level in <a href="${app.work_url+'noiseLevels.txt'}">ASCII</a> format. 
+
+</p>
+
 <div class="gallery" style="height:${height}px">
   <ul class="index">
     <li>
       <a href="${app.work_url + 'input_0.png'}">input
-	<span>
-	  <img height="${height}px" src="${app.work_url + 'input_0.png'}" alt="input" />
-	</span>
-      </a>
-    </li>
-    <li>
+	   <span>
+	   <img height="${height}px" src="${app.work_url + 'input_0.png'}" alt="input" />
+	   </span>
+    </a>
+  </li>
+  <li>
       <a href="${app.work_url+'resu.png'}"> resu.png
 	<span>
 	  <img height="${height}px" src="${app.work_url + 'resu.png'}" alt="output" />
 	</span>
       </a>
     </li>
-    <li>
-      <a href="${app.work_url+'resu.eps'}">resu.eps </a>
-      </a>
-    </li>
-    <li>
-      <a href="${app.work_url+'noiseLevels.txt'}">noiseLevel.txt</a>
-     </li>
-    <li>
-      <a href="${app.work_url+'info.txt'}"> info.txt </a>
-    </li>
-    <li>
-      <a href="${app.work_url+'commands.txt'}"> commands.txt </a>
-    </li>
-  </ul>
+   </ul>
 
 </div>
 
 
-<hr />
+
+<h2>
+  <a class="toggle" href="#commands" onclick="toggle('commands');">
+    Additional Info
+  </a>
+</h2>
+<div id="commands" style="display:none"> 
+
+<p> The algorithm can be ran with the following commands:
+<pre class="stdio"> ${app.list_commands} </pre>
+</p>
+
+</div>
+
+
+<hr/>
 
 
 <%include file="footer.html" />
