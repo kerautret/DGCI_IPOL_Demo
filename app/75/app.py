@@ -22,7 +22,7 @@ class app(base_app):
                  'meaningfulscaleDemo.tgz'
     demo_src_filename  = 'meaningfulscaleDemo.tgz'
     demo_src_dir  = 'meaningfulscaleDemo'
-    
+
     input_nb = 1 # number of input images
     input_max_pixels = 4096 * 4096 # max size (in pixels) of an input image
     input_max_weight = 1 * 4096 * 4096  # max size (in bytes) of an input file
@@ -38,7 +38,7 @@ class app(base_app):
         # setup the parent class
         base_dir = os.path.dirname(os.path.abspath(__file__))
         base_app.__init__(self, base_dir)
-        
+
 
         # select the base_app steps to expose
         # index() is generic
@@ -59,14 +59,14 @@ class app(base_app):
         script_names = ["applyMS.sh", "convert.sh", "convertFig.sh", \
                         "transformBG.sh"]
         prog_bin_files = []
-        
+
         for f in prog_names:
-            prog_bin_files.append(self.bin_dir+ f)            
+            prog_bin_files.append(self.bin_dir+ f)
 
         log_file = self.base_dir + "build.log"
         # get the latest source archive
         build.download(self.xlink_src, tgz_file)
-        
+
         # test if the dest file is missing, or too old
         if (os.path.isfile(prog_bin_files[0])
             and ctime(tgz_file) < ctime(prog_bin_files[0])):
@@ -81,9 +81,9 @@ class app(base_app):
             build.run("cd %s; cmake ..  -DCMAKE_BUILD_TYPE=Release \
                      -DBUILD_TESTING=false  ; make -j 4" %(self.src_dir+ \
                                                           self.demo_src_dir+\
-                                                          "/build"), 
-                                                          stdout=log_file) 
-            
+                                                          "/build"),
+                                                          stdout=log_file)
+
             # save into bin dir
             if os.path.isdir(self.bin_dir):
                 shutil.rmtree(self.bin_dir)
@@ -93,10 +93,10 @@ class app(base_app):
             for f in script_names :
                 shutil.copy(self.src_dir + os.path.join(self.demo_src_dir, \
                             "demoIPOL", f), self.bin_dir)
-            
+
             # copy annex file : pgm2freeman (extraction of contours)
             shutil.copy(self.src_dir + self.demo_src_dir+ \
-                        "/build/bin/pgm2freeman",  self.bin_dir)            
+                        "/build/bin/pgm2freeman",  self.bin_dir)
 
             # copy Dynamic lib
             shutil.copy(self.src_dir + self.demo_src_dir+ \
@@ -104,7 +104,7 @@ class app(base_app):
 
             # cleanup the source dir
             shutil.rmtree(self.src_dir)
-        
+
         return
 
     @cherrypy.expose
@@ -199,15 +199,15 @@ class app(base_app):
                     img.save(self.work_dir + 'input_0_selection.pgm')
             return self.tmpl_out('params.html')
 
- 
+
         try:
             self.cfg['param'] = {'tmax' : float(kwargs['tmax']),
                                  'm' : float(kwargs['m'])}
         except ValueError:
             return self.error(errcode='badparams',
                               errmsg="The parameters must be numeric.")
-            
-        self.cfg['param']['autothreshold'] =  kwargs['thresholdtype'] == 'True' 
+
+        self.cfg['param']['autothreshold'] =  kwargs['thresholdtype'] == 'True'
         http.refresh(self.base_url + 'run?key=%s' % self.key)
         return self.tmpl_out("wait.html")
 
@@ -222,14 +222,14 @@ class app(base_app):
         # read the parameters
         t = self.cfg['param']['tmax']
         m = self.cfg['param']['m']
-        autothreshold = self.cfg['param']['autothreshold'] 
+        autothreshold = self.cfg['param']['autothreshold']
         # run the algorithm
         try:
             self.run_algo({'t':t, 'm':m, 'autothreshold':autothreshold})
         except TimeoutError:
-            return self.error(errcode='timeout') 
+            return self.error(errcode='timeout')
         except RuntimeError:
-            return self.error(errcode='runtime')    
+            return self.error(errcode='runtime')
         except ValueError:
             return self.error(errcode='badparams',
                               errmsg="The parameters given produce no contours,\
@@ -246,7 +246,7 @@ class app(base_app):
             ar.add_file("noiseLevels.txt", info="noise levels")
             ar.add_file("inputContourFC.txt", info="polygon input")
             ar.add_file("commands.txt", info="commands")
-            ar.add_info({"threshold auto": autothreshold}) 
+            ar.add_info({"threshold auto": autothreshold})
             ar.add_info({"threshold tmax": self.cfg['param']['tmax']})
             ar.add_info({"contour min size m": m})
             ar.save()
@@ -265,42 +265,44 @@ class app(base_app):
         self.cfg['param']['sizey'] = image(self.work_dir + \
                                             'input_0.png').size[1]
         ##  -------
-        ## process 1: transform input file 
+        ## process 1: transform input file
         ## ---------
         command_args = ['/usr/bin/convert', 'input_0_selection.png',  \
                         'input_0_selection.pgm' ]
         self.runCommand(command_args)
-     
+
 
         ##  -------
-        ## process 2: Extract 2D contours 
+        ## process 2: Extract 2D contours
         ## ---------
         command_args = ['pgm2freeman']
         if not params['autothreshold']:
             command_args += ['-threshold', str(params['t']) ]
         command_args += ['-min_size', str(params['m']) ]
-        
+
         fInput = open(self.work_dir+'input_0_selection.pgm', "r")
         f =  open(self.work_dir+'inputContour.txt', "w")
         fInfo =  open(self.work_dir+'info.txt', "w")
-        cntExtractionCmd = self.runCommand(command_args, stdIn=fInput, stdOut=f, stdErr=fInfo, \
+        cntExtractionCmd = self.runCommand(command_args, stdIn=fInput, \
+                                           stdOut=f, stdErr=fInfo, \
                         comp = ' < input_0.pgm > inputContour.txt')
         fInput.close()
         f.close()
         fInfo.close()
         sizeContour = os.path.getsize(self.work_dir+"inputContour.txt")
-        if sizeContour == 0 : 
+        if sizeContour == 0 :
             raise ValueError
 
-        #Recover otsu max value from log 
+        #Recover otsu max value from log
         fInfo =  open(self.work_dir+'info.txt', "r")
         if self.cfg['param']['autothreshold']:
             lines = fInfo.readlines()
             line_cases = lines[0].split('=')
             self.cfg['param']['tmax'] = float(line_cases[1])
         fInfo.close()
-     
-        self.commentsResultContourFile(cntExtractionCmd, self.work_dir+'inputContourFC.txt')
+
+        self.commentsResultContourFile(cntExtractionCmd, self.work_dir+\
+                                       'inputContourFC.txt')
         ##  -------
         ## process 3: Convert background image
         ## ---------
@@ -310,7 +312,7 @@ class app(base_app):
 
 
         ##  -------
-        ## process 4: 
+        ## process 4:
         ## ---------
         foutput = open(self.work_dir+'noiseLevels.txt', "w")
         fLog = open(self.work_dir+'logMS.txt', "w")
@@ -352,7 +354,7 @@ class app(base_app):
         display the algo results
         """
         resultHeight = image(self.work_dir + 'input_0_selection.png').size[1]
-        imageHeightResized = min (600, resultHeight) 
+        imageHeightResized = min (600, resultHeight)
         resultHeight = max(200, resultHeight)
         return self.tmpl_out("result.html", height=resultHeight, \
                              heightImageDisplay=imageHeightResized, \
@@ -369,7 +371,7 @@ class app(base_app):
                           env={'LD_LIBRARY_PATH' : self.bin_dir})
         self.wait_proc(p, timeout=self.timeout)
         index = 0
-        # transform convert.sh in it classic prog command (equivalent) 
+        # transform convert.sh in it classic prog command (equivalent)
         for arg in command:
             if arg == "convert.sh" :
                 command[index] = "convert"
@@ -389,7 +391,7 @@ class app(base_app):
         Add comments in the resulting contours (command line producing the file,
         or file format info)
         """
-  
+
         contoursList = open (self.work_dir+"tmp.dat", "w")
         contoursList.write("# Set of resulting contours obtained from the " +\
                             "pgm2freeman algorithm. \n")
@@ -401,7 +403,7 @@ class app(base_app):
                                 "another (4 connected: code 0, 1, 2, and 3).\n")
         contoursList.write( "# Command to reproduce the result of the "+\
                             "algorithm:\n")
-        
+
         contoursList.write("# "+ command+'\n \n')
         f = open (self.work_dir+'inputContour.txt', "r")
         index = 0
@@ -413,6 +415,3 @@ class app(base_app):
         f.close()
         shutil.copy(self.work_dir+'tmp.dat', fileStrContours)
         os.remove(self.work_dir+'tmp.dat')
-
-
-
