@@ -1,10 +1,10 @@
 <%include file="header.html" />
 
-<div class="action" style="padding-bottom:3ex">    
+<div class="action" style="padding-bottom:3ex">
     <form style="float:left" action="${app.base_url}" method="get">
         <p style="padding:0px;margin:0px">Run again?&nbsp;<input type="submit" value="new input" /></p>
-    </form>    
-    <form style="float:left;padding-left:4px" action="${app.base_url + 'params'}" method="get">        
+    </form>
+    <form style="float:left;padding-left:4px" action="${app.base_url + 'params'}" method="get">
         <p style="margin:0px"><input type="hidden" name="key" value="${app.key}" />
         <input type="hidden" name="newrun" value="1" />
         <input type="hidden" name="msg" value="different parameter" />
@@ -31,7 +31,7 @@
             <img height="${app.cfg['param']['imageheightresized']}" src="${app.work_url + 'input_0.png'}" alt="" />
         </span>
         </a>
-    </li> 
+    </li>
     <li>
         <a href="${app.work_url + 'mask.png'}">
           Marker
@@ -39,7 +39,7 @@
             <img height="${app.cfg['param']['imageheightresized']}" src="${app.work_url + 'mask.png'}" alt="" />
         </span>
         </a>
-    </li>      
+    </li>
 
     <li>
         <a href="${app.work_url + 'result.png'}">
@@ -48,8 +48,8 @@
             <img height="${app.cfg['param']['imageheightresized']}" src="${app.work_url + 'result.png'}" alt="" />
         </span>
         </a>
-    </li>    
-   
+    </li>
+
     </ul>
 </div>
 
@@ -59,9 +59,9 @@
     Additional Info
   </a>
 </h2>
-<div id="commands" style="display:none"> 
+<div id="commands" style="display:none">
 <p>
-The algorithm ran with the following commands:
+The algorithm ran with the following parameters:
 <pre class="stdio"> ${app.list_commands} </pre>
 </p>
 </div>
@@ -71,7 +71,7 @@ The algorithm ran with the following commands:
 <hr/>
 
 
- 
+
 
 <%include file="archive_info.html" />
 

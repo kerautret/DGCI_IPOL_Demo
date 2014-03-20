@@ -1,7 +1,7 @@
 <%include file="header.html" />
 
 <p>
-  
+
 We provide an implementation for three models: StraightLine, Circle, Conic.
 You can specify which model is used for the decomposition.
 
@@ -9,7 +9,7 @@ You can specify which model is used for the decomposition.
 
 <form action="${app.base_url + 'wait'}" method="get">
   <div class="action">
-    Model use for the decomposition: <BR>
+    Model for the decomposition: <BR>
     <input type="hidden" name="key" value="${app.key}">
     <SELECT name="typeprimitive">
       <OPTION>StraightLine</OPTION>
@@ -27,7 +27,7 @@ You can specify which model is used for the decomposition.
 <hr />
 
 <div>
-  <img src="${app.work_url + 'input_0.png'}" alt="" /> 
+  <img src="${app.work_url + 'input_0.png'}" alt="" />
 </div>
 
 <%include file="footer.html" />

@@ -1,12 +1,17 @@
-<%include file="header.html" />
+<%include file="header-jquery.html" />
+<script type="text/javascript">
+<%include file="js/createlinkedslider.js" />
+</script>
+
+
 
 <p>
-  
+
   You can set the parameters to extract the image contour: the minimal contour size <i>m</i>.
   By default the image threshold is defined from the Otsu algorithm but you can set manually.
-  
+
   The contour extracted will be used as input of the meaningful scale algorithm.
-  
+
 </p>
 
 <form action="${app.base_url + 'wait'}" method="get">
@@ -14,13 +19,48 @@
     Set the contour extraction parameters and run the algorithm. <BR>
     <input type="hidden" name="key" value="${app.key}">
     <ul>
-      <li><label for="m"> minimal contour size <i><font color="blue" > m </font> </i>:</label> 
-        <input type="text" name="m" value="100" size="4" /></li>
-    <li><label for="t"><i> maximal image threshold: (minimal threshold fixed to 0) </label> 
+<li>
+
+<!-- code for slider -->
+<div style="float:left;padding-right:25px">
+    minimal contour size <i><font color="blue" > m </font> </i>:
+ <input type="text" style="font-family:monospace;text-align:right"
+    size="4" id="minsize" name="m" value="0" />
+</div>
+<div id="minsize_slider" name="minsize_slider" style="width:280px;float:left;margin-top:4px;font-size:10pt"></div>
+<script type="text/javascript">
+// Turn DIV slider into a slider linked to scale
+$(document).ready(function() {
+      createLinkedSlider('#minsize', '#minsize_slider', 0, 1000, 1);
+});
+</script>
+<div style="clear:both"> </div>
+<!-- end of code for slider -->
+
+</li>
+
+    <li><label for="t"><i> maximal image threshold: (minimal threshold fixed to 0) </label>
     <ul>
     <li><input type="radio" name="thresholdtype" value="True" checked> auto (Otsu) </li>
-    <li><input type="radio" name="thresholdtype" value="False" > manual threshold <font color="blue" >tmax</font>
-    <input type="text" name="tmax" value="128" size="4" /> </li>
+    <li>
+
+<!-- code for slider -->
+<div style="float:left;padding-right:25px">
+<input type="radio" name="thresholdtype" value="False" >    manual threshold <i><font color="blue" >tmax</font> </i>:
+ <input type="text" style="font-family:monospace;text-align:right"
+    size="4" id="tmax" name="tmax" value="128" />
+</div>
+<div id="tmax_slider" name="tmax_slider" style="width:280px;float:left;margin-top:4px;font-size:10pt"></div>
+<script type="text/javascript">
+// Turn DIV slider into a slider linked to scale
+$(document).ready(function() {
+      createLinkedSlider('#tmax', '#tmax_slider', 0, 255, 1);
+});
+</script>
+<div style="clear:both"> </div>
+<!-- end of code for slider -->
+
+</li>
 </ul>
     </li>
     </ul>
