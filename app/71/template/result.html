@@ -1,7 +1,18 @@
 <%include file="header.html" />
 
+
+
+<p>
+The algorithm result is displayed hereafter. The result was obtained by the following parameters:
+<ul>
+<li><i><font color="blue">&alpha;</font></i>&nbsp;=&nbsp;${ float(app.cfg['param']['lambda'])}</li>
+<li>Negate image: &nbsp;${app.cfg['param']['negate']}</li>
+</ul>
+</p>
+
+<p>
 <div class="action" style="padding-bottom:3ex">
-    <form style="float:left" action="${app.base_url}" method="get">
+  <form style="float:left" action="${app.base_url}" method="get">
         <p style="padding:0px;margin:0px">Run again?&nbsp;<input type="submit" value="new input" /></p>
     </form>
     <form style="float:left;padding-left:4px" action="${app.base_url + 'params'}" method="get">
@@ -11,12 +22,13 @@
         <input type="submit" value="different parameter" /></p>
     </form>
 </div>
+</p>
 
-<p>The following parameters were used to obtain this result:</p>
 
+<hr />
 
-<p><i>&alpha;</i>&nbsp;=&nbsp;${ float(app.cfg['param']['lambda'])}</p>
-<p>Negate image =&nbsp;${app.cfg['param']['negate']}</p>
+<h2>Result</h2>
+
 
 <p>Notice that if the image height exceeded 600 pixels, then the image is scaled and the results
  at native resolution are given in the result links.</p>
