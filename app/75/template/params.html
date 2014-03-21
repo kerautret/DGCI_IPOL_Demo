@@ -7,8 +7,8 @@
 
 <p>
 
-  You can set the parameters to extract the image contour: the minimal contour size <i>m</i>.
-  By default the image threshold is defined from the Otsu algorithm but you can set manually.
+  You can set the parameters to extract the image contour: the minimal contour size <font color="blue"<i>m</i></font>.
+  By default the maximal image threshold  <font color="blue"<i>tm</i></font> is defined from the Otsu algorithm but you can set manually.
 
   The contour extracted will be used as input of the meaningful scale algorithm.
 
@@ -20,7 +20,7 @@
     <input type="hidden" name="key" value="${app.key}">
     <ul>
 
-        <li><label for="t"> maximal image threshold: (minimal threshold fixed to 0) </label>
+        <li><label for="t"> maximal image threshold: (minimal threshold fixed to 0): </label>
         <ul>
             <li><input type="radio" name="thresholdtype" value="True" checked> auto (Otsu) </li>
             <li>
@@ -46,7 +46,7 @@
 
                 <!-- code for slider -->
                 <div style="float:left;padding-right:25px">
-                    minimal contour size <i><font color="blue" > m </font> </i>:
+                    minimal contour size <i><font color="red" > m </font> </i>:
                  <input type="text" style="font-family:monospace;text-align:right"
                     size="4" id="minsize" name="m" value="0" />
                 </div>
