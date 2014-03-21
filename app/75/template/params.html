@@ -19,50 +19,49 @@
     Set the contour extraction parameters and run the algorithm. <BR>
     <input type="hidden" name="key" value="${app.key}">
     <ul>
-<li>
 
-<!-- code for slider -->
-<div style="float:left;padding-right:25px">
-    minimal contour size <i><font color="blue" > m </font> </i>:
- <input type="text" style="font-family:monospace;text-align:right"
-    size="4" id="minsize" name="m" value="0" />
-</div>
-<div id="minsize_slider" name="minsize_slider" style="width:280px;float:left;margin-top:4px;font-size:10pt"></div>
-<script type="text/javascript">
-// Turn DIV slider into a slider linked to scale
-$(document).ready(function() {
-      createLinkedSlider('#minsize', '#minsize_slider', 0, 1000, 1);
-});
-</script>
-<div style="clear:both"> </div>
-<!-- end of code for slider -->
+        <li><label for="t"> maximal image threshold: (minimal threshold fixed to 0) </label>
+        <ul>
+            <li><input type="radio" name="thresholdtype" value="True" checked> auto (Otsu) </li>
+            <li>
+                <!-- code for slider -->
+                <div style="float:left;padding-right:25px">
+                <input type="radio" name="thresholdtype" value="False" > manual threshold <i><font color="blue" >tmax</font> </i>:
+                 <input type="text" style="font-family:monospace;text-align:right"
+                    size="4" id="tmax" name="tmax" value="128" />
+                </div>
+                <div id="tmax_slider" name="tmax_slider" style="width:280px;float:left;margin-top:4px;font-size:10pt"></div>
+                <script type="text/javascript">
+                // Turn DIV slider into a slider linked to scale
+                $(document).ready(function() {
+                      createLinkedSlider('#tmax', '#tmax_slider', 0, 255, 1);
+                });
+                </script>
+                <div style="clear:both"> </div>
+                <!-- end of code for slider -->
+            </li>
+        </ul>
+        </li>
+        <li>
 
-</li>
+                <!-- code for slider -->
+                <div style="float:left;padding-right:25px">
+                    minimal contour size <i><font color="blue" > m </font> </i>:
+                 <input type="text" style="font-family:monospace;text-align:right"
+                    size="4" id="minsize" name="m" value="0" />
+                </div>
+                <div id="minsize_slider" name="minsize_slider" style="width:280px;float:left;margin-top:4px;font-size:10pt"></div>
+                <script type="text/javascript">
+                // Turn DIV slider into a slider linked to scale
+                $(document).ready(function() {
+                      createLinkedSlider('#minsize', '#minsize_slider', 0, 1000, 1);
+                });
+                </script>
+                <div style="clear:both"> </div>
+                <!-- end of code for slider -->
 
-    <li><label for="t"><i> maximal image threshold: (minimal threshold fixed to 0) </label>
-    <ul>
-    <li><input type="radio" name="thresholdtype" value="True" checked> auto (Otsu) </li>
-    <li>
+        </li>
 
-<!-- code for slider -->
-<div style="float:left;padding-right:25px">
-<input type="radio" name="thresholdtype" value="False" >    manual threshold <i><font color="blue" >tmax</font> </i>:
- <input type="text" style="font-family:monospace;text-align:right"
-    size="4" id="tmax" name="tmax" value="128" />
-</div>
-<div id="tmax_slider" name="tmax_slider" style="width:280px;float:left;margin-top:4px;font-size:10pt"></div>
-<script type="text/javascript">
-// Turn DIV slider into a slider linked to scale
-$(document).ready(function() {
-      createLinkedSlider('#tmax', '#tmax_slider', 0, 255, 1);
-});
-</script>
-<div style="clear:both"> </div>
-<!-- end of code for slider -->
-
-</li>
-</ul>
-    </li>
     </ul>
     <BR>
  Run the algorithm <input type="submit"  name="action" value="run" />

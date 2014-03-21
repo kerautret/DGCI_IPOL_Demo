@@ -15,7 +15,7 @@ import subprocess
 
 class app(base_app):
     """ template demo app """
-    
+
     title = "A Streaming Distance Transform Algorithm for \
               Neighborhood-Sequence Distances"
     xlink_article = 'http://www.ipol.im/'
@@ -57,9 +57,9 @@ class app(base_app):
         prog_names = ["LUTBasedNSDistanceTransform"];
         script_names = ["convert.sh"];
         prog_bin_files=[];
-        
+
         for f in prog_names:
-            prog_bin_files.append(self.bin_dir+ f)            
+            prog_bin_files.append(self.bin_dir+ f)
 
         log_file = self.base_dir + "build.log"
         # get the latest source archive
@@ -79,8 +79,8 @@ class app(base_app):
                      "LUTBasedNSDistanceTransform/build")   , stdout=log_file)
             build.run("cd %s; cmake .. -DWITH_PNG=true -DWITH_NETPBM=false ;\
              make -j 4" %(self.src_dir+"LUTBasedNSDistanceTransform/build"), \
-                            stdout=log_file) 
-            
+                            stdout=log_file)
+
             # save into bin dir
             if os.path.isdir(self.bin_dir):
                 shutil.rmtree(self.bin_dir)
@@ -93,12 +93,12 @@ class app(base_app):
                 shutil.copy(self.src_dir + \
                     os.path.join("LUTBasedNSDistanceTransform/ScriptDemoIPOL", \
                                 f), self.bin_dir)
-    
+
             # cleanup the source dir
             shutil.rmtree(self.src_dir)
 
-       
-        
+
+
         return
 
 
@@ -122,7 +122,7 @@ class app(base_app):
         except RuntimeError:
             return self.error(errcode='badparams',
                               errmsg="Unable to handle form inputs.")
-            
+
         http.refresh(self.base_url + 'run?key=%s' % self.key)
         return self.tmpl_out("wait.html")
 
@@ -135,14 +135,15 @@ class app(base_app):
         # read the parameters
         distance_def = self.cfg['param']['distance_def']
         sequence = self.cfg['param']['sequence']
+        ratio = sequence = self.cfg['param']['ratio']
 
         # run the algorithm
         try:
             self.run_algo(**self.cfg['param'])
         except TimeoutError:
-            return self.error(errcode='timeout') 
+            return self.error(errcode='timeout')
         except RuntimeError:
-            return self.error(errcode='runtime')    
+            return self.error(errcode='runtime')
         except ValueError as e:
             return self.error(errcode='returncode',
                               errmsg='\n\n'+str(e))
@@ -156,15 +157,15 @@ class app(base_app):
             ar.add_file("resu_r.png", info="output")
             ar.add_file("resu_n.png", info="output (normalized)")
             if distance_def == 'd4':
-                ar.add_info({"distance": " city block"}) 
+                ar.add_info({"distance": " city block"})
             elif distance_def == 'd8':
-                ar.add_info({"distance": " chessboard"}) 
+                ar.add_info({"distance": " chessboard"})
             elif distance_def == 'ratio':
                 ar.add_info({"distance": " neighborhood sequence distance with\
-                             %s ratio" % ratio}) 
+                             %s ratio" % ratio})
             elif distance_def == 'sequence':
                 ar.add_info({"distance": ' neighborhood sequence distance with \
-                            "%s" sequence' % sequence}) 
+                            "%s" sequence' % sequence})
             ar.add_file("commands.txt", info="commands")
             ar.save()
 
@@ -183,7 +184,7 @@ class app(base_app):
         self.wait_proc(p, timeout=self.timeout)
         f=open(self.work_dir+"resu_r.png", "w")
         fcommands=open(self.work_dir+"commands.txt", "w")
-         
+
         commandargs = ['LUTBasedNSDistanceTransform']
 
         print(type(distance_def), distance_def)
@@ -213,7 +214,7 @@ class app(base_app):
         fcommands.write(self.commands)
         fcommands.close()
         f.close()
-        self.wait_proc(p, timeout=self.timeout)        
+        self.wait_proc(p, timeout=self.timeout)
         p = self.run_proc(['convert.sh', '-normalize', 'resu_r.png', \
                            'resu_n.png'])
         self.wait_proc(p, timeout=self.timeout)
@@ -227,7 +228,7 @@ class app(base_app):
         """
         display the algo results
         """
-        return self.tmpl_out("result.html", 
+        return self.tmpl_out("result.html",
                              height=image(self.work_dir
                                           + 'input_0.png').size[1],
                              commands=self.commands)
