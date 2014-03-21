@@ -25,9 +25,9 @@ function sci2str(sci, numDigits)
 // valueMin     minimum value
 // valueMax     maximum value
 // numDigits    number of digits after decimal point
-function createLinkedSliderExp(inputId, sliderId, 
+function createLinkedSliderExp(inputId, sliderId,
     valueMin, valueMax, numDigits)
-{    
+{
     var inputObj = $(inputId);
     // Create JQueryUI slider
     var sliderObj = $(sliderId).slider({
@@ -36,7 +36,7 @@ function createLinkedSliderExp(inputId, sliderId,
         value: num2sci(parseFloat(                 // Initial value
             inputObj.attr('value')), numDigits),
         animate: 'fast'});                         // Animation speed
-    
+
     // Update slider when input changes
     inputObj.blur(function()
         {
@@ -48,13 +48,13 @@ function createLinkedSliderExp(inputId, sliderId,
             else
             {
                 value = num2sci(value, numDigits);
-                valueClamped = Math.min(Math.max(value, 
-                    sliderObj.slider('option', 'min')), 
+                valueClamped = Math.min(Math.max(value,
+                    sliderObj.slider('option', 'min')),
                     sliderObj.slider('option', 'max'));
             }
 
             sliderObj.slider('value', valueClamped);
-    
+
             if(value != valueClamped)
                 inputObj.val(sci2str(valueClamped, numDigits));
         });
@@ -79,7 +79,7 @@ function spritecoords(s)
 
 
 <p>click on the image to draw the image marker used for segmentation:</p>
-<fieldset>    
+<fieldset>
     <input type="submit" id="action" name="action" value="undo" style="float:left" />
     <input type="submit" id="action" name="action" value="clear" style="float:left; margin-left:3pt" />
     <canvas id="penpreviewCanvas" name="penpreviewCanvas" style="border: 1px solid; float:left; margin-left:36px;" width="31px" height="31px" > </canvas>
@@ -88,12 +88,12 @@ function spritecoords(s)
         size="2" id="pensize" name="pensize" value="${app.cfg['param']['pensize']}" /><br />
         <div id="slider1" style="width:8em; margin-top:2px; font-size:8pt;"></div>
     </div>
-    <input type="submit" id="pencolor_yellow" name="pencolor_yellow" value="" 
+    <input type="submit" id="pencolor_yellow" name="pencolor_yellow" value=""
     style="float:left; margin-left:36px; background:none; background-color:#FFFF00" />
     <div style="clear:both"></div>
     <input type="image" style="cursor:crosshair; margin-top:5px;
     background:url('${app.work_url + 'input_0.png'}')"
-    src="${app.work_url + 'mask.gif'}?${app.timestamp}" 
+    src="${app.work_url + 'mask.gif'}?${app.timestamp}"
     width="${app.cfg['param']['viewbox_width']}"
     height="${app.cfg['param']['viewbox_height']}" alt="" />
 </fieldset>
@@ -114,11 +114,11 @@ size="6" id="lambda" name="lambda" value="${'%.3f' % app.cfg['param']['lambda']}
     ctx.beginPath();
     ctx.clearRect(0,0,31,31);
     ctx.arc(15, 15, radius, 0, Math.PI*2, false);
-    ctx.fill(); 
-    ctx.stroke(); 
+    ctx.fill();
+    ctx.stroke();
   }
 
-$(document).ready(function() 
+$(document).ready(function()
 {
     createLinkedSlider('#pensize', '#slider1', 1, 20, 2);
     createLinkedSliderExp('#lambda', '#slider2', 0.001, 1.0, 3);
@@ -128,8 +128,8 @@ $(document).ready(function()
     $('#pensize').blur(function()
         {
             var value = $('#pensize').attr('value');
-            var valueClamped = Math.min(Math.max(value, 
-                $('#slider1').slider('option', 'min')), 
+            var valueClamped = Math.min(Math.max(value,
+                $('#slider1').slider('option', 'min')),
                 $('#slider1').slider('option', 'max'));
             $('#slider1').slider('value', valueClamped);
             if(value != valueClamped)
@@ -137,8 +137,8 @@ $(document).ready(function()
             fillDisk(value);
  });
     $('#slider1').slider('option', 'slide',
-        function(event, ui) { 
-            $('#pensize').val(Math.round(ui.value)); 
+        function(event, ui) {
+            $('#pensize').val(Math.round(ui.value));
             fillDisk($('#pensize').attr('value'));
         });
 
@@ -146,11 +146,11 @@ $(document).ready(function()
 </script>
 <input type="hidden" name="key" value="${app.key}" />
 <BR>
-<p>  Negate the source image (recommanded to extract dark objects on bright background): 
+<p>  Negate the source image (recommanded to extract dark objects on bright background):
 %if 'negate' in app.cfg['param'] and app.cfg['param']['negate']:
   <input type="checkbox" name="negate" value="on" size="4" /></p>
-%else : 
-  <input type="checkbox" name="negate" value="off" size="4" /></p> 
+%else :
+  <input type="checkbox" name="negate" value="off" size="4" /></p>
 %endif
 
 %if not app.hasAtLeastOneMarker:

@@ -161,7 +161,7 @@ class app(base_app):
             elif distance_def == 'd8':
                 ar.add_info({"distance": " chessboard"})
             elif distance_def == 'ratio':
-                ar.add_info({"distance": " neighborhood sequence distance with\
+                ar.add_info({"distance": " neighborhood ratio distance with\
                              %s ratio" % ratio})
             elif distance_def == 'sequence':
                 ar.add_info({"distance": ' neighborhood sequence distance with \
