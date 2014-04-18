@@ -19,9 +19,9 @@ class app(base_app):
     title = "Meaningful Scales Detection: an Unsupervised Noise "+\
             "Detection Algorithm for Digital Contours"
     xlink_article = 'http://www.ipol.im/'
-    #xlink_src =  'http://www.ipol.im/pub/pre/75/meaningfulscaleDemo.tgz'
-    xlink_src =  'http://dev.ipol.im/~kerautre/CodeExecutableDemos/'+\
-                 'meaningfulscaleDemo.tgz'
+    xlink_src =  'http://www.ipol.im/pub/pre/75/meaningfulscaleDemo.tgz'
+    #xlink_src =  'http://dev.ipol.im/~kerautre/CodeExecutableDemos/'+\
+    #            'meaningfulscaleDemo.tgz'
     demo_src_filename  = 'meaningfulscaleDemo.tgz'
     demo_src_dir  = 'meaningfulscaleDemo'
 
@@ -248,6 +248,7 @@ class app(base_app):
             ar.add_file("noiseLevels.txt", info="noise levels")
             ar.add_file("inputContourFC.txt", info="polygon input")
             ar.add_file("commands.txt", info="commands")
+            ar.add_file("resu.eps", info="result in eps format")
             ar.add_info({"threshold auto": autothreshold})
             ar.add_info({"threshold tmax": self.cfg['param']['tmax']})
             ar.add_info({"contour min size m": m})
