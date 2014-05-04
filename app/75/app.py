@@ -262,7 +262,7 @@ class app(base_app):
                 version_file = open(self.work_dir + "version.txt", "r")
                 version_info = version_file.readline()
                 version_file.close()
-            except Exception:
+            except RuntimeError:
                 version_info = "unknown"
             ar.add_info({"meaningfulScaleEstim version " : version_info})
             ar.add_info({"#contours" : self.cfg['info']['num_contours']})
@@ -452,11 +452,10 @@ class app(base_app):
         # First delete the key from the archive if it exist
         from lib import archive
         archive.index_delete(self.archive_index, self.key)
-        import shutil,os
         entrydir = self.archive_dir + archive.key2url(self.key)
         if os.path.isdir(entrydir):
-           print "DELETING ARCHIVE ENTRY %s"%self.key
-           shutil.rmtree(entrydir)
+            print "DELETING ARCHIVE ENTRY %s" % self.key
+            shutil.rmtree(entrydir)
 
         # Then insert the new data
         ar = archive.bucket(path=self.archive_dir,
@@ -465,6 +464,9 @@ class app(base_app):
         ar.cfg['meta']['public'] = self.cfg['meta']['public']
 
         def hook_index():
+            """
+            create an archive bucket
+            """
             return archive.index_add(self.archive_index,
                                      bucket=ar,
                                      path=self.archive_dir)
