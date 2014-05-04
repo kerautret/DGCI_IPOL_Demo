@@ -551,3 +551,34 @@ class app(base_app):
         f.close()
         shutil.copy(self.work_dir+'tmp.dat', fileStrRes)
         os.remove(self.work_dir+'tmp.dat')
+
+
+    def make_archive(self):
+        """
+        create an archive bucket HACK!
+        This overloaded verion of the empty_app function
+        first deletes the entry and its directory so that the 
+        new one is correcly stored.
+        """
+        # First delete the key from the archive if it exist
+        from lib import archive
+        archive.index_delete(self.archive_index, self.key)
+        import shutil,os
+        entrydir = self.archive_dir + archive.key2url(self.key)
+        if os.path.isdir(entrydir):
+           print "DELETING ARCHIVE ENTRY %s"%self.key
+           shutil.rmtree(entrydir)
+
+        # Then insert the new data
+        ar = archive.bucket(path=self.archive_dir,
+                            cwd=self.work_dir,
+                            key=self.key)
+        ar.cfg['meta']['public'] = self.cfg['meta']['public']
+
+        def hook_index():
+            return archive.index_add(self.archive_index,
+                                     bucket=ar,
+                                     path=self.archive_dir)
+        ar.hook['post-save'] = hook_index
+        return ar
+
