@@ -408,7 +408,7 @@ class app(base_app):
         """
         resultHeight = image(self.work_dir + 'input_0_selection.png').size[1]
         imageHeightResized = min (600, resultHeight)
-        resultHeight = max(200, resultHeight)
+        resultHeight = max(300, resultHeight)
         return self.tmpl_out("result.html", height=resultHeight, \
                              heightImageDisplay=imageHeightResized, \
                              width=image(self.work_dir\
