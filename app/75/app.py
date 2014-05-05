@@ -244,11 +244,15 @@ class app(base_app):
             ar = self.make_archive()
             ar.add_file("input_0.png", "original.png", info="uploaded")
             ar.add_file("input_0_selection.png","selection.png")
-            ar.add_file("resu.png", info="output")
+            ar.add_file("resuBG.png", info="output with source image")
+            ar.add_file("resuWhiteBG.png", info="output") 
             ar.add_file("noiseLevels.txt", info="noise levels")
             ar.add_file("inputContourFC.txt", info="polygon input")
             ar.add_file("commands.txt", info="commands")
-            ar.add_file("resu.eps", info="result in eps format")
+            ar.add_file("resuBG.eps", info="result in eps format with source\
+                                            image")
+            ar.add_file("resuWhiteBG.eps", info="result in eps format with \
+                                                 white background")
             ar.add_info({"threshold auto": autothreshold})
             ar.add_info({"threshold tmax": self.cfg['param']['tmax']})
             ar.add_info({"contour min size m": m})
@@ -328,6 +332,10 @@ class app(base_app):
         command_args += ['input_0_selection.png', 'input_0BG.png']
         self.runCommand(command_args)
 
+        command_args = ['/usr/bin/convert', '-white-threshold', '-1' ]
+        command_args += ['input_0_selection.png', 'input_0BGW.png']
+        self.runCommand(command_args)
+
 
         ##  -------
         ## process 4:
@@ -360,6 +368,27 @@ class app(base_app):
         fLog.close()
         p = self.run_proc(['convertFig.sh','noiseLevel.fig'])
         self.wait_proc(p, timeout=self.timeout)
+
+        ## -----
+        ## process 5:
+        ## -----
+        # Edit fig to obtain display without background image
+        foutput = open(self.work_dir+'noiseLevelWhiteBG.fig', "w")
+        fLog = open(self.work_dir+'logTransform.txt', "w")
+        command_args = ['/bin/sed', '-e', 's/input_0BG.png/input_0BGW.png/', \
+                        self.work_dir+'noiseLevel.fig']
+        self.runCommand(command_args,  stdOut=foutput, \
+                        stdErr=fLog, comp=" > noiseLevelWhiteBG.fig")
+        foutput.close()
+        fLog.close()
+        shutil.copy(self.work_dir+'resu.png', self.work_dir+'resuBG.png')
+        shutil.copy(self.work_dir+'resu.eps', self.work_dir+'resuBG.eps')
+        p = self.run_proc(['convertFig.sh','noiseLevelWhiteBG.fig'])
+        self.wait_proc(p, timeout=self.timeout)
+
+        shutil.copy(self.work_dir+'resu.png', self.work_dir+'resuWhiteBG.png')
+        shutil.copy(self.work_dir+'resu.eps', self.work_dir+'resuWhiteBG.eps')
+
 
 
         ## ----
