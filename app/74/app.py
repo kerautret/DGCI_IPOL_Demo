@@ -565,7 +565,6 @@ class app(base_app):
         archive.index_delete(self.archive_index, self.key)
         entrydir = self.archive_dir + archive.key2url(self.key)
         if os.path.isdir(entrydir):
-            print "DELETING ARCHIVE ENTRY %s" % self.key
             shutil.rmtree(entrydir)
 
         # Then insert the new data

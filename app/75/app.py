@@ -244,15 +244,15 @@ class app(base_app):
             ar = self.make_archive()
             ar.add_file("input_0.png", "original.png", info="uploaded")
             ar.add_file("input_0_selection.png","selection.png")
-            ar.add_file("resuBG.png", info="output with source image")
             ar.add_file("resuWhiteBG.png", info="output") 
+            ar.add_file("resuBG.png", info="output with source image")
             ar.add_file("noiseLevels.txt", info="noise levels")
             ar.add_file("inputContourFC.txt", info="polygon input")
             ar.add_file("commands.txt", info="commands")
-            ar.add_file("resuBG.eps", info="result in eps format with source\
-                                            image")
             ar.add_file("resuWhiteBG.eps", info="result in eps format with \
                                                  white background")
+            ar.add_file("resuBG.eps", info="result in eps format with source\
+                                            image")
             ar.add_info({"threshold auto": autothreshold})
             ar.add_info({"threshold tmax": self.cfg['param']['tmax']})
             ar.add_info({"contour min size m": m})
@@ -483,7 +483,6 @@ class app(base_app):
         archive.index_delete(self.archive_index, self.key)
         entrydir = self.archive_dir + archive.key2url(self.key)
         if os.path.isdir(entrydir):
-            print "DELETING ARCHIVE ENTRY %s" % self.key
             shutil.rmtree(entrydir)
 
         # Then insert the new data
