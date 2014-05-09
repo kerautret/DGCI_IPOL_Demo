@@ -18,7 +18,9 @@ class app(base_app):
     title = "A Near-Linear Time Guaranteed Algorithm for Digital Curve Simpli"+\
             "fication Under the Fr&eacute;chet Distance"
     xlink_article = 'http://www.ipol.im/'
-    xlink_src =  'http://www.ipol.im/pub/pre/70/FrechetAndConnectedCompDemo.tgz'
+    #xlink_src =  'http://www.ipol.im/pub/pre/70/FrechetAndConnectedCompDemo.tgz'
+    xlink_src =  'http://dev.ipol.im/~kerautre/CodeExecutableDemos/' + \
+                 'FrechetAndConnectedCompDemo.tgz'
     demo_src_filename  = 'FrechetAndConnectedCompDemo.tgz'
     demo_src_dir  = 'FrechetAndConnectedCompDemo'
 
@@ -244,10 +246,13 @@ class app(base_app):
         ##  -------
         ## process 3: apply algorithm
         ## ---------
+        inputWidth = image(self.work_dir + 'input_0.png').size[0]
+        inputHeight = image(self.work_dir + 'input_0.png').size[1]
         command_args = ['frechetSimplification'] + \
-        			   ['-error', str(self.cfg['param']['e']), '-sdp',
-        			   'inputPolygon.txt' ]+\
-   					   ['-allContours']
+                       ['-imageSize', str(inputWidth), str(inputHeight)] + \
+                       ['-error', str(self.cfg['param']['e']), '-sdp',
+                        'inputPolygon.txt' ]+\
+                       ['-allContours']
         f = open(self.work_dir+"algoLog.txt", "a")
         if self.cfg['param']['w']:
             command_args += ['-w']
