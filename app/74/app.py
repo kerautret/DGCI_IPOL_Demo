@@ -19,7 +19,7 @@ class app(base_app):
     """ template demo app """
 
     title = "Extraction of Connected Region Boundary in Multidimensional Images"
-    xlink_article = 'http://www.ipol.im/'
+    xlink_article = 'http://www.ipol.im/pub/art/2014/74/'
     xlink_src = 'http://www.ipol.im/pub/art/2014/74/'+\
                 'FrechetAndConnectedCompDemo.tgz'
     demo_src_filename = 'FrechetAndConnectedCompDemo.tgz'
@@ -30,7 +30,7 @@ class app(base_app):
     input_max_weight = 1 * 4096 * 4096  # max size (in bytes) of an input file
     input_dtype = '3x8i' # input image expected data type
     input_ext = '.png'   # input image expected extension (ie file format)
-    is_test = True      # switch to False for deployment
+    is_test = False      # switch to False for deployment
     commands = []
     def __init__(self):
         """
@@ -551,35 +551,3 @@ class app(base_app):
         f.close()
         shutil.copy(self.work_dir+'tmp.dat', fileStrRes)
         os.remove(self.work_dir+'tmp.dat')
-
-
-    def make_archive(self):
-        """
-        create an archive bucket HACK!
-        This overloaded verion of the empty_app function
-        first deletes the entry and its directory so that the 
-        new one is correcly stored.
-        """
-        # First delete the key from the archive if it exist
-        from lib import archive
-        archive.index_delete(self.archive_index, self.key)
-        entrydir = self.archive_dir + archive.key2url(self.key)
-        if os.path.isdir(entrydir):
-            shutil.rmtree(entrydir)
-
-        # Then insert the new data
-        ar = archive.bucket(path=self.archive_dir,
-                            cwd=self.work_dir,
-                            key=self.key)
-        ar.cfg['meta']['public'] = self.cfg['meta']['public']
-
-        def hook_index():
-            """
-            create an archive bucket
-            """
-            return archive.index_add(self.archive_index,
-                                     bucket=ar,
-                                     path=self.archive_dir)
-        ar.hook['post-save'] = hook_index
-        return ar
-
