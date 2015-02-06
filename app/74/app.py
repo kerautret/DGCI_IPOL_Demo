@@ -113,23 +113,18 @@ class app(base_app):
             shutil.rmtree(self.src_dir)
         return
 
+
     def input_select_callback(self, fnames):
         '''
         Implement the callback for the input select to
         process the non-standard input
         '''         
         extension3D = (fnames[0])[-6:-4]
-        self.log("----------------------"+extension3D)
         self.cfg['meta']['is3d'] = extension3D == "3d"
         if self.cfg['meta']['is3d'] :
-            self.log("------3DDDDD----------------")
             baseName = (fnames[0])[0:-4]
-            self.log("------"+baseName+"----------------")
             shutil.copy(self.input_dir +baseName+".vol",
-                        self.work_dir + 'inputVol_0.vol')
-        
-        else:
-            self.log("------NOOOO 3DDDDD----------------")
+                        self.work_dir + 'inputVol_0.vol')        
         self.cfg.save()
 
 
