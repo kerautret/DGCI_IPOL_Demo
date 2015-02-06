@@ -1,0 +1,41 @@
+;; Object boards/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "boards/"
+  :tables (list 
+   (semanticdb-table "dgtalBoard2D-1-points.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1058 1077]) ("DGtal/base/Common.h" include nil nil [1078 1108]) ("DGtal/io/boards/Board2D.h" include nil nil [1109 1145]) ("DGtal/helpers/StdDefs.h" include nil nil [1146 1180]) ("main" function (:type "int") nil [1416 2125]))
+    :file "dgtalBoard2D-1-points.cpp"
+    :pointmax 2286
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "dgtalBoard2D-4-colormaps.cpp"
+    :major-mode 'c++-mode
+    :tags '(("cmath" include (:system-flag t) (dependency-file none) [1103 1119]) ("iostream" include (:system-flag t) (dependency-file none) [1120 1139]) ("DGtal/base/Common.h" include nil (dependency-file none) [1140 1170]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1171 1207]) ("DGtal/io/Color.h" include nil (dependency-file none) [1208 1235]) ("DGtal/io/colormaps/GradientColorMap.h" include nil (dependency-file none) [1236 1284]) ("DGtal/shapes/Shapes.h" include nil (dependency-file none) [1285 1317]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1318 1352]) ("main" function (:type "int") nil [1581 3306]))
+    :file "dgtalBoard2D-4-colormaps.cpp"
+    :pointmax 3467
+    )
+   (semanticdb-table "dgtalBoard2D-3-custom-points.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1124 1143]) ("DGtal/base/Common.h" include nil nil [1144 1174]) ("DGtal/io/Color.h" include nil nil [1175 1202]) ("DGtal/io/boards/Board2D.h" include nil nil [1203 1239]) ("DGtal/helpers/StdDefs.h" include nil nil [1240 1274]) ("MyDrawStyleCustomColor" type (:superclasses ("DrawableWithBoard2D") :members (("myPenColor" variable (:type ("Color" type (:type "class") nil nil)) (reparse-symbol classsubparts) [1572 1589]) ("myFillColor" variable (:type ("Color" type (:type "class") nil nil)) (reparse-symbol classsubparts) [1592 1610]) ("MyDrawStyleCustomColor" function (:constructor-flag t :arguments (("penColor" variable (:constant-flag t :type ("Color" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1637 1660]) ("fillColor" variable (:constant-flag t :type ("Color" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1669 1694])) :type ("MyDrawStyleCustomColor" type (:type "struct") nil nil)) (reparse-symbol classsubparts) [1613 1754]) ("setStyle" function (:typemodifiers ("virtual") :arguments (("aboard" variable (:type ("Board2D" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1781 1798])) :type "void") (reparse-symbol classsubparts) [1758 1889])) :type "struct") nil [1509 1892]) ("main" function (:type "int") nil [1894 3065]))
+    :file "dgtalBoard2D-3-custom-points.cpp"
+    :pointmax 3226
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "dgtalBoard2D-2-sets.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1093 1112]) ("DGtal/base/Common.h" include nil (dependency-file none) [1113 1143]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1144 1180]) ("DGtal/shapes/Shapes.h" include nil (dependency-file none) [1181 1213]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1214 1248]) ("main" function (:type "int") nil [1477 3836]))
+    :file "dgtalBoard2D-2-sets.cpp"
+    :pointmax 3997
+    )
+   (semanticdb-table "dgtalBoard3DTo2D-2bis-sets.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1005 1024]) ("DGtal/io/boards/Board3DTo2D.h" include nil nil [1025 1065]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil nil [1066 1113]) ("DGtal/base/Common.h" include nil nil [1114 1144]) ("DGtal/helpers/StdDefs.h" include nil nil [1145 1179]) ("DGtal/shapes/Shapes.h" include nil nil [1180 1212]) ("main" function (:type "int") nil [1475 2196]))
+    :file "dgtalBoard3DTo2D-2bis-sets.cpp"
+    :pointmax 2361
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

@@ -1,0 +1,28 @@
+;; Object tutorial-examples/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "tutorial-examples/"
+  :tables (list 
+   (semanticdb-table "freemanChainFromImage.cpp"
+    :major-mode 'c++-mode
+    :tags '(("DGtal/base/Common.h" include nil nil [1034 1064]) ("ConfigExamples.h" include nil nil [1065 1092]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil nil [1137 1186]) ("DGtal/images/ImageSelector.h" include nil nil [1187 1226]) ("DGtal/kernel/SpaceND.h" include nil nil [1227 1260]) ("DGtal/images/imagesSetsUtils/SetFromImage.h" include nil nil [1261 1315]) ("DGtal/base/BasicTypes.h" include nil nil [1317 1351]) ("DGtal/geometry/curves/representation/FreemanChain.h" include nil nil [1352 1414]) ("DGtal/io/boards/Board2D.h" include nil nil [1415 1451]) ("DGtal/io/Color.h" include nil nil [1452 1479]) ("DGtal/helpers/StdDefs.h" include nil nil [1480 1514]) ("DGtal/topology/helpers/Surfaces.h" include nil nil [1515 1559]) ("DGtal/io/readers/PNMReader.h" include nil nil [1561 1600]) ("DGtal/io/colormaps/GradientColorMap.h" include nil nil [1601 1649]) ("main" function (:type "int") nil [1802 3456]))
+    :file "freemanChainFromImage.cpp"
+    :pointmax 3537
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "pgm2freeman.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1047 1066]) ("DGtal/base/Common.h" include nil nil [1068 1098]) ("DGtal/topology/KhalimskySpaceND.h" include nil nil [1100 1144]) ("DGtal/shapes/ShapeFactory.h" include nil nil [1147 1185]) ("DGtal/shapes/Shapes.h" include nil nil [1186 1218]) ("DGtal/helpers/StdDefs.h" include nil nil [1219 1253]) ("DGtal/geometry/helpers/ContourHelper.h" include nil nil [1254 1303]) ("DGtal/io/colormaps/GrayscaleColorMap.h" include nil nil [1306 1355]) ("DGtal/images/imagesSetsUtils/ImageFromSet.h" include nil nil [1356 1410]) ("DGtal/images/imagesSetsUtils/SetFromImage.h" include nil nil [1411 1465]) ("DGtal/images/ImageContainerBySTLVector.h" include nil nil [1466 1517]) ("DGtal/images/ImageSelector.h" include nil nil [1518 1557]) ("DGtal/io/readers/PNMReader.h" include nil nil [1558 1597]) ("DGtal/geometry/curves/FreemanChain.h" include nil nil [1598 1645]) ("DGtal/io/boards/Board2D.h" include nil nil [1647 1683]) ("DGtal/topology/helpers/Surfaces.h" include nil nil [1684 1728]) ("vector" include (:system-flag t) nil [1893 1910]) ("string" include (:system-flag t) nil [1911 1928]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [2089 2098]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [2099 2112])) :type "int") nil [2079 6863]))
+    :file "pgm2freeman.cpp"
+    :pointmax 6865
+    )
+   (semanticdb-table "fileGridCurveRanges.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1047 1066]) ("fstream" include (:system-flag t) nil [1067 1085]) ("algorithm" include (:system-flag t) nil [1086 1106]) ("DGtal/base/Common.h" include nil nil [1228 1258]) ("DGtal/helpers/StdDefs.h" include nil nil [1259 1293]) ("ConfigExamples.h" include nil nil [1294 1321]) ("DGtal/io/boards/Board2D.h" include nil nil [1405 1441]) ("main" function (:type "int") nil [1591 2932]))
+    :file "fileGridCurveRanges.cpp"
+    :pointmax 3014
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

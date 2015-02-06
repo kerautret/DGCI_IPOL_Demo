@@ -1,0 +1,15 @@
+;; Object images/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "images/"
+  :tables (list 
+   (semanticdb-table "testRestrictedImage.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1294 1313]) ("DGtal/base/Common.h" include nil (dependency-file none) [1314 1344]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1345 1379]) ("DGtal/images/ImageContainerBySTLVector.h" include nil (dependency-file none) [1380 1431]) ("DGtal/images/RestrictedImage.h" include nil (dependency-file none) [1458 1499]) ("DGtal/io/colormaps/GrayscaleColorMap.h" include nil (dependency-file none) [1500 1549]) ("DGtal/io/readers/PNMReader.h" include nil (dependency-file none) [1550 1589]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1590 1626]) ("ConfigTest.h" include nil (dependency-file none) [1628 1651]) ("testSimple" function (:type "bool") nil [1986 3342]) ("testRestrictedImage" function (:type "bool") nil [3344 8480]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [8606 8615]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [8616 8629])) :type "int") nil [8596 9012]))
+    :file "testRestrictedImage.cpp"
+    :pointmax 9173
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

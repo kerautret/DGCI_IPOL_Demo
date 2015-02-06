@@ -1,0 +1,160 @@
+/**
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
+/**
+ * @file OrderedAlphabet.ih
+ * @author Jacques-Olivier Lachaud (\c jacques-olivier.lachaud@univ-savoie.fr )
+ * Laboratory of Mathematics (CNRS, UMR 5807), University of Savoie, France
+ * @author Laurent Provot (\c Laurent.Provot@loria.fr )
+ * LORIA (CNRS, UMR 7503), Nancy University, France
+ *
+ * @date 2010/07/01
+ *
+ * Implementation of inline methods defined in OrderedAlphabet.h
+ *
+ * This file is part of the DGtal library.
+ */
+
+///////////////////////////////////////////////////////////////////////////////
+// IMPLEMENTATION of inline methods.
+///////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////
+#include <cstdlib>
+//////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Implementation of inline methods                                          //
+
+/**
+ * Constructor from letters
+ *
+ * @param first the first letter of the alphabet.
+ * @param nb the number of letters of the alphabet.
+ *
+ * Exemple: OrderedAlphabet( '0', 4 ) defines the alphabet for
+ * 4-connected freeman chains.
+ */
+inline
+DGtal::OrderedAlphabet::OrderedAlphabet( char first, unsigned int nb )
+  : myFirst( first ), myNb( nb )
+{
+  myOrder = new unsigned int[ nb ];
+
+  ASSERT( ( myOrder != 0 ) 
+          && "[DGtal::OrderedAlphabet::OrderedAlphabet( char first, int nb )] error in new: no memory left ?" );
+  for ( unsigned int i = 0; i < myNb; ++i )
+    myOrder[ i ] = i;
+}
+
+/**
+ * @param c any valid letter in this alphabet.
+ *
+ * @return the index of the letter [c] in the order relation,
+ * starting from 0 to myNb-1.
+ */
+inline
+unsigned int
+DGtal::OrderedAlphabet::order( char c ) const
+{
+  ASSERT( ( c - myFirst ) < (int) myNb 
+          && "[DGtal::OrderedAlphabet::order( char c )] invalid letter." );
+  return myOrder[ c - myFirst ];
+}
+
+/**
+ * @param i the index of some letter in the order relation,
+ * between 0 and myNb-1.
+ *
+ * @return c the corresponding letter in this alphabet.
+ *
+ * NB: O(nb of letters in the alphabet).
+ */
+inline
+char
+DGtal::OrderedAlphabet::letter( unsigned int i ) const
+{
+  ASSERT( i < myNb );
+  for ( unsigned int j = 0; j < myNb; ++j )
+    if ( myOrder[ j ] == i )
+      return myFirst + j;
+  return myFirst;
+}
+
+
+/**
+ * @param c1 a letter in the alphabet
+ * @param c2 another letter in the same alphabet.
+ * @return 'true' iff c1 < c2
+ */
+inline
+bool 
+DGtal::OrderedAlphabet::less( char c1, char c2 ) const
+{
+  return myOrder[ c1 - myFirst ] < myOrder[ c2 - myFirst ];
+}
+
+/**
+ * @param c1 a letter in the alphabet
+ * @param c2 another letter in the same alphabet.
+ * @return 'true' iff c1 <= c2
+ */
+inline
+bool 
+DGtal::OrderedAlphabet::lessOrEqual( char c1, char c2 ) const
+{
+  return myOrder[ c1 - myFirst ] <= myOrder[ c2 - myFirst ];
+}
+
+/**
+ * @param c1 a letter in the alphabet
+ * @param c2 another letter in the same alphabet.
+ * @return 'true' iff c1 == c2
+ */
+inline
+bool 
+DGtal::OrderedAlphabet::equal( char c1, char c2 ) const
+{
+  return c1 == c2;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Implementation of inline functions and external operators                 //
+
+/**
+ * Overloads 'operator<<' for displaying objects of class 'OrderedAlphabet'.
+ * @param out the output stream where the object is written.
+ * @param object the object of class 'OrderedAlphabet' to write.
+ * @return the output stream after the writing.
+ */
+inline
+std::ostream&
+DGtal::operator<< ( std::ostream & out,
+                  const OrderedAlphabet & object )
+{
+  object.selfDisplay ( out );
+  return out;
+}
+
+
+
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+
+

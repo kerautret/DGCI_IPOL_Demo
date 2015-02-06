@@ -1,0 +1,27 @@
+;; Object viewers/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "viewers/"
+  :tables (list 
+   (semanticdb-table "viewer3D-4-modes.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1045 1064]) ("QtGui/qapplication.h" include (:system-flag t) nil [1065 1096]) ("DGtal/io/viewers/Viewer3D.h" include nil nil [1097 1135]) ("DGtal/base/Common.h" include nil nil [1136 1166]) ("DGtal/helpers/StdDefs.h" include nil nil [1167 1201]) ("DGtal/shapes/Shapes.h" include nil nil [1202 1234]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1507 1516]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1517 1530])) :type "int") nil [1497 2042]))
+    :file "viewer3D-4-modes.cpp"
+    :pointmax 2207
+    )
+   (semanticdb-table "viewer3D-4bis-illustrationMode.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1062 1081]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1082 1113]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1114 1152]) ("DGtal/base/Common.h" include nil (dependency-file none) [1153 1183]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1184 1218]) ("DGtal/shapes/Shapes.h" include nil (dependency-file none) [1219 1251]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil (dependency-file none) [1289 1336]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1645 1654]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1655 1668])) :type "int") nil [1635 5089]))
+    :file "viewer3D-4bis-illustrationMode.cpp"
+    :pointmax 5254
+    )
+   (semanticdb-table "viewer3D-7-planes.cpp"
+    :major-mode 'c++-mode
+    :tags '(("cstdlib" include (:system-flag t) (dependency-file none) [1094 1112]) ("iostream" include (:system-flag t) (dependency-file none) [1113 1132]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1133 1164]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1165 1203]) ("DGtal/base/Common.h" include nil (dependency-file none) [1204 1234]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1235 1269]) ("DGtal/geometry/surfaces/COBANaivePlane.h" include nil (dependency-file none) [1270 1321]) ("displayPredicate" function (:template (("Viewer3D" type (:type "class") nil nil) ("Domain" type (:type "class") nil nil) ("Predicate" type (:type "class") nil nil)) :type "void" :arguments (("viewer" variable (:type ("Viewer3D" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1649 1667]) ("domain" variable (:constant-flag t :type ("Domain" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1687 1709]) ("pred" variable (:constant-flag t :type ("Predicate" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1710 1734]))) nil [1560 1909]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1922 1931]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1932 1945])) :type "int") nil [1912 4535]))
+    :file "viewer3D-7-planes.cpp"
+    :pointmax 4696
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

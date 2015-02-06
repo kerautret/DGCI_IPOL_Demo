@@ -1,0 +1,15 @@
+;; Object shapes/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "shapes/"
+  :tables (list 
+   (semanticdb-table "TriangulationFromContour.cpp"
+    :major-mode 'c++-mode
+    :tags '(("DGtal/base/Common.h" include nil (dependency-file none) [1094 1124]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1125 1159]) ("DGtal/shapes/fromPoints/TriangularMeshFrom2DPoints.h" include nil (dependency-file none) [1161 1224]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1225 1261]) ("DGtal/geometry/helpers/ContourHelper.h" include nil (dependency-file none) [1262 1311]) ("DGtal/topology/helpers/Surfaces.h" include nil (dependency-file none) [1312 1356]) ("DGtal/io/readers/PNMReader.h" include nil (dependency-file none) [1358 1397]) ("ConfigExamples.h" include nil (dependency-file none) [1398 1425]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1593 1602]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1603 1616])) :type "int") nil [1583 3804]))
+    :file "TriangulationFromContour.cpp"
+    :pointmax 3966
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

@@ -1,0 +1,27 @@
+;; Object curves/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "curves/"
+  :tables (list 
+   (semanticdb-table "exampleGridCurve2d.cpp"
+    :major-mode 'c++-mode
+    :tags 'nil
+    :file "exampleGridCurve2d.cpp"
+    :pointmax 1
+    )
+   (semanticdb-table "ArithmeticalDSS.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1267 1286]) ("DGtal/base/Common.h" include nil (dependency-file none) [1287 1317]) ("DGtal/geometry/curves/ArithmeticalDSS.h" include nil (dependency-file none) [1399 1449]) ("DGtal/geometry/curves/FreemanChain.h" include nil (dependency-file none) [1450 1497]) ("DGtal/base/BasicTypes.h" include nil (dependency-file none) [1498 1532]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1533 1569]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1570 1604]) ("main" function (:type "int") nil [1753 4770]))
+    :file "ArithmeticalDSS.cpp"
+    :pointmax 4931
+    )
+   (semanticdb-table "exampleArithDSS3d.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1084 1103]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1105 1136]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1137 1175]) ("DGtal/io/boards/Board3DTo2D.h" include nil (dependency-file none) [1176 1216]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil (dependency-file none) [1218 1265]) ("DGtal/io/readers/PointListReader.h" include nil (dependency-file none) [1266 1311]) ("DGtal/io/CDrawableWithDisplay3D.h" include nil (dependency-file none) [1312 1356]) ("DGtal/base/Common.h" include nil (dependency-file none) [1358 1388]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1389 1423]) ("ConfigExamples.h" include nil (dependency-file none) [1424 1451]) ("DGtal/geometry/curves/ArithmeticalDSS3d.h" include nil (dependency-file none) [1453 1505]) ("DGtal/geometry/curves/SaturatedSegmentation.h" include nil (dependency-file none) [1506 1562]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1675 1684]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1685 1698])) :type "int") nil [1665 3799]))
+    :file "exampleArithDSS3d.cpp"
+    :pointmax 3801
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

@@ -1,0 +1,1 @@
+plot "../../Plants/Plant077.sdp" with lines, "frechet.vertices" with lines, "width.vertices" with lines

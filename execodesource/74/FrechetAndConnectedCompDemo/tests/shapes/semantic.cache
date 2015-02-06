@@ -1,0 +1,28 @@
+;; Object shapes/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "shapes/"
+  :tables (list 
+   (semanticdb-table "testTriangularMeshFrom2DPoints.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1073 1092]) ("algorithm" include (:system-flag t) (dependency-file none) [1093 1113]) ("DGtal/base/Common.h" include nil (dependency-file none) [1114 1144]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1145 1179]) ("DGtal/shapes/fromPoints/TriangularMeshFrom2DPoints.h" include nil (dependency-file none) [1180 1243]) ("DGtal/io/Color.h" include nil (dependency-file none) [1244 1271]) ("DGtal/io/colormaps/GradientColorMap.h" include nil (dependency-file none) [1272 1320]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1322 1358]) ("testTriangularMeshFrom2DPointsFct" function (:type "bool") nil [1782 2581]) ("testMeshOnSimpleConstruction" function (:type "bool") nil [2676 4495]) ("testTriangleSwaping" function (:type "bool") nil [4550 6357]) ("testMeshFromDelaunayConstruction" function (:type "bool") nil [6414 9402]) ("testIteratorOnTriangularMesh" function (:type "bool") nil [9446 10021]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [10153 10162]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [10163 10176])) :type "int") nil [10143 11180]))
+    :file "testTriangularMeshFrom2DPoints.cpp"
+    :pointmax 11341
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "testMeshFromPoints.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1049 1068]) ("DGtal/base/Common.h" include nil nil [1069 1099]) ("DGtal/helpers/StdDefs.h" include nil nil [1100 1134]) ("DGtal/shapes/fromPoints/MeshFromPoints.h" include nil nil [1135 1186]) ("testMeshFromPoints" function (:type "bool") nil [1600 2906]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [3031 3040]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [3041 3054])) :type "int") nil [3021 3398]))
+    :file "testMeshFromPoints.cpp"
+    :pointmax 3559
+    )
+   (semanticdb-table "testMeshFromPointsDisplay.cpp"
+    :major-mode 'c++-mode
+    :tags '(("DGtal/base/Common.h" include nil nil [1090 1120]) ("DGtal/helpers/StdDefs.h" include nil nil [1121 1155]) ("DGtal/shapes/fromPoints/MeshFromPoints.h" include nil nil [1156 1207]) ("DGtal/io/viewers/Viewer3D.h" include nil nil [1208 1246]) ("QtGui/qapplication.h" include (:system-flag t) nil [1247 1278]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1803 1812]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1813 1826])) :type "int") nil [1793 3370]))
+    :file "testMeshFromPointsDisplay.cpp"
+    :pointmax 3531
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

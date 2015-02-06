@@ -1,0 +1,22 @@
+;; Object helpers/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "helpers/"
+  :tables (list 
+   (semanticdb-table "ContourHelper.h"
+    :major-mode 'c++-mode
+    :tags '(("ContourHelper_RECURSES" variable (:constant-flag t) nil [1152 1275]) ("ContourHelper_h" variable (:constant-flag t) nil [1260 1371]) ("iostream" include (:system-flag t) nil [1370 1389]) ("DGtal/base/Common.h" include nil nil [1390 1420]) ("DGtal/helpers/StdDefs.h" include nil nil [1421 1455]) ("DGtal" type (:members (("ContourHelper" type (:members (("public" label nil (reparse-symbol classsubparts) [1895 1902]) ("getMeanPoint" function (:prototype-flag t :typemodifiers ("static") :arguments (("contour" variable (:type ("std::vector" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2085 2117])) :type ("Z2i::Point" type (:type "class") nil nil)) (reparse-symbol classsubparts) [2054 2118]) ("public" label nil (reparse-symbol classsubparts) [2204 2211]) ("ContourHelper" function (:prototype-flag t :destructor-flag t :type "void") (reparse-symbol classsubparts) [2252 2269]) ("public" label nil (reparse-symbol classsubparts) [2351 2358]) ("selfDisplay" function (:prototype-flag t :arguments (("out" variable (:type ("std::ostream" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2519 2539])) :type "void") (reparse-symbol classsubparts) [2500 2546]) ("isValid" function (:prototype-flag t :type "bool") (reparse-symbol classsubparts) [2687 2708]) ("private" label nil (reparse-symbol classsubparts) [2790 2798]) ("private" label nil (reparse-symbol classsubparts) [2879 2887]) ("protected" label nil (reparse-symbol classsubparts) [2969 2979]) ("ContourHelper" function (:prototype-flag t :constructor-flag t :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol classsubparts) [3084 3100]) ("private" label nil (reparse-symbol classsubparts) [3102 3110]) ("ContourHelper" function (:prototype-flag t :constructor-flag t :arguments (("other" variable (:constant-flag t :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3243 3272])) :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol classsubparts) [3227 3273]) ("=" function (:prototype-flag t :operator-flag t :arguments (("other" variable (:constant-flag t :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3449 3478])) :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol classsubparts) [3421 3479]) ("private" label nil (reparse-symbol classsubparts) [3561 3569])) :type "class") (reparse-symbol namespacesubparts) [1795 3573]) ("<<" function (:prototype-flag t :operator-flag t :arguments (("out" variable (:type ("std::ostream" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3888 3907]) ("object" variable (:constant-flag t :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3908 3938])) :type ("std::ostream" type (:type "class") nil nil)) (reparse-symbol namespacesubparts) [3861 3939])) :type "namespace") nil [1537 3943]) ("DGtal/geometry/helpers/ContourHelper.ih" include nil nil [4083 4133]))
+    :file "ContourHelper.h"
+    :pointmax 4409
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "ContourHelper.ih"
+    :major-mode 'c++-mode
+    :tags '(("cstdlib" include (:system-flag t) (dependency-file none) [1234 1252]) ("getMeanPoint" function (:parent "DGtal::ContourHelper" :arguments (("contour" variable (:constant-flag t :type ("std::vector" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1560 1606])) :type ("DGtal::Z2i::Point" type (:type "class") nil nil)) nil [1499 1846]) ("isClockwise" function (:parent "DGtal::ContourHelper" :arguments (("contour" variable (:constant-flag t :type ("std::vector" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1898 1937])) :type "bool") nil [1850 2343]) ("<<" function (:operator-flag t :parent "DGtal" :typemodifiers ("inline") :arguments (("out" variable (:type ("std::ostream" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2803 2822]) ("object" variable (:constant-flag t :type ("ContourHelper" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2841 2871])) :type ("std::ostream" type (:type "class") nil nil)) nil [2762 2923]))
+    :file "ContourHelper.ih"
+    :pointmax 3087
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

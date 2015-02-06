@@ -1,0 +1,21 @@
+;; Object tools/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "tools/"
+  :tables (list 
+   (semanticdb-table "testPreimage.cpp"
+    :major-mode 'c++-mode
+    :tags '(("cstdio" include (:system-flag t) (dependency-file none) [1056 1073]) ("cmath" include (:system-flag t) (dependency-file none) [1074 1090]) ("fstream" include (:system-flag t) (dependency-file none) [1091 1109]) ("vector" include (:system-flag t) (dependency-file none) [1110 1127]) ("iostream" include (:system-flag t) (dependency-file none) [1128 1147]) ("sstream" include (:system-flag t) (dependency-file none) [1148 1166]) ("iterator" include (:system-flag t) (dependency-file none) [1167 1186]) ("DGtal/base/Common.h" include nil (dependency-file none) [1191 1221]) ("DGtal/base/Exceptions.h" include nil (dependency-file none) [1222 1256]) ("DGtal/kernel/SpaceND.h" include nil (dependency-file none) [1257 1290]) ("DGtal/kernel/domains/DomainPredicate.h" include nil (dependency-file none) [1291 1340]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil (dependency-file none) [1341 1390]) ("DGtal/topology/KhalimskySpaceND.h" include nil (dependency-file none) [1391 1435]) ("DGtal/geometry/curves/GridCurve.h" include nil (dependency-file none) [1436 1480]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1481 1517]) ("DGtal/shapes/fromPoints/StraightLineFrom2Points.h" include nil (dependency-file none) [1519 1579]) ("DGtal/geometry/tools/Preimage2D.h" include nil (dependency-file none) [1580 1624]) ("ConfigTest.h" include nil (dependency-file none) [1627 1650]) ("main" function (:type "int") nil [1678 2742]))
+    :file "testPreimage.cpp"
+    :pointmax 2743
+    )
+   (semanticdb-table "testSphericalAccumulator.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1117 1136]) ("DGtal/base/Common.h" include nil (dependency-file none) [1137 1167]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1168 1202]) ("DGtal/geometry/tools/SphericalAccumulator.h" include nil (dependency-file none) [1203 1257]) ("testSphericalAccumulator" function (:type "bool") nil [2817 5419]) ("testSphericalMore" function (:type "bool") nil [5421 6463]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [6588 6597]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [6598 6611])) :type "int") nil [6578 7048]))
+    :file "testSphericalAccumulator.cpp"
+    :pointmax 7209
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

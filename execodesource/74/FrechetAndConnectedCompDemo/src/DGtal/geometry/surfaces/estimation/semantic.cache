@@ -1,0 +1,21 @@
+;; Object estimation/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "estimation/"
+  :tables (list 
+   (semanticdb-table "BasicConvolutionWeights.h"
+    :major-mode 'c++-mode
+    :tags '(("BasicConvolutionWeights_RECURSES" variable (:constant-flag t) nil [1263 1416]) ("BasicConvolutionWeights_h" variable (:constant-flag t) nil [1391 1512]) ("iostream" include (:system-flag t) nil [1511 1530]) ("DGtal/base/Common.h" include nil nil [1531 1561]) ("DGtal/kernel/NumberTraits.h" include nil nil [1563 1601]) ("DGtal" type (:members (("ConstantConvolutionWeights" type (:template (("TDistance" type (:type "class") nil nil)) :type "class" :members (("public" label nil (reparse-symbol classsubparts) [2226 2233]) ("Distance" type (:typedef ("TDistance" type (:type "class") nil nil) :superclasses "TDistance" :type "typedef") (reparse-symbol classsubparts) [2261 2288]) ("()" function (:operator-flag t :typemodifiers ("inline") :arguments (("" variable (:constant-flag t :type ("Distance" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [2390 2423])) :type "double") (reparse-symbol classsubparts) [2361 2459]))) (reparse-symbol namespacesubparts) [2075 2464]) ("GaussianConvolutionWeights" type (:template (("TDistance" type (:type "class") nil nil)) :type "class" :members (("public" label nil (reparse-symbol classsubparts) [2955 2962]) ("Distance" type (:typedef ("TDistance" type (:type "class") nil nil) :superclasses "TDistance" :type "typedef") (reparse-symbol classsubparts) [3016 3043]) ("GaussianConvolutionWeights" function (:constructor-flag t :arguments (("sigma" variable (:constant-flag t :type "double") (reparse-symbol arg-sub-list) [3166 3185])) :type ("GaussianConvolutionWeights" type (:type "class") nil nil)) (reparse-symbol classsubparts) [3139 3292]) ("()" function (:operator-flag t :typemodifiers ("inline") :arguments (("aDisplacment" variable (:constant-flag t :type ("Distance" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3518 3547])) :type "double") (reparse-symbol classsubparts) [3489 3711]) ("mySigma" variable (:type "double") (reparse-symbol classsubparts) [3747 3762]) ("myCoef" variable (:type "double") (reparse-symbol classsubparts) [3803 3817]) ("myCoef2" variable (:type "double") (reparse-symbol classsubparts) [3822 3837]))) (reparse-symbol namespacesubparts) [2804 3842])) :type "namespace") nil [1682 3848]))
+    :file "BasicConvolutionWeights.h"
+    :pointmax 4093
+    )
+   (semanticdb-table "CConvolutionWeights.h"
+    :major-mode 'c++-mode
+    :tags '(("CConvolutionWeights_RECURSES" variable (:constant-flag t) nil [1243 1384]) ("CConvolutionWeights_h" variable (:constant-flag t) nil [1363 1480]) ("iostream" include (:system-flag t) nil [1479 1498]) ("DGtal/base/Common.h" include nil nil [1499 1529]) ("DGtal" type (:members (("CConvolutionWeights" type (:template (("T" type (:type "class") nil nil)) :type "struct" :members (("public" label nil (reparse-symbol classsubparts) [3826 3833]) ("Distance" type (:typedef ("T::Distance" type (:type "class") nil nil) :superclasses "T::Distance" :type "typedef") (reparse-symbol classsubparts) [3856 3894]) ("BOOST_CONCEPT_USAGE" function (:arguments (("" variable (:type ("CConvolutionWeights" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3999 4020])) :type "int") (reparse-symbol classsubparts) [3978 4082]) ("private" label nil (reparse-symbol classsubparts) [4166 4174]) ("myX" variable (:type ("T" type (:type "class") nil nil)) (reparse-symbol classsubparts) [4179 4185]) ("myA" variable (:type ("Distance" type (:type "class") nil nil)) (reparse-symbol classsubparts) [4239 4252]) ("myB" variable (:type "double") (reparse-symbol classsubparts) [4257 4268]) ("private" label nil (reparse-symbol classsubparts) [4352 4360])) :superclasses (("boost::CopyConstructible") "boost::Assignable")) (reparse-symbol namespacesubparts) [3414 4366])) :type "namespace") nil [1610 4407]))
+    :file "CConvolutionWeights.h"
+    :pointmax 4720
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

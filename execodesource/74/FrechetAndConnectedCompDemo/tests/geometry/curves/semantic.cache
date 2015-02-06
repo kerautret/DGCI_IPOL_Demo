@@ -1,0 +1,22 @@
+;; Object curves/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "curves/"
+  :tables (list 
+   (semanticdb-table "testFrechetShortcut.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1103 1122]) ("iterator" include (:system-flag t) nil [1123 1142]) ("cstdio" include (:system-flag t) nil [1143 1160]) ("cmath" include (:system-flag t) nil [1161 1177]) ("fstream" include (:system-flag t) nil [1178 1196]) ("vector" include (:system-flag t) nil [1197 1214]) ("DGtal/base/Common.h" include nil nil [1216 1246]) ("DGtal/base/Exceptions.h" include nil nil [1247 1281]) ("DGtal/kernel/SpaceND.h" include nil nil [1282 1315]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil nil [1317 1366]) ("DGtal/geometry/curves/FrechetShortcut.h" include nil nil [1367 1417]) ("DGtal/io/boards/Board2D.h" include nil nil [1418 1454]) ("DGtal/io/boards/CDrawableWithBoard2D.h" include nil nil [1456 1505]) ("DGtal/geometry/curves/CForwardSegmentComputer.h" include nil nil [1506 1564]) ("DGtal/helpers/StdDefs.h" include nil nil [1565 1599]) ("DGtal/geometry/curves/GreedySegmentation.h" include nil nil [1601 1654]) ("testFrechetShortcut" function (:type "bool") nil [2088 3317]) ("testFrechetShortcutConceptChecking" function (:type "void") nil [3321 3643]) ("testSegmentation" function (:type "bool") nil [3645 5987]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [6116 6125]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [6126 6139])) :type "int") nil [6106 6548]))
+    :file "testFrechetShortcut.cpp"
+    :pointmax 6709
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "testFreemanChain.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1041 1060]) ("fstream" include (:system-flag t) nil [1061 1079]) ("sstream" include (:system-flag t) nil [1080 1098]) ("boost/program_options.hpp" include (:system-flag t) nil [1099 1135]) ("DGtal/kernel/SpaceND.h" include nil nil [1136 1169]) ("DGtal/base/Common.h" include nil nil [1170 1200]) ("DGtal/helpers/StdDefs.h" include nil nil [1201 1235]) ("DGtal/geometry/curves/FreemanChain.h" include nil nil [1236 1283]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil nil [1284 1333]) ("DGtal/io/boards/Board2D.h" include nil nil [1334 1370]) ("ConfigTest.h" include nil nil [1371 1394]) ("Space2Type" type (:typedef ("SpaceND" type (:type "class") nil nil) :superclasses "SpaceND" :type "typedef") nil [1753 1783]) ("Domain2D" type (:typedef ("HyperRectDomain" type (:type "class") nil nil) :superclasses "HyperRectDomain" :type "typedef") nil [1784 1829]) ("testConstructors" function (:type "bool") nil [1861 3472]) ("testPublicSercives" function (:type "bool") nil [3508 7383]) ("testPointsIterators" function (:type "bool") nil [7414 8585]) ("testCodesIterators" function (:type "bool") nil [8619 9859]) ("testStaticServices" function (:type "bool") nil [9893 18317]) ("testDisplay" function (:type "bool") nil [18347 19718]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [19847 19856]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [19857 19870])) :type "int") nil [19837 20549]))
+    :file "testFreemanChain.cpp"
+    :pointmax 20710
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

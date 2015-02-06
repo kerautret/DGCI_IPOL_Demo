@@ -1,0 +1,13 @@
+/**
+* @file   ConfigDemoIPOL.h
+* @author Bertrand Kerautret <kerautre@loria.fr>
+* @date   31 Jul. 2012
+* @brief  Configuration header for demoIPOL files. 
+*
+**/
+
+#include <string>
+
+///Path to the DGtal demoIPOL suite.
+const std::string demoIPOLPath= "@PROJECT_SOURCE_DIR@/demoIPOL_ExtrConnectedReg/";
+

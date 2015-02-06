@@ -1,0 +1,36 @@
+;; Object readers/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "readers/"
+  :tables (list 
+   (semanticdb-table "testPNMReader.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1035 1054]) ("DGtal/base/Common.h" include nil nil [1055 1085]) ("DGtal/helpers/StdDefs.h" include nil nil [1086 1120]) ("DGtal/io/boards/Board2D.h" include nil nil [1121 1157]) ("DGtal/io/readers/PNMReader.h" include nil nil [1158 1197]) ("DGtal/images/ImageSelector.h" include nil nil [1198 1237]) ("DGtal/images/imagesSetsUtils/SetFromImage.h" include nil nil [1238 1292]) ("ConfigTest.h" include nil nil [1293 1316]) ("testPNMReader" function (:type "bool") nil [1696 2476]) ("testPNM3DReader" function (:type "bool") nil [2527 3129]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [3254 3263]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [3264 3277])) :type "int") nil [3244 3632]))
+    :file "testPNMReader.cpp"
+    :pointmax 3793
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "testPointListReader.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1047 1066]) ("DGtal/base/Common.h" include nil (dependency-file none) [1067 1097]) ("DGtal/io/readers/PointListReader.h" include nil (dependency-file none) [1098 1143]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1144 1178]) ("DGtal/geometry/curves/FreemanChain.h" include nil (dependency-file none) [1179 1226]) ("ConfigTest.h" include nil (dependency-file none) [1229 1252]) ("testPointListReader" function (:type "bool") nil [1639 2828]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [2953 2962]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [2963 2976])) :type "int") nil [2943 3327]))
+    :file "testPointListReader.cpp"
+    :pointmax 3488
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "testMeshReader.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1037 1056]) ("DGtal/base/Common.h" include nil (dependency-file none) [1057 1087]) ("DGtal/shapes/fromPoints/MeshFromPoints.h" include nil (dependency-file none) [1116 1167]) ("DGtal/io/readers/MeshReader.h" include nil (dependency-file none) [1168 1208]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1237 1271]) ("ConfigTest.h" include nil (dependency-file none) [1273 1296]) ("Point3D" type (:members (("[]" function (:operator-flag t :constant-flag t :arguments (("i" variable (:type "unsigned int") (reparse-symbol arg-sub-list) [1473 1489])) :type "double") (reparse-symbol classsubparts) [1446 1625]) ("[]" function (:operator-flag t :arguments (("i" variable (:type "unsigned int") (reparse-symbol arg-sub-list) [1652 1668])) :type "double") (reparse-symbol classsubparts) [1631 1799]) ("x" variable (:type "double") (reparse-symbol classsubparts) [1806 1821]) ("y" variable (:type "double") (reparse-symbol classsubparts) [1806 1821]) ("z" variable (:type "double") (reparse-symbol classsubparts) [1806 1821])) :type "struct") nil [1426 1824]) ("Point" type (:typedef ("Point3D" type (:type "class") nil nil) :superclasses "Point3D" :type "typedef") nil [1827 1849]) ("testMeshReader" function (:type "bool") nil [2112 3341]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [3466 3475]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [3476 3489])) :type "int") nil [3456 3825]))
+    :file "testMeshReader.cpp"
+    :pointmax 3986
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "testVolReader.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1095 1114]) ("DGtal/base/Common.h" include nil (dependency-file none) [1115 1145]) ("DGtal/kernel/SpaceND.h" include nil (dependency-file none) [1146 1179]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil (dependency-file none) [1180 1229]) ("DGtal/images/ImageSelector.h" include nil (dependency-file none) [1230 1269]) ("DGtal/io/readers/VolReader.h" include nil (dependency-file none) [1270 1309]) ("DGtal/io/colormaps/HueShadeColorMap.h" include nil (dependency-file none) [1310 1358]) ("DGtal/io/colormaps/GrayscaleColorMap.h" include nil (dependency-file none) [1359 1408]) ("DGtal/io/colormaps/GradientColorMap.h" include nil (dependency-file none) [1409 1457]) ("DGtal/io/colormaps/ColorBrightnessColorMap.h" include nil (dependency-file none) [1458 1513]) ("DGtal/io/writers/VolWriter.h" include nil (dependency-file none) [1514 1553]) ("ConfigTest.h" include nil (dependency-file none) [1555 1578]) ("testVolReader" function (:type "bool") nil [1958 3104]) ("testIOException" function (:type "bool") nil [3107 3879]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [4004 4013]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [4014 4027])) :type "int") nil [3994 4382]))
+    :file "testVolReader.cpp"
+    :pointmax 4543
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

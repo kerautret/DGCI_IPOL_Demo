@@ -1,0 +1,15 @@
+;; Object viewers/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "viewers/"
+  :tables (list 
+   (semanticdb-table "testViewer3D.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1033 1052]) ("QtGui/qapplication.h" include (:system-flag t) nil [1053 1084]) ("DGtal/io/viewers/Viewer3D.h" include nil nil [1085 1123]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil nil [1124 1171]) ("DGtal/io/Color.h" include nil nil [1172 1199]) ("DGtal/base/Common.h" include nil nil [1200 1230]) ("DGtal/helpers/StdDefs.h" include nil nil [1231 1265]) ("DGtal/shapes/Shapes.h" include nil nil [1266 1298]) ("testViewer3D" function (:type "bool") nil [1697 1983]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [2108 2117]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [2118 2131])) :type "int") nil [2098 4000]))
+    :file "testViewer3D.cpp"
+    :pointmax 4162
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

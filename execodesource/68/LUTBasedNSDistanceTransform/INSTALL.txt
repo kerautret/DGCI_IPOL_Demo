@@ -1,0 +1,15 @@
+How to build
+------------
+
+LUTBasedNSDistanceTransform uses the cmake make system. From the command line
+terminal, simply do:
+
+    mkdir build
+    cd build
+    cmake ..
+    make
+
+
+You can choose the lib you want to use to import/export images, for instance if you want use the PNG library, from the build directory just write:
+cmake .. -DWITH_PNG=true -DWITH_NETPBM=false
+

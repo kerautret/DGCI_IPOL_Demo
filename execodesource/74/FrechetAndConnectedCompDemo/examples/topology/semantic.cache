@@ -1,0 +1,41 @@
+;; Object topology/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "topology/"
+  :tables (list 
+   (semanticdb-table "trackImplicitPolynomialSurfaceToOFF.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1184 1203]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1204 1238]) ("DGtal/topology/helpers/Surfaces.h" include nil (dependency-file none) [1239 1283]) ("DGtal/topology/DigitalSurface.h" include nil (dependency-file none) [1284 1326]) ("DGtal/topology/SetOfSurfels.h" include nil (dependency-file none) [1327 1367]) ("DGtal/math/MPolynomial.h" include nil (dependency-file none) [1368 1403]) ("DGtal/shapes/GaussDigitizer.h" include nil (dependency-file none) [1404 1444]) ("DGtal/shapes/implicit/ImplicitPolynomial3Shape.h" include nil (dependency-file none) [1445 1504]) ("DGtal/shapes/implicit/ImplicitFunctionDiff1LinearCellEmbedder.h" include nil (dependency-file none) [1505 1579]) ("DGtal/io/readers/MPolynomialReader.h" include nil (dependency-file none) [1580 1627]) ("usage" function (:arguments (("" variable (:type "int") (reparse-symbol arg-sub-list) [1926 1939]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1940 1953])) :type "void") nil [1914 2494]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [2506 2515]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [2516 2529])) :type "int") nil [2496 7631]))
+    :file "trackImplicitPolynomialSurfaceToOFF.cpp"
+    :pointmax 7632
+    )
+   (semanticdb-table "3dBorderExtraction.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1046 1065]) ("DGtal/base/Common.h" include nil (dependency-file none) [1066 1096]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1097 1128]) ("DGtal/base/Common.h" include nil (dependency-file none) [1129 1159]) ("DGtal/io/readers/VolReader.h" include nil (dependency-file none) [1160 1199]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1200 1238]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil (dependency-file none) [1239 1286]) ("DGtal/io/Color.h" include nil (dependency-file none) [1287 1314]) ("DGtal/images/ImageSelector.h" include nil (dependency-file none) [1315 1354]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1355 1389]) ("ConfigExamples.h" include nil (dependency-file none) [1390 1417]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1637 1646]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1647 1660])) :type "int") nil [1627 3119]))
+    :file "3dBorderExtraction.cpp"
+    :pointmax 3280
+    )
+   (semanticdb-table "3dKSSurfaceExtraction.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1052 1071]) ("DGtal/base/Common.h" include nil (dependency-file none) [1072 1102]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1104 1135]) ("DGtal/base/Common.h" include nil (dependency-file none) [1136 1166]) ("DGtal/io/readers/VolReader.h" include nil (dependency-file none) [1167 1206]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1207 1245]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil (dependency-file none) [1246 1293]) ("DGtal/io/Color.h" include nil (dependency-file none) [1294 1321]) ("DGtal/images/ImageSelector.h" include nil (dependency-file none) [1323 1362]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1363 1397]) ("ConfigExamples.h" include nil (dependency-file none) [1398 1425]) ("DGtal/io/Color.h" include nil (dependency-file none) [1426 1453]) ("DGtal/io/colormaps/GradientColorMap.h" include nil (dependency-file none) [1454 1502]) ("DGtal/topology/KhalimskySpaceND.h" include nil (dependency-file none) [1503 1547]) ("DGtal/topology/helpers/Surfaces.h" include nil (dependency-file none) [1548 1592]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1833 1842]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1843 1856])) :type "int") nil [1823 4262]))
+    :file "3dKSSurfaceExtraction.cpp"
+    :pointmax 4423
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "3dBorderExtractionImg.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1046 1065]) ("DGtal/base/Common.h" include nil (dependency-file none) [1066 1096]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1097 1128]) ("DGtal/base/Common.h" include nil (dependency-file none) [1129 1159]) ("DGtal/io/readers/VolReader.h" include nil (dependency-file none) [1160 1199]) ("DGtal/images/ImageSelector.h" include nil (dependency-file none) [1200 1239]) ("DGtal/images/imagesSetsUtils/SetFromImage.h" include nil (dependency-file none) [1240 1294]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1296 1334]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1335 1369]) ("ConfigExamples.h" include nil (dependency-file none) [1370 1397]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1617 1626]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1627 1640])) :type "int") nil [1607 2524]))
+    :file "3dBorderExtractionImg.cpp"
+    :pointmax 2685
+    )
+   (semanticdb-table "ctopo-2-3d.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1030 1049]) ("DGtal/base/Common.h" include nil (dependency-file none) [1050 1080]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1082 1116]) ("QtGui/qapplication.h" include (:system-flag t) (dependency-file none) [1117 1148]) ("DGtal/topology/KhalimskySpaceND.h" include nil (dependency-file none) [1149 1193]) ("DGtal/topology/helpers/Surfaces.h" include nil (dependency-file none) [1194 1238]) ("DGtal/io/viewers/Viewer3D.h" include nil (dependency-file none) [1240 1278]) ("DGtal/io/readers/VolReader.h" include nil (dependency-file none) [1279 1318]) ("DGtal/io/DrawWithDisplay3DModifier.h" include nil (dependency-file none) [1319 1366]) ("DGtal/images/ImageSelector.h" include nil (dependency-file none) [1367 1406]) ("DGtal/images/imagesSetsUtils/SetFromImage.h" include nil (dependency-file none) [1407 1461]) ("DGtal/io/Color.h" include nil (dependency-file none) [1462 1489]) ("DGtal/io/colormaps/GradientColorMap.h" include nil (dependency-file none) [1490 1538]) ("ConfigExamples.h" include nil (dependency-file none) [1540 1567]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1784 1793]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1794 1807])) :type "int") nil [1774 5304]))
+    :file "ctopo-2-3d.cpp"
+    :pointmax 5465
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

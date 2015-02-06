@@ -1,0 +1,15 @@
+;; Object io/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "io/"
+  :tables (list 
+     (semanticdb-table "testSimpleBoard.cpp"
+    :major-mode 'c++-mode
+    :tags '(("DGtal/base/Common.h" include nil (dependency-file none) [1058 1088]) ("DGtal/kernel/PointVector.h" include nil (dependency-file none) [1089 1126]) ("DGtal/kernel/SpaceND.h" include nil (dependency-file none) [1127 1160]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil (dependency-file none) [1161 1210]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1211 1247]) ("testSimpleBoard" function (:type "bool") nil [1657 2634]) ("testDomain" function (:type "bool") nil [2636 3389]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [3514 3523]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [3524 3537])) :type "int") nil [3504 3891]))
+    :file "testSimpleBoard.cpp"
+    :pointmax 4052
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

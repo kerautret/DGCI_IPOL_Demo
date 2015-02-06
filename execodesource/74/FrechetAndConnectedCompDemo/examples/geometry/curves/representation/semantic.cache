@@ -1,0 +1,33 @@
+;; Object representation/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "representation/"
+  :tables (list 
+   (semanticdb-table "freemanChainDisplay.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1071 1090]) ("fstream" include (:system-flag t) nil [1091 1109]) ("DGtal/base/Common.h" include nil nil [1110 1140]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil nil [1223 1272]) ("DGtal/images/ImageSelector.h" include nil nil [1273 1312]) ("DGtal/kernel/SpaceND.h" include nil nil [1313 1346]) ("DGtal/base/BasicTypes.h" include nil nil [1347 1381]) ("DGtal/geometry/curves/representation/FreemanChain.h" include nil nil [1382 1444]) ("DGtal/io/readers/MagickReader.h" include nil nil [1445 1487]) ("DGtal/io/boards/Board2D.h" include nil nil [1488 1524]) ("DGtal/helpers/StdDefs.h" include nil nil [1525 1559]) ("ConfigExamples.h" include nil nil [1563 1590]) ("main" function (:type "int") nil [1742 2910]))
+    :file "freemanChainDisplay.cpp"
+    :pointmax 3071
+    )
+   (semanticdb-table "exampleGeometricalDSS.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1157 1176]) ("DGtal/base/Common.h" include nil nil [1178 1208]) ("DGtal/helpers/StdDefs.h" include nil nil [1209 1243]) ("ConfigExamples.h" include nil nil [1244 1271]) ("DGtal/geometry/curves/representation/GeometricalDSS.h" include nil nil [1273 1337]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1578 1587]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1588 1601])) :type "int") nil [1568 2452]))
+    :file "exampleGeometricalDSS.cpp"
+    :pointmax 2613
+    )
+   (semanticdb-table "ArithmeticalDSS.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) nil [1267 1286]) ("DGtal/base/Common.h" include nil nil [1287 1317]) ("DGtal/geometry/curves/representation/ArithmeticalDSS.h" include nil nil [1399 1464]) ("DGtal/geometry/curves/representation/FreemanChain.h" include nil nil [1465 1527]) ("DGtal/base/BasicTypes.h" include nil nil [1528 1562]) ("DGtal/io/boards/Board2D.h" include nil nil [1563 1599]) ("DGtal/helpers/StdDefs.h" include nil nil [1600 1634]) ("DGtal/io/Color.h" include nil nil [1635 1662]) ("main" function (:type "int") nil [1810 4964]))
+    :file "ArithmeticalDSS.cpp"
+    :pointmax 5125
+    )
+   (semanticdb-table "exampleGridCurve2d.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1106 1125]) ("DGtal/base/Common.h" include nil (dependency-file none) [1127 1157]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1158 1192]) ("ConfigExamples.h" include nil (dependency-file none) [1193 1220]) ("DGtal/geometry/curves/FreemanChain.h" include nil (dependency-file none) [1222 1269]) ("DGtal/geometry/curves/GridCurve.h" include nil (dependency-file none) [1270 1314]) ("DGtal/topology/helpers/Surfaces.h" include nil (dependency-file none) [1316 1360]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1361 1397]) ("displayAll" function (:template (("CI" type (:type "class") nil nil)) :type "void" :arguments (("ciBegin" variable (:constant-flag t :type ("CI" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1708 1726]) ("ciEnd" variable (:constant-flag t :type ("CI" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1727 1744]))) nil [1668 1954]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [2087 2096]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [2097 2110])) :type "int") nil [2077 7739]))
+    :file "exampleGridCurve2d.cpp"
+    :pointmax 7900
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

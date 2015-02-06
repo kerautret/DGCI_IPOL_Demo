@@ -1,0 +1,23 @@
+;; Object images/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "images/"
+  :tables (list 
+   (semanticdb-table "CImage.h"
+    :major-mode 'c++-mode
+    :tags '(("CImageRECURSES" variable (:constant-flag t) nil [1308 1409]) ("CImage_h" variable (:constant-flag t) nil [1401 1412]) ("boost/concept_check.hpp" include (:system-flag t) nil [1411 1445]) ("boost/concept/assert.hpp" include (:system-flag t) nil [1446 1481]) ("boost/concept/requires.hpp" include (:system-flag t) nil [1482 1519]) ("DGtal/kernel/domains/CDomain.h" include nil nil [1521 1562]) ("DGtal/images/CConstImage.h" include nil nil [1563 1600]) ("DGtal/base/CConstBidirectionalRangeFromPoint.h" include nil nil [1601 1658]) ("DGtal/base/CBidirectionalOutputRangeFromPoint.h" include nil nil [1659 1717]) ("DGtal/images/CTrivialImage.h" include nil nil [1718 1757]) ("DGtal" type (:members (("CImage" type (:template (("I" type (:type "class") nil nil)) :type "struct" :members (("public" label nil (reparse-symbol classsubparts) [3395 3402]) ("Range" type (:typedef ("I::Range" type (:type "class") nil nil) :superclasses "I::Range" :type "typedef") (reparse-symbol classsubparts) [3408 3440]) ("BOOST_CONCEPT_ASSERT" function (:prototype-flag t :type "int") (reparse-symbol classsubparts) [3445 3510]) ("BOOST_CONCEPT_ASSERT" function (:prototype-flag t :type "int") (reparse-symbol classsubparts) [3515 3604]) ("public" label nil (reparse-symbol classsubparts) [3606 3613]) ("BOOST_CONCEPT_USAGE" function (:arguments (("" variable (:type ("CImage" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [3639 3646])) :type "int") (reparse-symbol classsubparts) [3619 3709]) ("private" label nil (reparse-symbol classsubparts) [3711 3719]) ("myI" variable (:type ("I" type (:type "class") nil nil)) (reparse-symbol classsubparts) [3725 3731]) ("myR" variable (:type ("Range" type (:type "class") nil nil)) (reparse-symbol classsubparts) [3736 3746])) :superclasses (("CConstImage") "CTrivialImage")) (reparse-symbol namespacesubparts) [3322 3750])) :type "namespace") nil [1759 3752]))
+    :file "CImage.h"
+    :pointmax 4024
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "CConstImage.h"
+    :major-mode 'c++-mode
+    :tags '(("CConstImageRECURSES" variable (:constant-flag t) nil [1156 1272]) ("CConstImage_h" variable (:constant-flag t) nil [1259 1275]) ("boost/concept_check.hpp" include (:system-flag t) nil [1274 1308]) ("boost/concept/assert.hpp" include (:system-flag t) nil [1309 1344]) ("boost/concept/requires.hpp" include (:system-flag t) nil [1345 1382]) ("DGtal/kernel/CPointFunctor.h" include nil nil [1384 1423]) ("DGtal/kernel/domains/CDomain.h" include nil nil [1424 1465]) ("DGtal/base/CConstBidirectionalRangeFromPoint.h" include nil nil [1466 1523]) ("DGtal/base/CLabel.h" include nil nil [1524 1554]) ("DGtal/images/CTrivialConstImage.h" include nil nil [1555 1599]) ("DGtal" type (:members (("CConstImage" type (:template (("I" type (:type "class") nil nil)) :type "struct" :members (("public" label nil (reparse-symbol classsubparts) [3924 3931]) ("Domain" type (:typedef ("I::Domain" type (:type "class") nil nil) :superclasses "I::Domain" :type "typedef") (reparse-symbol classsubparts) [3955 3989]) ("BOOST_CONCEPT_ASSERT" function (:prototype-flag t :type "int") (reparse-symbol classsubparts) [3994 4034]) ("ConstRange" type (:typedef ("I::ConstRange" type (:type "class") nil nil) :superclasses "I::ConstRange" :type "typedef") (reparse-symbol classsubparts) [4040 4082]) ("BOOST_CONCEPT_ASSERT" function (:prototype-flag t :type "int") (reparse-symbol classsubparts) [4087 4157]) ("BOOST_CONCEPT_USAGE" function (:arguments (("" variable (:type ("CConstImage" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [4183 4195])) :type "int") (reparse-symbol classsubparts) [4163 4301]) ("private" label nil (reparse-symbol classsubparts) [4305 4313]) ("i" variable (:type ("I" type (:type "class") nil nil)) (reparse-symbol classsubparts) [4318 4322]) ("d" variable (:type ("Domain" type (:type "class") nil nil)) (reparse-symbol classsubparts) [4327 4336]) ("r" variable (:type ("ConstRange" type (:type "class") nil nil)) (reparse-symbol classsubparts) [4341 4354])) :superclasses ("CTrivialConstImage")) (reparse-symbol namespacesubparts) [3851 4360])) :type "namespace") nil [1601 4362]))
+    :file "CConstImage.h"
+    :pointmax 4649
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

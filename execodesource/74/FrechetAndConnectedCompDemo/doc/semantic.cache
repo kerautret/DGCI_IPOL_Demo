@@ -1,0 +1,34 @@
+;; Object doc/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "doc/"
+  :tables (list 
+   (semanticdb-table "tutoImageGridCurveExtraction.dox"
+    :major-mode 'c++-mode
+    :tags '(("DGtal" type (:type "namespace") nil [433 5583]))
+    :file "tutoImageGridCurveExtraction.dox"
+    :pointmax 5589
+    )
+   (semanticdb-table "moduleIO.dox"
+    :major-mode 'c++-mode
+    :tags '(("DGtal" type (:type "namespace") nil [70 4621]))
+    :file "moduleIO.dox"
+    :pointmax 7483
+    )
+   (semanticdb-table "moduleImages.dox"
+    :major-mode 'c++-mode
+    :tags '(("DGtal" type (:type "namespace") nil [342 10411]))
+    :file "moduleImages.dox"
+    :pointmax 10415
+    )
+   (semanticdb-table "moduleDisplay3D.dox"
+    :major-mode 'c++-mode
+    :tags '(("DGtal" type (:members (("ClippingPlane" function (:prototype-flag t :arguments (("" variable (:type ("false" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [12391 12397])) :type "int") (reparse-symbol namespacesubparts) [12364 12398])) :type "namespace") nil [71 13390]))
+    :file "moduleDisplay3D.dox"
+    :pointmax 13393
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

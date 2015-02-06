@@ -1,0 +1,75 @@
+/**
+  \file GJK_nD.dox
+  \author Laurent Provot <\c provot.research@gmail.com>
+
+\mainpage GJK_nD
+ 
+\section Introduction
+
+GJK_nD is an implementation of a variation of the GJK algorithm that allows
+us to separate 3 sets of points with a couple of parallel hyperplanes.
+We use this method to decompose the border of binary object into a set of
+Digital Level Layers (DLL for short). A DLL is a new kind of digital primitive
+that generalizes the digital analytical hyperplanes by considering non linear
+underlying models (see the "Digital Level Layers for Digital Curve
+Decomposition and Vectorization" IPOL page for a detailed description).
+
+
+\section Contents
+
+The program is coded in C++ and divided into 3 parts:
+- The core algortihm which is the GJKnD implementation,
+- The DLL related classes (DLL::Segment, DLL::Circle, DLL::StraightLine,
+  DLL::Conic) for the decomposition into DLL segments,
+- Some image processing utilities (Utils::Array2D, Utils::BoundariesExtractor,
+  Utils::GreedyDecomposition, utils files).
+
+The source code's archive also contains a version of:
+- the Eigen library, for linear algebra (http://eigen.tuxfamily.org/),
+- TCLAP, for command line parsing (http://tclap.sourceforge.net/)
+- png++, a handy C++ wrapper for libpng
+  (http://savannah.nongnu.org/projects/pngpp/).
+
+These are pure template libraries that require no external dependencies (expect
+png++ which requires libpng, but this library is available on IPOL servers).
+
+\section Compiling
+
+The program can easily be compiled with CMake. Just create a build directory
+and cd into (for out-of-source compilation). Then run:
+
+\code
+cmake ..
+make
+\endcode
+
+The executable are created in the src directory.
+
+
+\section Intro_GJK_nD Program usage
+
+The executable, called \c dll_decomposition, takes two parameters:
+-# the underlying DLL models to be used during the decomposition process,
+-# a PNG image to work on.
+
+We provide an implementation for three models: \c StraightLine, \c Circle and
+\c Conic. You can specify which model is used for the decomposition through the
+\c --dll-model (\c -d) command line option. If no model is given,
+a decomposition is computed for each DLL model. For instance:
+\code
+./dll_decomposition --dll-model Conic myimage.png
+\endcode
+will compute the decomposition of each objects boundaries into Conic DLL
+segments. The result is a PNG image named \c Conic_out_myimage.png.
+
+To compute two decompositions (one with the StraightLine DLL model and one with
+the Circle DLL model) you can use the following command:
+\code
+./dll_decomposition -d StraightLine -d Circle myimage.png
+\endcode
+The result is two images named \c StraightLine_out_myimage.png and
+\c Conic_out_myimage.png.
+
+A \c --verbose switch (\c -v) is also available to print the DLL inequations on
+the terminal standard output.
+ */

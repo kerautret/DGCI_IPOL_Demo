@@ -1,0 +1,21 @@
+;; Object arithmetic/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "arithmetic/"
+  :tables (list 
+   (semanticdb-table "fraction.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [425 444]) ("DGtal/math/arithmetic/LighterSternBrocot.h" include nil (dependency-file none) [445 498]) ("usage" function (:arguments (("" variable (:type "int") (reparse-symbol arg-sub-list) [727 731]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [732 745])) :type "void") nil [715 936]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [964 973]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [974 987])) :type "int") nil [954 1908]))
+    :file "fraction.cpp"
+    :pointmax 1910
+    )
+   (semanticdb-table "approximation.cpp"
+    :major-mode 'c++-mode
+    :tags '(("cstdlib" include (:system-flag t) (dependency-file none) [440 458]) ("cmath" include (:system-flag t) (dependency-file none) [459 475]) ("iostream" include (:system-flag t) (dependency-file none) [476 495]) ("iomanip" include (:system-flag t) (dependency-file none) [496 514]) ("DGtal/math/arithmetic/LighterSternBrocot.h" include nil (dependency-file none) [515 568]) ("usage" function (:arguments (("" variable (:type "int") (reparse-symbol arg-sub-list) [802 806]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [807 820])) :type "void") nil [790 1033]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1061 1070]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1071 1084])) :type "int") nil [1051 2674]))
+    :file "approximation.cpp"
+    :pointmax 2676
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

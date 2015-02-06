@@ -1,0 +1,241 @@
+/**
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
+/**
+ * @file MeshWriter.ih
+ * @author Bertrand Kerautret (\c kerautre@loria.fr )
+ * LORIA (CNRS, UMR 7503), University of Nancy, France
+ *
+ *
+ * @date 2012/07/08
+ *
+ * Implementation of inline methods defined in MeshWriter.h
+ *
+ * This file is part of the DGtal library.
+ */
+
+
+//////////////////////////////////////////////////////////////////////////////
+#include <cstdlib>
+#include <fstream>
+#include <set>
+#include <map>
+#include "DGtal/io/Color.h"
+//////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+// IMPLEMENTATION of inline methods.
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+template<typename TPoint>
+inline
+bool 
+DGtal::MeshWriter<TPoint>::export2OFF(std::ostream & out, 
+                                      const  DGtal::MeshFromPoints<TPoint> & aMesh, bool exportColor) throw(DGtal::IOException){
+  DGtal::IOException dgtalio;
+  try
+    {
+      out << "OFF"<< std::endl;
+      out << "# generated from MeshWriter from the DGTal library"<< std::endl;
+      out << aMesh.nbVertex()  << " " << aMesh.nbFaces() << " " << 0 << " " << std::endl;
+	
+      for(unsigned int i=0; i< aMesh.nbVertex(); i++){
+	out << aMesh.getVertex(i)[0] << " " << aMesh.getVertex(i)[1] << " "<< aMesh.getVertex(i)[2] << std::endl;	
+      }
+
+      for (unsigned int i=0; i< aMesh.nbFaces(); i++){
+        std::vector<unsigned int>  aFace = aMesh.getFace(i);
+	out << aFace.size() << " " ;
+	for(unsigned int j=0; j<aFace.size(); j++){
+	  unsigned int indexVertex = aFace.at(j);
+	  out << indexVertex << " " ;	    
+	}
+	DGtal::Color col = aMesh.getFaceColor(i);
+	if(exportColor){
+	  out << " ";
+ 	  out << ((double) col.red())/255.0 << " "
+	      << ((double) col.green())/255.0 << " "<< ((double) col.blue())/255.0 
+	      << " " << ((double) col.alpha())/255.0 ;
+	}  
+	out << std::endl;
+      }
+    }catch( ... )
+    {
+      trace.error() << "OFF writer IO error on export " << std::endl;
+      throw dgtalio;
+    }        
+  
+  return true;
+}
+
+template<typename TPoint>
+inline
+bool 
+DGtal::MeshWriter<TPoint>::export2OBJ(std::ostream &out, 
+                                      const  DGtal::MeshFromPoints<TPoint> & aMesh) throw(DGtal::IOException){
+  DGtal::IOException dgtalio;
+  try
+    {
+      out << "#  OBJ format"<< std::endl;
+      out << "# generated from MeshWriter from the DGTal library"<< std::endl;
+      out << std::endl;
+      out << "o anObj" << std::endl;
+      out << std::endl;
+      
+      // processing vertex
+      for(unsigned int i=0; i< aMesh.nbVertex(); i++){
+	out << "v " << aMesh.getVertex(i)[0] << " " << aMesh.getVertex(i)[1] << " "<< aMesh.getVertex(i)[2] << std::endl;	
+      }
+      out << std::endl;
+      // processing faces:
+      for (unsigned int i=0; i< aMesh.nbFaces(); i++){
+        std::vector<unsigned int>  aFace = aMesh.getFace(i);
+	out << "f " ;
+	for(unsigned int j=0; j<aFace.size(); j++){
+	  unsigned int indexVertex = aFace.at(j);
+	  out << (indexVertex+1) << " " ;	    
+	}
+	out << std::endl;
+      }
+      out << std::endl;
+    }catch( ... )
+    {
+      trace.error() << "OBJ writer IO error on export "  << std::endl;
+      throw dgtalio;
+    }
+  return true;
+}
+
+
+
+template<typename TPoint>
+inline
+bool 
+DGtal::MeshWriter<TPoint>::export2OBJcolor(std::ostream &out, std::ostream &outMTL, 
+					   std::string mtlName,
+					   const  DGtal::MeshFromPoints<TPoint>  &aMesh) throw(DGtal::IOException)
+
+{
+  DGtal::IOException dgtalio;
+  try
+    {
+      out << "#  OBJ format"<< std::endl;
+      out << "# generated from MeshWriter from the DGTal library"<< std::endl;
+      out << std::endl;
+      out << "o anObj" << std::endl;
+      out << std::endl;
+      out << "mtllib " <<  mtlName << " " << std::endl;
+      // processing vertex
+      for(unsigned int i=0; i< aMesh.nbVertex(); i++){
+	out << "v " << aMesh.getVertex(i)[0] << " " << aMesh.getVertex(i)[1] << " "<< aMesh.getVertex(i)[2] << std::endl;	
+      }
+      out << std::endl;
+      // processing faces:
+      // For each color, we store the set of faces (to deal with OBJ material)
+      std::map<DGtal::Color, std::vector<unsigned int> > mapColorToFaces;
+      for (unsigned int i=0; i< aMesh.nbFaces(); i++){
+	const DGtal::Color &col = aMesh.getFaceColor(i);
+	if(mapColorToFaces.count(col)==0){
+	  std::vector<unsigned int> vectFaces;
+	  vectFaces.push_back(i);
+	  mapColorToFaces.insert(std::make_pair(col, vectFaces));
+	}else{
+	  std::vector<unsigned int > &listFace = mapColorToFaces.find(col)->second;
+	  listFace.push_back(i);
+	}	
+      }
+      
+      // Creation of all material according to the set ordered colors:
+      unsigned int numColor=0;
+      outMTL << " # " << std::endl << "# Wavefront material file" << std::endl;
+      outMTL << " # Generated with the DGtal library" << std::endl << " #  "<< std::endl << std::endl;
+      for (std::map<DGtal::Color,std::vector<unsigned int > >::iterator it=mapColorToFaces.begin(); 
+	   it!=mapColorToFaces.end(); ++it)
+	{
+      	  DGtal::Color col = (*it).first;
+	  outMTL << "newmtl material_" << numColor << std::endl;
+	  outMTL << "Ka 0.200000 0.200000 0.200000" << std::endl;
+	  outMTL << "Kd " << ((double) col.red())/255.0 << " "
+		 << ((double) col.green())/255.0 << " "<< ((double) col.blue())/255.0 << std::endl;
+	  outMTL << "Ks 1.000000 1.000000 1.000000" << std::endl;
+	  outMTL << "Tr 1.000000" << std::endl;
+	  outMTL << "illum 2" << std::endl;
+	  outMTL << "Ns  0.000000" << std::endl;
+	  outMTL << std::endl;
+	  numColor++;
+	}
+      
+
+
+      numColor=0;
+      for (std::map<DGtal::Color,std::vector<unsigned int > >::iterator it=mapColorToFaces.begin(); 
+	   it!=mapColorToFaces.end(); ++it)
+	{
+	  out << "usemtl material_" << numColor << std::endl; 
+	  DGtal::Color col = (*it).first;
+	  std::vector<unsigned int > listFace = (*it).second;
+	  for (unsigned int i=0; i<listFace.size(); i++)
+	    {
+	      std::vector<unsigned int> aFace =  aMesh.getFace(listFace.at(i));
+	      out << "f " ;
+	      for(unsigned int j=0; j<aFace.size(); j++)
+		{
+		  unsigned int indexVertex = aFace.at(j);
+		  out << (indexVertex+1) << "//" << (indexVertex+1) << " " ;	    
+		}
+	      out << std::endl;	     
+	    }
+	  out << std::endl; 
+	  numColor++;
+	}
+    }catch( ... )
+    {
+      trace.error() << "OBJ writer IO error on export "  << std::endl;
+      throw dgtalio;
+    }
+  return true;
+
+
+
+
+}
+
+
+
+template <typename TPoint>
+inline
+bool
+DGtal::operator>> (   MeshFromPoints<TPoint> & aMesh, const std::string & aFilename ){
+  std::string extension = aFilename.substr(aFilename.find_last_of(".") + 1);
+  std::string basename = aFilename.substr(0, aFilename.find_last_of("."));
+  std::ofstream out;
+  out.open(aFilename.c_str());
+
+  std::ofstream outMTL;
+  outMTL.open((aFilename+".mtl").c_str());
+  
+  if(extension== "off") {
+    return DGtal::MeshWriter<TPoint>::export2OFF(out, aMesh, true);
+  }else if(extension== "obj") {
+    return DGtal::MeshWriter<TPoint>::export2OBJcolor(out, outMTL, aFilename+".mtl",  aMesh);
+  }
+  out.close();
+  return false;
+} 
+
+

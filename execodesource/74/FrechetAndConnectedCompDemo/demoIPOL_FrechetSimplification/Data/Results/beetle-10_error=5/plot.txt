@@ -1,0 +1,1 @@
+plot "../../Beetles/beetle-10.sdp" with lines, "frechet.vertices" with lines, "width.vertices" with lines

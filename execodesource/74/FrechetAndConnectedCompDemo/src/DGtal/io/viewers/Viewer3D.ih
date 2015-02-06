@@ -1,0 +1,129 @@
+/**
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
+/**
+ * @file Viewer3D.ih
+ * @author Bertrand Kerautret (\c kerautre@loria.fr )
+ * LORIA (CNRS, UMR 7503), University of Nancy, France
+ *
+ * @date 2011/01/03
+ *
+ * Implementation of inline methods defined in Viewer3D.h
+ *
+ * This file is part of the DGtal library.
+ */
+
+///////////////////////////////////////////////////////////////////////////////
+// IMPLEMENTATION of inline methods.
+///////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////
+#include <cstdlib>
+#include "DGtal/io/CDrawableWithDisplay3D.h"
+//////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Implementation of inline methods                                          //
+
+
+
+
+inline
+DGtal::Viewer3D & 
+DGtal::Viewer3D::operator<<(const DGtal::Color & aColor){
+  myDefaultColor=aColor;
+  return *this;
+}
+
+
+
+
+  /**
+   * Set the default color for future drawing.
+   *
+   * @param aColor: a DGtal::Color (allow to set a transparency value).
+   *
+   **/
+
+inline
+DGtal::Viewer3D & 
+DGtal::Viewer3D::operator<<(const Display3D::StreamKey  & key){
+  switch (key){
+  case Display3D::updateDisplay:
+    updateList();
+    break;
+    
+  case Display3D::addNewList:
+    createNewVoxelList();
+    break;
+    
+  case Display3D::shiftSurfelVisu:
+    myCurrentfShiftVisuKSSurfels+=0.3;
+    break;
+    
+  }
+  
+  return *this;
+}
+
+
+template <typename TDrawableWithDisplay3D>
+inline
+DGtal::Viewer3D & 
+DGtal::Viewer3D::operator<<( const TDrawableWithDisplay3D & object )
+{
+  BOOST_CONCEPT_ASSERT((CDrawableWithDisplay3D< TDrawableWithDisplay3D >));
+  
+  DGtal::Display3DFactory::draw(*this, object);
+  return *this;
+}
+
+
+
+  
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Implementation of inline functions and external operators                 //
+
+/**
+ * Overloads 'operator<<' for displaying objects of class 'Viewer3D'.
+ * @param out the output stream where the object is written.
+ * @param object the object of class 'Viewer3D' to write.
+ * @return the output stream after the writing.
+ */
+inline
+std::ostream&
+DGtal::operator<< ( std::ostream & out,
+        const Viewer3D & object )
+{
+    object.selfDisplay ( out );
+    return out;
+}
+
+//                                                                           //
+///////////////////////////////////////////////////////////////////////////////
+
+

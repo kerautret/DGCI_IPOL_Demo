@@ -1,0 +1,15 @@
+;; Object images/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "images/"
+  :tables (list 
+   (semanticdb-table "exampleConstImageAdapter.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1107 1126]) ("DGtal/base/Common.h" include nil (dependency-file none) [1128 1158]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1159 1193]) ("ConfigExamples.h" include nil (dependency-file none) [1194 1221]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1223 1259]) ("DGtal/io/colormaps/HueShadeColorMap.h" include nil (dependency-file none) [1275 1323]) ("DGtal/io/colormaps/GrayscaleColorMap.h" include nil (dependency-file none) [1324 1373]) ("DGtal/images/ImageContainerBySTLVector.h" include nil (dependency-file none) [1375 1426]) ("DGtal/images/ConstImageAdapter.h" include nil (dependency-file none) [1427 1470]) ("LogScaleFunctor" type (:template (("Scalar" type (:type "class") nil nil)) :type "struct" :members (("LogScaleFunctor" function (:constructor-flag t :type ("LogScaleFunctor" type (:type "struct") nil nil)) (reparse-symbol classsubparts) [1770 1790]) ("()" function (:operator-flag t :arguments (("a" variable (:constant-flag t :type ("Scalar" type (:type "class") nil nil)) (reparse-symbol arg-sub-list) [1812 1828])) :type "double") (reparse-symbol classsubparts) [1794 1908]))) nil [1715 1914]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [1949 1958]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [1959 1972])) :type "int") nil [1939 5539]))
+    :file "exampleConstImageAdapter.cpp"
+    :pointmax 5700
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )

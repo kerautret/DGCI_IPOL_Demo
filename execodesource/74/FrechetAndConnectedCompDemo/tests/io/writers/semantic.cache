@@ -1,0 +1,23 @@
+;; Object writers/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "writers/"
+  :tables (list 
+   (semanticdb-table "testPNMRawWriter.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1095 1114]) ("DGtal/base/Common.h" include nil (dependency-file none) [1115 1145]) ("DGtal/kernel/SpaceND.h" include nil (dependency-file none) [1146 1179]) ("DGtal/kernel/domains/HyperRectDomain.h" include nil (dependency-file none) [1180 1229]) ("DGtal/images/ImageSelector.h" include nil (dependency-file none) [1230 1269]) ("DGtal/io/colormaps/GrayscaleColorMap.h" include nil (dependency-file none) [1270 1319]) ("DGtal/io/colormaps/HueShadeColorMap.h" include nil (dependency-file none) [1320 1368]) ("DGtal/io/colormaps/GradientColorMap.h" include nil (dependency-file none) [1369 1417]) ("DGtal/io/colormaps/ColorBrightnessColorMap.h" include nil (dependency-file none) [1418 1473]) ("DGtal/io/writers/PNMWriter.h" include nil (dependency-file none) [1475 1514]) ("DGtal/io/readers/PNMReader.h" include nil (dependency-file none) [1515 1554]) ("DGtal/io/writers/RawWriter.h" include nil (dependency-file none) [1555 1594]) ("DGtal/io/boards/Board2D.h" include nil (dependency-file none) [1595 1631]) ("testPNMWriter" function (:type "bool") nil [2010 3838]) ("testRWIssue254" function (:type "bool") nil [3841 4827]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [4952 4961]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [4962 4975])) :type "int") nil [4942 5331]))
+    :file "testPNMRawWriter.cpp"
+    :pointmax 5493
+    :unmatched-syntax 'nil
+    )
+   (semanticdb-table "testMeshWriter.cpp"
+    :major-mode 'c++-mode
+    :tags '(("iostream" include (:system-flag t) (dependency-file none) [1037 1056]) ("DGtal/base/Common.h" include nil (dependency-file none) [1057 1087]) ("DGtal/helpers/StdDefs.h" include nil (dependency-file none) [1088 1122]) ("DGtal/shapes/fromPoints/MeshFromPoints.h" include nil (dependency-file none) [1124 1175]) ("DGtal/io/writers/MeshWriter.h" include nil (dependency-file none) [1176 1216]) ("testMeshWriter" function (:type "bool") nil [1619 2425]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [2550 2559]) ("argv" variable (:pointer 2 :type "char") (reparse-symbol arg-sub-list) [2560 2573])) :type "int") nil [2540 2909]))
+    :file "testMeshWriter.cpp"
+    :pointmax 3072
+    :unmatched-syntax 'nil
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre4"
+  :semanticdb-version "2.0pre4"
+  )
