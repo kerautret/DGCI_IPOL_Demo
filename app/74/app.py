@@ -20,7 +20,9 @@ class app(base_app):
 
     title = "Extraction of Connected Region Boundary in Multidimensional Images"
     xlink_article = 'http://www.ipol.im/pub/art/2014/74/'
-    xlink_src = 'http://www.ipol.im/pub/art/2014/74/'+\
+    #xlink_src = 'http://www.ipol.im/pub/art/2014/74/'+\
+    #            'FrechetAndConnectedCompDemo.tgz'
+    xlink_src = 'http://kerrecherche.iutsd.uhp-nancy.fr/'+\
                 'FrechetAndConnectedCompDemo.tgz'
     demo_src_filename = 'FrechetAndConnectedCompDemo.tgz'
     demo_src_dir = 'FrechetAndConnectedCompDemo'
@@ -111,35 +113,24 @@ class app(base_app):
             shutil.rmtree(self.src_dir)
         return
 
-    @cherrypy.expose
-    @init_app
-    def input_select(self, **kwargs):
-        """
-        use the selected available input images
-        """
-        self.init_cfg()
-        #kwargs contains input_id.x and input_id.y
-        input_id = kwargs.keys()[0].split('.')[0]
-        assert input_id == kwargs.keys()[1].split('.')[0]
-        # get the images
-        input_dict = config.file_dict(self.input_dir)
-        fnames = input_dict[input_id]['files'].split()
-        for i in range(len(fnames)):
-            shutil.copy(self.input_dir + fnames[i],
-                        self.work_dir + 'input_%i' % i)
-        if input_dict[input_id]['type'] == "3d":
-            fnames = input_dict[input_id]['volume'].split()
-            for i in range(len(fnames)):
-                shutil.copy(self.input_dir + fnames[i],
-                            self.work_dir + 'inputVol_%i' % i +'.vol')
-        msg = self.process_input()
-        self.log("input selected : %s" % input_id)
-        self.cfg['meta']['original'] = False
-        self.cfg['meta']['is3d'] = input_dict[input_id]['type'] == "3d"
+    def input_select_callback(self, fnames):
+        '''
+        Implement the callback for the input select to
+        process the non-standard input
+        '''         
+        extension3D = (fnames[0])[-6:-4]
+        self.log("----------------------"+extension3D)
+        self.cfg['meta']['is3d'] = extension3D == "3d"
+        if self.cfg['meta']['is3d'] :
+            self.log("------3DDDDD----------------")
+            baseName = (fnames[0])[0:-4]
+            self.log("------"+baseName+"----------------")
+            shutil.copy(self.input_dir +baseName+".vol",
+                        self.work_dir + 'inputVol_0.vol')
+        
+        else:
+            self.log("------NOOOO 3DDDDD----------------")
         self.cfg.save()
-        # jump to the params page
-        return self.params(msg=msg, key=self.key)
-
 
 
     #---------------------------------------------------------------------------
@@ -348,7 +339,7 @@ class app(base_app):
             ##  -------
             ## process 1: transform input file
             ## ---------
-            command_args = ['/usr/bin/convert', 'input_0_selection.png', \
+            command_args = ['convert.sh', 'input_0_selection.png', \
                             'input_0_selection.pgm' ]
             self.runCommand(command_args)
 
@@ -356,7 +347,7 @@ class app(base_app):
             ## process 2: generate background image
             ## ---------
 
-            cmd = ['/usr/bin/convert']+ ['+contrast', '+contrast', \
+            cmd = ['convert.sh']+ ['+contrast', '+contrast', \
                                                  '+contrast', '+contrast', \
                                                  '+contrast'] +\
                           ['-modulate', '160,100,100']+ ['-type', 'grayscale', \
