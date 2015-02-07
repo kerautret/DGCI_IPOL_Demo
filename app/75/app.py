@@ -19,8 +19,7 @@ class app(base_app):
     title = "Meaningful Scales Detection: an Unsupervised Noise "+\
             "Detection Algorithm for Digital Contours"
     xlink_article = 'http://www.ipol.im/pub/pre/75/'
-    xlink_src = 'http://kerrecherche.iutsd.uhp-nancy.fr/meaningfulscaleDemo.tgz'
-    #xlink_src =  'http://www.ipol.im/pub/pre/75/meaningfulscaleDemo.tgz'
+    xlink_src = 'http://www.ipol.im/pub/art/2014/74/meaningfulscaleDemo.tgz'
     demo_src_filename  = 'meaningfulscaleDemo.tgz'
     demo_src_dir  = 'meaningfulscaleDemo'
 

@@ -20,9 +20,7 @@ class app(base_app):
 
     title = "Extraction of Connected Region Boundary in Multidimensional Images"
     xlink_article = 'http://www.ipol.im/pub/art/2014/74/'
-    #xlink_src = 'http://www.ipol.im/pub/art/2014/74/'+\
-    #            'FrechetAndConnectedCompDemo.tgz'
-    xlink_src = 'http://kerrecherche.iutsd.uhp-nancy.fr/'+\
+    xlink_src = 'http://www.ipol.im/pub/art/2014/74/'+\
                 'FrechetAndConnectedCompDemo.tgz'
     demo_src_filename = 'FrechetAndConnectedCompDemo.tgz'
     demo_src_dir = 'FrechetAndConnectedCompDemo'
