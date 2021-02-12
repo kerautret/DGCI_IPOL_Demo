@@ -281,8 +281,7 @@ class app(base_app):
         ## ---------
         ## process 4: converting to output result
         ## ---------
-        command_args = ['convert.sh', '-background', '#FFFFFF', '-flatten', \
-                        'output.eps', 'output.png']
+        command_args = ['convertFig.sh', 'output.eps', 'output.png']
         self.runCommand(command_args)
 
         ## ----
