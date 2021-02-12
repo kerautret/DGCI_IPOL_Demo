@@ -57,7 +57,7 @@ class app(base_app):
         # store common file path in variables
         tgz_file = self.dl_dir + self.demo_src_filename
         prog_names = ["frechetSimplification"]
-        script_names = ["convert.sh"]
+        script_names = ["convert.sh", "convertFig.sh"]
         prog_bin_files = []
 
         for f in prog_names:
